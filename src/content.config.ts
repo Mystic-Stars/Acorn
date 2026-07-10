@@ -30,4 +30,33 @@ const blog = defineCollection({
     }),
 });
 
-export const collections = { blog };
+const httpUrl = z.url().refine(
+  (value) => {
+    try {
+      const protocol = new URL(value).protocol;
+      return protocol === 'http:' || protocol === 'https:';
+    } catch {
+      return false;
+    }
+  },
+  { message: '请使用 http 或 https 链接。' },
+);
+
+/** One file per site keeps community submissions small, reviewable, and conflict-free. */
+const friends = defineCollection({
+  loader: glob({ base: './src/content/friends', pattern: '**/*.md' }),
+  schema: z.object({
+    name: z.string().min(1).max(40),
+    url: httpUrl,
+    description: z.string().min(1).max(40),
+    avatar: z.union([httpUrl, z.string().startsWith('/')]),
+    category: z.enum(['技术', '生活', '创作', '游戏', '学习', '其他']).default('其他'),
+    tags: z.array(z.string().min(1).max(16)).max(4).default([]),
+    submittedAt: z.coerce.date().optional(),
+    updatedAt: z.coerce.date().optional(),
+    featured: z.boolean().default(false),
+    hidden: z.boolean().default(false),
+  }),
+});
+
+export const collections = { blog, friends };

@@ -1,6 +1,7 @@
 export { archiveConfig } from './archives';
 export { commentsConfig } from './comments';
 export { aboutConfig, homeConfig } from './content';
+export { friendLinksConfig } from './friend-links';
 export { navigationConfig } from './navigation';
 export { siteConfig } from './site';
 export { themeConfig, themeInlineStyle } from './theme';

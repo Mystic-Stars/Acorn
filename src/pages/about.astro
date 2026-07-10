@@ -25,9 +25,12 @@ const { bento } = aboutConfig;
 <BaseLayout title={aboutConfig.title} description={aboutConfig.description}>
   <article class="container about">
     <div class="bento-grid">
-      
       <!-- Profile Card (Large: spans 2 columns, 2 rows) -->
-      <Card className="bento-item premium-glass profile-card" pattern="warm-peach-pink" color="default">
+      <Card
+        className="bento-item premium-glass profile-card"
+        pattern="warm-peach-pink"
+        color="default"
+      >
         <div class="profile-content">
           <Icon name="icon-miles" size={64} bounce />
           <h2>{bento.profile.greeting}</h2>
@@ -45,7 +48,11 @@ const { bento } = aboutConfig;
       </Card>
 
       <!-- Minecraft Card (Small: spans 1 col, 1 row) -->
-      <Card className="bento-item premium-glass minecraft-card" pattern="yellow-green" color="default">
+      <Card
+        className="bento-item premium-glass minecraft-card"
+        pattern="yellow-green"
+        color="default"
+      >
         <div class="mc-content">
           <TbBrandMinecraft className="custom-svg" size={32} color="currentColor" />
           <span class="mc-id">{bento.minecraft.id}</span>
@@ -54,7 +61,12 @@ const { bento } = aboutConfig;
       </Card>
 
       <!-- Bilibili Card (Small: spans 1 col, 1 row) -->
-      <a href={bento.bilibili.url} target="_blank" rel="noopener noreferrer" class="bento-item-link">
+      <a
+        href={bento.bilibili.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="bento-item-link"
+      >
         <Card className="bento-item premium-glass bilibili-card" color="app-pink">
           <div class="social-content">
             <SiBilibili className="custom-svg bounce-on-hover" size={36} color="currentColor" />
@@ -102,7 +114,6 @@ const { bento } = aboutConfig;
           <p>{bento.acornTheme.description}</p>
         </div>
       </Card>
-
     </div>
   </article>
 </BaseLayout>
@@ -126,14 +137,41 @@ const { bento } = aboutConfig;
   }
 
   /* Grid areas and spans */
-  .profile-card { grid-column: span 2; grid-row: span 2; }
-  .enfj-card { grid-column: span 1; grid-row: span 1; }
-  .minecraft-card { grid-column: span 1; grid-row: span 1; }
-  .covenant-card { grid-column: span 2; grid-row: span 1; }
-  .acorn-card { grid-column: span 2; grid-row: span 1; }
-  .bilibili-card { grid-column: span 1; grid-row: span 1; height: 100%; }
-  .github-card { grid-column: span 1; grid-row: span 1; height: 100%; }
-  .bento-item-link { grid-column: span 1; grid-row: span 1; text-decoration: none; }
+  .profile-card {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  .enfj-card {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+  .minecraft-card {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+  .covenant-card {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+  .acorn-card {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+  .bilibili-card {
+    grid-column: span 1;
+    grid-row: span 1;
+    height: 100%;
+  }
+  .github-card {
+    grid-column: span 1;
+    grid-row: span 1;
+    height: 100%;
+  }
+  .bento-item-link {
+    grid-column: span 1;
+    grid-row: span 1;
+    text-decoration: none;
+  }
 
   /* Premium Hover & Item styling */
   .bento-item {
@@ -142,7 +180,9 @@ const { bento } = aboutConfig;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+    transition:
+      transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.4s ease;
     will-change: transform;
     position: relative;
     z-index: 1;
@@ -150,18 +190,24 @@ const { bento } = aboutConfig;
 
   /* Premium Glassmorphism FX */
   .premium-glass {
-    box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.5), 
-                inset 0 0 0 1px rgba(255, 255, 255, 0.15),
-                0 4px 12px rgba(114, 93, 66, 0.04);
-    background-image: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+    box-shadow:
+      inset 0 2px 0 0 rgba(255, 255, 255, 0.5),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.15),
+      0 4px 12px rgba(114, 93, 66, 0.04);
+    background-image: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
   }
 
   :root[data-theme='dark'] .premium-glass {
-    box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.08), 
-                inset 0 0 0 1px rgba(255, 255, 255, 0.03),
-                0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow:
+      inset 0 2px 0 0 rgba(255, 255, 255, 0.08),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+      0 4px 12px rgba(0, 0, 0, 0.3);
     /* 使用黑色渐变代替白色渐变，去除“灰蒙蒙”的雾面感 */
-    background-image: linear-gradient(135deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%);
+    background-image: linear-gradient(135deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%);
   }
 
   /* Force Colorful Cards in Dark Mode (Vibrant & Deep) */
@@ -179,32 +225,35 @@ const { bento } = aboutConfig;
   }
 
   .premium-glass-inner {
-    box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.4), 
-                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    box-shadow:
+      inset 0 2px 0 0 rgba(255, 255, 255, 0.4),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.1);
   }
 
   /* ONLY links bounce on hover */
   .bento-item-link:hover .bento-item {
     transform: translateY(-6px) scale(1.01);
-    box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.6),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.2),
-                0 16px 32px rgba(114, 93, 66, 0.12), 
-                0 4px 12px rgba(114, 93, 66, 0.06);
+    box-shadow:
+      inset 0 2px 0 0 rgba(255, 255, 255, 0.6),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+      0 16px 32px rgba(114, 93, 66, 0.12),
+      0 4px 12px rgba(114, 93, 66, 0.06);
     z-index: 2;
   }
 
   :root[data-theme='dark'] .bento-item-link:hover .bento-item {
-    box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.15),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-                0 16px 32px rgba(0, 0, 0, 0.35), 
-                0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow:
+      inset 0 2px 0 0 rgba(255, 255, 255, 0.15),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+      0 16px 32px rgba(0, 0, 0, 0.35),
+      0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   .custom-svg {
     opacity: 0.9;
     transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
-  
+
   .bento-item-link:hover .bounce-on-hover {
     transform: scale(1.15) rotate(5deg);
   }
@@ -243,7 +292,7 @@ const { bento } = aboutConfig;
   .enfj-title {
     font-size: 3rem;
     font-weight: 900;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
   .enfj-name {
     font-size: 1.2rem;
@@ -357,19 +406,40 @@ const { bento } = aboutConfig;
     .bento-grid {
       grid-template-columns: repeat(2, 1fr);
     }
-    .profile-card { grid-column: span 2; }
-    .enfj-card { grid-column: span 1; }
-    .minecraft-card { grid-column: span 1; }
-    .covenant-card { grid-column: span 2; }
-    .acorn-card { grid-column: span 2; }
-    .bilibili-card, .github-card, .bento-item-link { grid-column: span 1; }
+    .profile-card {
+      grid-column: span 2;
+    }
+    .enfj-card {
+      grid-column: span 1;
+    }
+    .minecraft-card {
+      grid-column: span 1;
+    }
+    .covenant-card {
+      grid-column: span 2;
+    }
+    .acorn-card {
+      grid-column: span 2;
+    }
+    .bilibili-card,
+    .github-card,
+    .bento-item-link {
+      grid-column: span 1;
+    }
   }
 
   @media (max-width: 600px) {
     .bento-grid {
       grid-template-columns: 1fr;
     }
-    .profile-card, .enfj-card, .minecraft-card, .covenant-card, .acorn-card, .bilibili-card, .github-card, .bento-item-link {
+    .profile-card,
+    .enfj-card,
+    .minecraft-card,
+    .covenant-card,
+    .acorn-card,
+    .bilibili-card,
+    .github-card,
+    .bento-item-link {
       grid-column: span 1;
       grid-row: auto;
     }

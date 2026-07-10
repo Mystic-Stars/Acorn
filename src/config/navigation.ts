@@ -7,6 +7,7 @@ export const navigationConfig = {
   primary: [
     { label: '首页', href: '/' },
     { label: '文章', href: '/archives/' },
+    { label: '友链', href: '/friends/' },
     { label: '关于', href: '/about/' },
   ] satisfies LinkItem[],
   search: {

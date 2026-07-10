@@ -12,10 +12,19 @@ Acorn 将频繁修改的站点内容集中在 `src/config/`，将框架构建选
 | `src/config/content.ts`    | 首页侧边栏小组件与关于页文案                             |
 | `src/config/theme.ts`      | 颜色、内容宽度、文章宽度、圆角和动效                     |
 | `src/config/comments.ts`   | giscus 评论区、GitHub Discussions 与评论区文案           |
+| `src/config/friend-links.ts` | 友链页文案、分类、GitHub 仓库与自助提交行为             |
 | `astro.config.mjs`         | 输出模式、域名、集成、URL 规则与 Markdown 高亮           |
 | `src/content.config.ts`    | 文章 frontmatter 的类型与校验规则                        |
 
 `siteConfig.branding` 统一管理站点 logo 与作者头像路径；默认两者均使用 `public/favicon.svg`。`siteConfig.footer` 中的主题与组件库署名会显示在页脚。
+
+## 友链
+
+`/friends/` 是静态友链名册，主导航由 `src/config/navigation.ts` 控制。页面文案、分类、收录要求以及用于创建 Pull Request 的仓库信息位于 `src/config/friend-links.ts`；迁移仓库或默认分支时请同步修改其中的 `repository` 与 `defaultBranch`。
+
+每条友链都存放为 `src/content/friends/` 下独立的 Markdown 文件。访客可在友链页填写资料，页面会生成文件内容并打开 GitHub 的新文件页面；GitHub 会提示无写入权限的访客先 Fork，随后即可创建 Pull Request。详情、字段参考和人工提交方法见 [`FRIEND_LINKS.md`](FRIEND_LINKS.md)。
+
+友链 schema 定义在 `src/content.config.ts` 的 `friends` collection。修改字段、字数限制或允许的分类时，必须同步更新 `FRIEND_LINKS.md`、`friend-links.ts` 和该 schema。`.github/workflows/validate.yml` 会在 Pull Request 中运行类型/内容检查与生产构建，以便通过后只需审核内容并合并。
 
 ## Pages CMS
 
