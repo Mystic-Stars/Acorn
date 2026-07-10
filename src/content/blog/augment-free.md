@@ -1,20 +1,19 @@
 ---
-title: "告别 Cursor 降智，更强 AI 插件 Augment 免费使用！"
-description: "Cursor 降智平替方案：教你免费无限白嫖更强 AI 编程插件 Augment。"
-pubDate: 2025-06-29T16:00:00+08:00
+title: 告别 Cursor 降智，更强 AI 插件 Augment 免费使用！
+description: Cursor 降智平替方案：教你免费无限白嫖更强 AI 编程插件 Augment。
+pubDate: 2025-06-29T08:00:00Z
 cover:
   tone: ocean
-  label: "软件技术"
-  url: "https://www.mysticstars.cn/upload/augment.webp"
-  alt: "告别 Cursor 降智，更强 AI 插件 Augment 免费使用！ 的封面图"
+  label: 软件技术
+  url: /images/augment.webp
+  alt: 告别 Cursor 降智，更强 AI 插件 Augment 免费使用！ 的封面图
 draft: false
 featured: false
-category: "软件技术"
+category: 软件技术
 tags:
-  - "羊毛白嫖"
-author: "Mystic Stars"
+  - 羊毛白嫖
+author: Mystic Stars
 ---
-
 > PoolHub地址：[https://poolhub.me](https://poolhub.me)
 >
 > Augment注册地址：[https://www.augmentcode.com/](https://www.augmentcode.com/)
