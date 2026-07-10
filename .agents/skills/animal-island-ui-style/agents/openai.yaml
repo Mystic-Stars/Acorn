@@ -1,0 +1,4 @@
+interface:
+  display_name: "Animal Island UI Style"
+  short_description: "为 Astro 和 React 构建温暖圆润的 Animal Island 风格界面"
+  default_prompt: "Use $animal-island-ui-style to design an Astro blog page with faithful Animal Island styling."

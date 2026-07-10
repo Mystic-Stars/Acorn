@@ -1,0 +1,123 @@
+---
+import { navigationConfig, siteConfig } from '@config/index';
+import { Divider, Footer as AnimalFooter } from './animal';
+
+const year = new Date().getFullYear();
+const yearLabel =
+  year === siteConfig.footer.copyrightStartYear
+    ? String(year)
+    : `${siteConfig.footer.copyrightStartYear}–${year}`;
+---
+
+<footer>
+  <div class="island-decoration" aria-hidden="true">
+    <AnimalFooter type="tree" />
+  </div>
+  <div class="container footer-inner">
+    <div>
+      <strong>{siteConfig.name}</strong>
+      <p>{siteConfig.footer.message}</p>
+    </div>
+    <nav aria-label="页脚导航">
+      {navigationConfig.utility.map((item) => <a href={item.href}>{item.label}</a>)}
+      {
+        siteConfig.socialLinks.map((item) => (
+          <a
+            href={item.href}
+            aria-label={item.ariaLabel}
+            target={item.external ? '_blank' : undefined}
+            rel={item.external ? 'noreferrer' : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+  <div class="container divider" aria-hidden="true"><Divider type="dashed-teal" /></div>
+  <div class="container copyright">
+    <span>© {yearLabel} {siteConfig.author.name}</span>
+    <span class="credits">
+      <span>{siteConfig.footer.themeCredit}</span>
+      <span aria-hidden="true">·</span>
+      <a href={siteConfig.footer.uiCredit.href} target="_blank" rel="noreferrer">
+        {siteConfig.footer.uiCredit.label}
+      </a>
+    </span>
+  </div>
+</footer>
+
+<style>
+  footer {
+    margin-top: 6rem;
+    padding-block: 0 1.5rem;
+    background: var(--color-surface-secondary);
+  }
+
+  .island-decoration {
+    overflow: hidden;
+    transform: translateY(-78px);
+    margin-bottom: -56px;
+    pointer-events: none;
+  }
+
+  .island-decoration :global([class*='animal-footer']) {
+    width: 100%;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  strong {
+    color: var(--color-text);
+    font-size: 1.15rem;
+  }
+
+  p {
+    margin: 0.3rem 0 0;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .copyright {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.7rem;
+    margin-top: 0.75rem;
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+  }
+
+  .credits {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .credits a {
+    color: inherit;
+    text-underline-offset: 0.16em;
+  }
+
+  .credits a:hover {
+    color: var(--color-text);
+  }
+
+  .divider {
+    margin-top: 1.25rem;
+  }
+
+  @media (max-width: 40rem) {
+    .footer-inner {
+      flex-direction: column;
+    }
+  }
+</style>

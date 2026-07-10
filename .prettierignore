@@ -1,0 +1,6 @@
+.astro/
+dist/
+node_modules/
+package-lock.json
+.agents/
+docs/export2doc_20260710153018 (2)/

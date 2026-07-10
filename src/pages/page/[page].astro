@@ -1,0 +1,23 @@
+---
+import HomePage from '@components/HomePage.astro';
+import { homeConfig } from '@config/index';
+import { getPublishedPosts } from '@lib/posts';
+
+export async function getStaticPaths() {
+  const allPosts = await getPublishedPosts();
+  const totalPages = Math.ceil(allPosts.length / homeConfig.pagination.pageSize);
+
+  return Array.from({ length: Math.max(totalPages - 1, 0) }, (_, index) => ({
+    params: { page: String(index + 2) },
+  }));
+}
+
+const allPosts = await getPublishedPosts();
+const currentPage = Number(Astro.params.page);
+const totalPages = Math.ceil(allPosts.length / homeConfig.pagination.pageSize);
+
+const start = (currentPage - 1) * homeConfig.pagination.pageSize;
+const pagePosts = allPosts.slice(start, start + homeConfig.pagination.pageSize);
+---
+
+<HomePage {allPosts} {pagePosts} {currentPage} {totalPages} />

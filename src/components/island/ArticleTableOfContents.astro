@@ -1,0 +1,167 @@
+---
+import { Card } from '@components/animal';
+import { articleTocConfig } from '@config/content';
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+const outline = headings.filter(
+  (heading) => heading.depth >= 2 && heading.depth <= articleTocConfig.maxDepth,
+);
+---
+
+{
+  articleTocConfig.enabled && outline.length > 0 && (
+    <Card className="sidebar-card article-toc-card">
+      <nav aria-label={articleTocConfig.title} data-article-toc>
+        <header>
+          <h2>{articleTocConfig.title}</h2>
+          <span aria-hidden="true">{outline.length}</span>
+        </header>
+        <ol>
+          {outline.map((heading) => (
+            <li data-depth={heading.depth}>
+              <a href={`#${heading.slug}`} data-toc-link data-toc-target={heading.slug}>
+                {heading.text}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </Card>
+  )
+}
+
+<script>
+  const activeClass = 'is-active';
+
+  document.querySelectorAll<HTMLElement>('[data-article-toc]').forEach((toc) => {
+    const links = Array.from(toc.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'));
+    const entries = links
+      .map((link) => {
+        const target = document.getElementById(link.dataset.tocTarget ?? '');
+        return target ? { link, target } : null;
+      })
+      .filter((entry): entry is { link: HTMLAnchorElement; target: HTMLElement } => entry !== null);
+
+    const firstEntry = entries[0];
+    if (!firstEntry) return;
+
+    const setActive = (activeId: string) => {
+      entries.forEach(({ link, target }) => {
+        const isActive = target.id === activeId;
+        link.classList.toggle(activeClass, isActive);
+        if (isActive) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (observations) => {
+        const visible = observations
+          .filter((observation) => observation.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      { rootMargin: '-18% 0px -70% 0px', threshold: [0, 1] },
+    );
+
+    entries.forEach(({ target }) => observer.observe(target));
+    setActive(firstEntry.target.id);
+  });
+</script>
+
+<style>
+  :global(.article-toc-card) {
+    padding: 1rem !important;
+  }
+
+  :global(.article-toc-card:hover) {
+    transform: none !important;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  h2 {
+    margin: 0;
+    color: var(--color-text);
+    font-size: 1.05rem;
+  }
+
+  header > span {
+    display: grid;
+    min-width: 1.55rem;
+    height: 1.55rem;
+    place-items: center;
+    border-radius: 50%;
+    background: rgb(140 107 69 / 12%);
+    color: #8c6b45;
+    font-size: 0.66rem;
+    font-weight: 900;
+  }
+
+  ol {
+    display: grid;
+    gap: 0.16rem;
+    max-height: min(48vh, 25rem);
+    margin: 0.8rem -0.2rem -0.1rem;
+    padding: 0 0.15rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    list-style: none;
+  }
+
+  li[data-depth='3'] {
+    padding-left: 0.85rem;
+  }
+
+  a {
+    display: block;
+    border-radius: 0.65rem;
+    padding: 0.38rem 0.5rem;
+    color: var(--color-text-body);
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.45;
+    text-decoration: none;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease;
+  }
+
+  a:hover,
+  a:focus-visible {
+    background: rgb(25 200 185 / 12%);
+    color: var(--color-text);
+  }
+
+  a:focus-visible {
+    outline: 2px solid var(--color-primary-active);
+    outline-offset: 2px;
+  }
+
+  a.is-active {
+    background: rgb(247 205 103 / 25%);
+    color: var(--color-text);
+    font-weight: 900;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a {
+      transition: none;
+    }
+  }
+</style>

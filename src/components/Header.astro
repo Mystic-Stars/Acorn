@@ -1,0 +1,385 @@
+---
+import { navigationConfig, siteConfig } from '@config/index';
+
+const pathname = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? pathname === href : pathname === href || pathname.startsWith(href);
+---
+
+<header class="site-header" data-scroll-header>
+  <div class="header-surface">
+    <div class="header-inner">
+      {
+        navigationConfig.header.showBrand && (
+          <a class="brand" href="/" aria-label={`${siteConfig.name} 首页`}>
+            <span class="brand-mark" aria-hidden="true">
+              <img src={siteConfig.branding.logoSrc} alt="" />
+            </span>
+            <span class="brand-copy">
+              <strong>{siteConfig.name}</strong>
+              <small>{siteConfig.slogan}</small>
+            </span>
+          </a>
+        )
+      }
+      <nav aria-label="主导航">
+        <ul>
+          {
+            navigationConfig.primary.map((item) => (
+              <li>
+                <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换至暗色模式">
+        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"
+          ><circle cx="12" cy="12" r="4"></circle><path
+            d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+          ></path></svg
+        >
+        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"
+          ><path d="M20.4 15.5A8.5 8.5 0 0 1 8.5 3.6 8.5 8.5 0 1 0 20.4 15.5Z"></path></svg
+        >
+        <span class="theme-toggle-label">主题</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-scroll-header]');
+  const compactAt = 12;
+  let isCompact = window.scrollY > compactAt;
+
+  const updateHeader = () => {
+    const nextCompact = window.scrollY > compactAt;
+
+    if (nextCompact !== isCompact) {
+      isCompact = nextCompact;
+      header?.classList.toggle('is-compact', isCompact);
+    }
+  };
+
+  header?.classList.toggle('is-compact', isCompact);
+  updateHeader();
+  window.addEventListener('scroll', updateHeader, { passive: true });
+
+  const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+  const updateThemeToggle = () => {
+    const isDark = document.documentElement.dataset.theme === 'dark';
+    themeToggle?.setAttribute('aria-label', isDark ? '切换至亮色模式' : '切换至暗色模式');
+  };
+
+  themeToggle?.addEventListener('click', () => {
+    const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = nextTheme;
+    localStorage.setItem('theme', nextTheme);
+    document
+      .querySelector('[data-theme-color]')
+      ?.setAttribute('content', nextTheme === 'dark' ? '#181d1a' : '#f8f8f0');
+    updateThemeToggle();
+  });
+
+  updateThemeToggle();
+</script>
+
+<style>
+  .site-header {
+    position: relative;
+    z-index: 50;
+    top: 0;
+    width: 100%;
+    min-height: var(--header-height);
+    pointer-events: none;
+  }
+
+  .header-surface {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    margin-inline: auto;
+    min-height: var(--header-height);
+    overflow: hidden;
+    border: 1px solid transparent;
+    background:
+      radial-gradient(ellipse 42rem 29rem at 8% -8rem, rgb(25 200 185 / 19%), transparent 74%),
+      radial-gradient(ellipse 34rem 24rem at 92% 9rem, rgb(247 205 103 / 12%), transparent 76%),
+      rgb(248 248 240 / 64%);
+    box-shadow: none;
+    backdrop-filter: blur(14px) saturate(1.06);
+    pointer-events: auto;
+    isolation: isolate;
+    transition:
+      width 360ms var(--motion-easing),
+      transform 360ms var(--motion-easing),
+      border-radius 360ms var(--motion-easing),
+      background 360ms var(--motion-easing),
+      box-shadow 360ms var(--motion-easing),
+      border-color 360ms var(--motion-easing);
+  }
+
+  .header-inner {
+    display: flex;
+    width: 100%;
+    min-height: var(--header-height);
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem clamp(1rem, 5vw, 5rem);
+    transition: padding 360ms var(--motion-easing);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .brand-mark {
+    display: block;
+    width: 2.5rem;
+    height: 2.5rem;
+    overflow: hidden;
+    border-radius: 50%;
+    transition: transform 360ms var(--motion-easing);
+  }
+
+  .brand-mark img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .brand-copy {
+    display: grid;
+    gap: 0.05rem;
+    line-height: 1;
+  }
+
+  .brand-copy strong {
+    font-size: 1.12rem;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+  }
+
+  .brand-copy small {
+    color: var(--color-text-muted);
+    font-size: 0.54rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.22rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  nav a {
+    display: inline-flex;
+    min-height: 2.45rem;
+    align-items: center;
+    border-radius: var(--radius-pill);
+    padding: 0.42rem 0.88rem;
+    color: var(--color-text-body);
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition:
+      background var(--motion-duration) var(--motion-easing),
+      color var(--motion-duration) var(--motion-easing),
+      transform var(--motion-duration) var(--motion-easing),
+      box-shadow var(--motion-duration) var(--motion-easing);
+  }
+
+  nav a:hover {
+    transform: translateY(-1px);
+    background: rgb(25 200 185 / 12%);
+    color: var(--color-text);
+  }
+
+  nav a[aria-current='page'] {
+    background: linear-gradient(135deg, #a9b9dc, #92a8d7);
+    box-shadow:
+      inset 0 1px rgb(255 255 255 / 34%),
+      0 0.16rem 0 #778cb9;
+    color: #fff;
+  }
+
+  .theme-toggle {
+    display: inline-flex;
+    min-width: 2.45rem;
+    min-height: 2.45rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--color-text-body);
+    font: inherit;
+    font-size: 0.76rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition:
+      background var(--motion-duration) var(--motion-easing),
+      color var(--motion-duration) var(--motion-easing);
+  }
+
+  .theme-toggle:hover {
+    background: rgb(25 200 185 / 12%);
+    color: var(--color-text);
+  }
+
+  .theme-icon {
+    width: 1.05rem;
+    height: 1.05rem;
+    fill: none;
+    stroke: currentcolor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.9;
+  }
+
+  .theme-icon-moon {
+    display: none;
+  }
+  :global(:root[data-theme='dark']) .theme-icon-sun {
+    display: none;
+  }
+  :global(:root[data-theme='dark']) .theme-icon-moon {
+    display: block;
+  }
+
+  .site-header.is-compact .header-surface {
+    width: min(calc(100% - (var(--page-gutter) * 2)), var(--header-width));
+    border-color: rgb(159 146 125 / 45%);
+    border-radius: 1.7rem;
+    background:
+      linear-gradient(
+        112deg,
+        rgb(255 255 255 / 88%),
+        rgb(247 243 223 / 92%) 48%,
+        rgb(240 232 216 / 90%)
+      ),
+      var(--color-surface-content);
+    box-shadow:
+      0 1.1rem 2.8rem rgb(61 52 40 / 15%),
+      inset 0 1px rgb(255 255 255 / 82%);
+    transform: translateY(var(--header-offset));
+  }
+
+  :global(:root[data-theme='dark']) .header-surface {
+    background:
+      radial-gradient(ellipse 42rem 29rem at 8% -8rem, rgb(66 188 169 / 15%), transparent 74%),
+      radial-gradient(ellipse 34rem 24rem at 92% 9rem, rgb(231 189 99 / 8%), transparent 76%),
+      var(--color-surface-glass);
+  }
+
+  :global(:root[data-theme='dark']) .site-header.is-compact .header-surface {
+    border-color: rgb(118 139 119 / 52%);
+    background: linear-gradient(112deg, rgb(37 47 39 / 94%), rgb(28 36 30 / 95%));
+    box-shadow:
+      0 1.1rem 2.8rem rgb(0 0 0 / 32%),
+      inset 0 1px rgb(255 248 232 / 6%);
+  }
+
+  :global(:root[data-theme='dark']) nav a[aria-current='page'] {
+    background: linear-gradient(135deg, #49617e, #3f5571);
+    box-shadow:
+      inset 0 1px rgb(255 248 232 / 16%),
+      0 0.16rem 0 #2f4055;
+    color: var(--color-white);
+  }
+
+  .site-header.is-compact .header-surface::before {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: radial-gradient(rgb(121 79 39 / 13%) 1px, transparent 1px);
+    background-size: 13px 13px;
+    opacity: 0.35;
+    content: '';
+  }
+
+  .site-header.is-compact .header-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .site-header.is-compact .header-inner {
+    padding: 0.38rem 0.6rem 0.38rem 0.48rem;
+  }
+
+  .site-header.is-compact .brand-mark {
+    transform: scale(0.96) rotate(-2deg);
+  }
+
+  :global(body[data-header-overlay]) .site-header:not(.is-compact) .header-surface {
+    background: linear-gradient(180deg, rgb(20 54 43 / 35%), transparent);
+    backdrop-filter: none;
+  }
+
+  :global(body[data-header-overlay]) .site-header:not(.is-compact) .brand,
+  :global(body[data-header-overlay]) .site-header:not(.is-compact) nav a {
+    color: #fffdf6;
+    text-shadow: 0 0.12rem 0.75rem rgb(27 55 43 / 44%);
+  }
+
+  :global(body[data-header-overlay]) .site-header:not(.is-compact) .brand-copy small {
+    color: rgb(255 253 246 / 78%);
+  }
+
+  :global(body[data-header-overlay]) .site-header:not(.is-compact) nav a:hover {
+    background: rgb(255 255 255 / 15%);
+    color: #fffdf6;
+  }
+
+  :global(body[data-header-overlay]) .site-header:not(.is-compact) nav a[aria-current='page'] {
+    background: rgb(255 255 255 / 20%);
+    box-shadow:
+      inset 0 1px rgb(255 255 255 / 32%),
+      0 0.16rem 0 rgb(27 55 43 / 24%);
+  }
+
+  @media (max-width: 40rem) {
+    .header-inner {
+      padding-inline: 0.7rem;
+    }
+
+    .site-header.is-compact .header-surface {
+      width: calc(100% - (var(--page-gutter) * 2));
+      transform: translateY(0.5rem);
+    }
+
+    nav {
+      min-width: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    ul {
+      flex-wrap: nowrap;
+    }
+
+    .brand-copy small {
+      display: none;
+    }
+
+    .theme-toggle-label {
+      display: none;
+    }
+  }
+</style>

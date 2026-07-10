@@ -1,0 +1,11 @@
+---
+import { CodeBlock } from '@components/animal';
+
+interface Props {
+  code: string;
+}
+
+const { code } = Astro.props;
+---
+
+<CodeBlock {code} />

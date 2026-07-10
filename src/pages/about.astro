@@ -1,0 +1,377 @@
+---
+import { aboutConfig, siteConfig } from '@config/index';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Card, Icon, Progress } from '@components/animal';
+import { SiBilibili, SiGithub } from 'react-icons/si';
+import { TbBrandMinecraft } from 'react-icons/tb';
+
+// Calculate ten-year covenant progress
+const startDate = new Date(siteConfig.establishedAt);
+const covenantYears = aboutConfig.bento.covenant.durationYears;
+const targetDate = new Date(startDate);
+targetDate.setFullYear(targetDate.getFullYear() + covenantYears);
+
+const now = new Date();
+const totalMs = targetDate.getTime() - startDate.getTime();
+const passedMs = now.getTime() - startDate.getTime();
+let percent = Math.floor((passedMs / totalMs) * 100);
+if (percent < 0) percent = 0;
+if (percent > 100) percent = 100;
+if (isNaN(percent)) percent = 0;
+
+const { bento } = aboutConfig;
+---
+
+<BaseLayout title={aboutConfig.title} description={aboutConfig.description}>
+  <article class="container about">
+    <div class="bento-grid">
+      
+      <!-- Profile Card (Large: spans 2 columns, 2 rows) -->
+      <Card className="bento-item premium-glass profile-card" pattern="warm-peach-pink" color="default">
+        <div class="profile-content">
+          <Icon name="icon-miles" size={64} bounce />
+          <h2>{bento.profile.greeting}</h2>
+          <p>{bento.profile.introduction}</p>
+        </div>
+      </Card>
+
+      <!-- ENFJ Card (Small: spans 1 col, 1 row) -->
+      <Card className="bento-item premium-glass enfj-card" color="app-teal">
+        <div class="enfj-content">
+          <span class="enfj-title">{bento.personality.type}</span>
+          <span class="enfj-name">{bento.personality.name}</span>
+          <Icon name="icon-chat" size={32} bounce />
+        </div>
+      </Card>
+
+      <!-- Minecraft Card (Small: spans 1 col, 1 row) -->
+      <Card className="bento-item premium-glass minecraft-card" pattern="yellow-green" color="default">
+        <div class="mc-content">
+          <TbBrandMinecraft className="custom-svg" size={32} color="currentColor" />
+          <span class="mc-id">{bento.minecraft.id}</span>
+          <p class="mc-desc">{bento.minecraft.description}</p>
+        </div>
+      </Card>
+
+      <!-- Bilibili Card (Small: spans 1 col, 1 row) -->
+      <a href={bento.bilibili.url} target="_blank" rel="noopener noreferrer" class="bento-item-link">
+        <Card className="bento-item premium-glass bilibili-card" color="app-pink">
+          <div class="social-content">
+            <SiBilibili className="custom-svg bounce-on-hover" size={36} color="currentColor" />
+            <h3 class="social-title">{bento.bilibili.title}</h3>
+            <p>{bento.bilibili.description}</p>
+          </div>
+        </Card>
+      </a>
+
+      <!-- GitHub Card (Small: spans 1 col, 1 row) -->
+      <a href={bento.github.url} target="_blank" rel="noopener noreferrer" class="bento-item-link">
+        <Card className="bento-item premium-glass github-card" color="app-blue">
+          <div class="social-content">
+            <SiGithub className="custom-svg bounce-on-hover" size={36} color="currentColor" />
+            <h3 class="social-title">{bento.github.title}</h3>
+            <p>{bento.github.description}</p>
+          </div>
+        </Card>
+      </a>
+
+      <!-- Ten-Year Covenant Card (Wide: spans 2 cols, 1 row) -->
+      <Card className="bento-item premium-glass covenant-card" type="dashed">
+        <div class="covenant-content">
+          <div class="covenant-header">
+            <h3>{bento.covenant.title}</h3>
+            <p>{bento.covenant.description}</p>
+          </div>
+          <div class="progress-wrapper">
+            <div class="progress-labels">
+              <span>{startDate.getFullYear()}</span>
+              <span>{targetDate.getFullYear()}</span>
+            </div>
+            <Progress percent={percent} size="large" infoPosition="top" />
+          </div>
+        </div>
+      </Card>
+
+      <!-- Acorn Theme Card (Wide: spans 2 cols, 1 row) -->
+      <Card className="bento-item premium-glass acorn-card" color="app-yellow">
+        <div class="acorn-content">
+          <div class="acorn-header">
+            <Icon name="icon-design" size={32} bounce />
+            <h3>{bento.acornTheme.title}</h3>
+          </div>
+          <p>{bento.acornTheme.description}</p>
+        </div>
+      </Card>
+
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .about {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: clamp(3rem, 8vw, 6rem);
+    padding-bottom: 6rem;
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    gap: 1.5rem;
+  }
+
+  /* Grid areas and spans */
+  .profile-card { grid-column: span 2; grid-row: span 2; }
+  .enfj-card { grid-column: span 1; grid-row: span 1; }
+  .minecraft-card { grid-column: span 1; grid-row: span 1; }
+  .covenant-card { grid-column: span 2; grid-row: span 1; }
+  .acorn-card { grid-column: span 2; grid-row: span 1; }
+  .bilibili-card { grid-column: span 1; grid-row: span 1; height: 100%; }
+  .github-card { grid-column: span 1; grid-row: span 1; height: 100%; }
+  .bento-item-link { grid-column: span 1; grid-row: span 1; text-decoration: none; }
+
+  /* Premium Hover & Item styling */
+  .bento-item {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+    will-change: transform;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Premium Glassmorphism FX */
+  .premium-glass {
+    box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.5), 
+                inset 0 0 0 1px rgba(255, 255, 255, 0.15),
+                0 4px 12px rgba(114, 93, 66, 0.04);
+    background-image: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+  }
+
+  :root[data-theme='dark'] .premium-glass {
+    box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.08), 
+                inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+                0 4px 12px rgba(0, 0, 0, 0.3);
+    /* 使用黑色渐变代替白色渐变，去除“灰蒙蒙”的雾面感 */
+    background-image: linear-gradient(135deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.2) 100%);
+  }
+
+  /* Force Colorful Cards in Dark Mode (Vibrant & Deep) */
+  :root[data-theme='dark'] .enfj-card {
+    background-color: #2b8b72 !important;
+  }
+  :root[data-theme='dark'] .bilibili-card {
+    background-color: #b84c5f !important;
+  }
+  :root[data-theme='dark'] .github-card {
+    background-color: #4b66d1 !important;
+  }
+  :root[data-theme='dark'] .acorn-card {
+    background-color: #c48912 !important;
+  }
+
+  .premium-glass-inner {
+    box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.4), 
+                inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
+
+  /* ONLY links bounce on hover */
+  .bento-item-link:hover .bento-item {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.6),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+                0 16px 32px rgba(114, 93, 66, 0.12), 
+                0 4px 12px rgba(114, 93, 66, 0.06);
+    z-index: 2;
+  }
+
+  :root[data-theme='dark'] .bento-item-link:hover .bento-item {
+    box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.15),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+                0 16px 32px rgba(0, 0, 0, 0.35), 
+                0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .custom-svg {
+    opacity: 0.9;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  .bento-item-link:hover .bounce-on-hover {
+    transform: scale(1.15) rotate(5deg);
+  }
+
+  /* Profile Card */
+  .profile-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    height: 100%;
+    justify-content: center;
+  }
+  .profile-content h2 {
+    margin: 0;
+    font-size: 2.2rem;
+    color: var(--color-text);
+  }
+  .profile-content p {
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--color-text-body);
+  }
+
+  /* ENFJ Card */
+  .enfj-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.5rem;
+    height: 100%;
+    color: white;
+  }
+  .enfj-title {
+    font-size: 3rem;
+    font-weight: 900;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .enfj-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    opacity: 0.9;
+  }
+
+  /* Minecraft Card */
+  .mc-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    height: 100%;
+    justify-content: center;
+  }
+  .mc-id {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--color-text);
+  }
+  .mc-desc {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.8;
+    color: var(--color-text-body);
+  }
+
+  /* Covenant Card */
+  .covenant-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    gap: 1.5rem;
+  }
+  .covenant-header h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    color: var(--color-text);
+  }
+  .covenant-header p {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--color-text-body);
+    opacity: 0.9;
+    line-height: 1.5;
+  }
+  .progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+    color: var(--color-text);
+  }
+
+  /* Acorn Theme Card */
+  .acorn-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    gap: 1rem;
+    color: var(--color-text-body);
+  }
+  .acorn-header {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .acorn-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--color-text);
+  }
+  .acorn-content p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    opacity: 0.9;
+  }
+
+  /* Social Cards */
+  .social-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    height: 100%;
+    justify-content: center;
+    color: white;
+  }
+  .social-content h3.social-title {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fff !important; /* Pure white title for contrast */
+  }
+  .social-content p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    opacity: 0.95;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 900px) {
+    .about {
+      max-width: 800px;
+    }
+    .bento-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .profile-card { grid-column: span 2; }
+    .enfj-card { grid-column: span 1; }
+    .minecraft-card { grid-column: span 1; }
+    .covenant-card { grid-column: span 2; }
+    .acorn-card { grid-column: span 2; }
+    .bilibili-card, .github-card, .bento-item-link { grid-column: span 1; }
+  }
+
+  @media (max-width: 600px) {
+    .bento-grid {
+      grid-template-columns: 1fr;
+    }
+    .profile-card, .enfj-card, .minecraft-card, .covenant-card, .acorn-card, .bilibili-card, .github-card, .bento-item-link {
+      grid-column: span 1;
+      grid-row: auto;
+    }
+  }
+</style>

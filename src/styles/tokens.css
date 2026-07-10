@@ -1,0 +1,64 @@
+:root {
+  --color-primary: var(--theme-primary, #19c8b9);
+  --color-primary-hover: var(--theme-primary-hover, #3dd4c6);
+  --color-primary-active: var(--theme-primary-active, #11a89b);
+  --color-focus: var(--theme-focus, #ffcc00);
+  --color-text: var(--theme-text, #794f27);
+  --color-text-body: var(--theme-text-body, #725d42);
+  --color-text-muted: var(--theme-text-muted, #8a7b66);
+  --color-surface: var(--theme-surface, #f8f8f0);
+  --color-surface-content: var(--theme-surface-content, #f7f3df);
+  --color-surface-secondary: var(--theme-surface-secondary, #f0e8d8);
+  --color-border: var(--theme-border, #c4b89e);
+  --color-accent: var(--theme-accent, #f7cd67);
+  --content-width: var(--theme-content-width, 72rem);
+  --prose-width: var(--theme-prose-width, 46rem);
+  --header-height: var(--theme-header-height, 4.75rem);
+  --header-width: var(--theme-header-width, 58rem);
+  --header-offset: var(--theme-header-offset, 1rem);
+  --page-gutter: var(--theme-page-gutter, 1.25rem);
+  --radius-small: var(--theme-radius-small, 0.75rem);
+  --radius-base: var(--theme-radius-base, 1.125rem);
+  --radius-large: var(--theme-radius-large, 1.5rem);
+  --radius-pill: var(--theme-radius-pill, 999px);
+  --motion-duration: var(--theme-motion-duration, 220ms);
+  --motion-easing: var(--theme-motion-easing, cubic-bezier(0.4, 0, 0.2, 1));
+  --shadow-small: 0 2px 4px rgb(61 52 40 / 6%);
+  --shadow-base: 0 3px 10px rgb(61 52 40 / 10%);
+  --color-on-primary: #173b35;
+  --color-on-accent: #3b2c16;
+  --color-surface-raised: rgb(255 255 255 / 52%);
+  --color-surface-glass: rgb(248 248 240 / 64%);
+  --color-ink-subtle: rgb(114 93 66 / 16%);
+  --color-white: #fffdf6;
+}
+
+/*
+ * Night on the island: blue-green charcoal carries the large surfaces, while
+ * the existing teal and harvest-yellow remain recognisable, softened for
+ * comfortable long-form reading.  These tokens deliberately avoid pure black
+ * and pure white so the site retains its warm, tactile character at night.
+ */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --color-primary: #54d3c0;
+  --color-primary-hover: #7ae1d0;
+  --color-primary-active: #35b8a7;
+  --color-focus: #ffd878;
+  --color-text: #f2e7d5;
+  --color-text-body: #d6c9b7;
+  --color-text-muted: #aca08f;
+  --color-surface: #181d1a;
+  --color-surface-content: #222a24;
+  --color-surface-secondary: #2b342c;
+  --color-surface-raised: rgb(255 248 232 / 7%);
+  --color-surface-glass: rgb(24 29 26 / 78%);
+  --color-border: #4a574b;
+  --color-accent: #e7bd63;
+  --color-on-primary: #102d29;
+  --color-on-accent: #352714;
+  --color-ink-subtle: rgb(214 201 183 / 18%);
+  --color-white: #fff8ea;
+  --shadow-small: 0 2px 6px rgb(0 0 0 / 18%);
+  --shadow-base: 0 8px 24px rgb(0 0 0 / 24%);
+}

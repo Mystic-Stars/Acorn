@@ -1,0 +1,62 @@
+---
+title: "雨云自动签到&自动积分续期 脚本"
+description: "雨云全自动签到与积分续期脚本，教你零成本无限白嫖游戏云服务器。"
+pubDate: 2024-08-27T14:27:00+08:00
+cover:
+  tone: ocean
+  label: "软件技术"
+  url: "https://bu.dusays.com/2024/08/27/66cd84e1d31d8.webp"
+  alt: "雨云自动签到&自动积分续期 脚本 的封面图"
+draft: false
+featured: false
+category: "软件技术"
+tags:
+  - "羊毛白嫖"
+author: "Mystic Stars"
+---
+
+import ArticleCodeBlock from '@components/ArticleCodeBlock.astro';
+
+## ¶版权声明
+
+本文为博客转载文章，原文为[HECODE](https://codezhangborui.com/)的[雨云自动签到脚本 & 自动积分续期脚本 - CodeZhangBorui's Blog](https://codezhangborui.com/2023/06/rainyun-autoscripts/)。
+
+已经原作者许可，同时，我在此基础上做了细微修改。
+
+## ¶写在前面
+
+先放雨云注册链接（带aff）：[https://www.rainyun.com/mystic_](https://www.rainyun.com/mystic_)
+
+使用本项目可以实现自动签到，每个月签到能拿9000积分。
+
+游戏云是：`1元:400积分`
+
+其他服务是：`1元:2000积分`
+
+也就是说，月付不超过`22.5CNY`的游戏云都可以无限白嫖！
+
+## ¶如何获取 X-API-KEY
+
+打开[雨云账户设置](https://app.rainyun.com/account/settings)，点击左侧的【API 秘钥】，点击【重新生成】，复制即可。
+
+## ¶雨云自动签到脚本
+
+<ArticleCodeBlock code={"import requests\nimport json\nimport time\n\napi_keys = [\n # 在这里放置 \"<X-API-KEY>\"，可放置多项\n]\nurl = \"https://api.v2.rainyun.com/user/reward/tasks\"\n\nprint(\"Rainyun-AutoSignin-V2 script, by CodeZhangBorui\\n[Time] \", end='')\nprint(time.ctime())\n\nfor key in api_keys:\n print(\"# 用 X-API-KEY 登录: \" + key[:10] + \"*\"*22)\n headers = {\n 'x-api-key': key,\n 'User-Agent': 'Rainyun-AutoSignin/2.0 (https://codezhangborui.eu.org/2023/06/rainyun-auto-python-scripts/)'\n }\n response = requests.request(\"GET\", url, headers=headers, data={})\n result = json.loads(response.text)\n print(\"# 获取可领取任务列表\")\n undone = []\n for task in result['data']:\n if(task['Status'] == 0):\n print(\"## - 未完成：\" + task['Name'])\n elif(task['Status'] == 1):\n print(\"## > 可领取：\" + task['Name'] + \" | 可获得积分：\" + str(task['Points']))\n undone.append(task['Name'])\n elif(task['Status'] == 2):\n print(\"## V 已领取：\" + task['Name'])\n else:\n print(\"## ? 未知状态：\" + task['Name'] + \" | 服务器 DATA：\" + str(task))\n # undone.append(\"每日签到\")\n if(undone == []):\n print(\"# 没有可领取任务！\")\n else:\n for task in undone:\n try:\n print(\"## 请求完成任务：\" + task, end='')\n response = requests.request(\"POST\", url, headers=headers, json={\"task_name\": task})\n result = json.loads(response.text)\n print(\" | 服务器 DATA：\" + str(result))\n except:\n print(\":( Something went wrong, retry in 10 seconds...\")\n time.sleep(10)\n try:\n print(\"## 请求完成任务：\" + task, end='')\n response = requests.request(\"POST\", url, headers=headers, json={\"task_name\": task})\n result = json.loads(response.text)\n print(\" | 服务器 DATA：\" + str(result))\n except:\n print(\":( Something went wrong, retry in 30 seconds...\")\n time.sleep(30)\n try:\n print(\"## 请求完成任务：\" + task, end='')\n response = requests.request(\"POST\", url, headers=headers, json={\"task_name\": task})\n result = json.loads(response.text)\n print(\" | 服务器 DATA：\" + str(result))\n except:\n print(\":( Something went wrong, skip this task\")\n continue\n print(\"\")\nprint(\"# 程序已结束！\")\ntime.sleep(10)"} />
+
+Python
+
+注意，请将第 6 行替换为对应账号的 X-API-KEY。例：
+
+<ArticleCodeBlock code={"import time\n\napi_keys = [\n \"gkFW55tqfDUzm1jNx3nij3RYKFoWR213\",\n \"fw8WEDjNx3ntqfDUzij3RYK1oWR213Fm\"\n]\nurl = \"https://api.v2.rainyun.com/user/reward/tasks\""} />
+
+Python
+
+## ¶自动积分续期脚本
+
+<ArticleCodeBlock code={"import requests\nimport json\nimport time\nimport datetime\n\ninstances = [\n # 在这里放置 [\"<X-API-KEY>\", \"<产品ID>\"]，可放置多项\n]\nurl_getinfo = \"https://api.v2.rainyun.com/product/rgs/{id}/\"\nurl_renew = \"https://api.v2.rainyun.com/product/point_renew\"\n\n# 一次续费的天数\nduration_day = 7\n \ndef GetRemainingDays(unix_timestamp):\n # 获取当前时间的UNIX时间戳\n current_timestamp = datetime.datetime.now().timestamp()\n # 将UNIX时间戳转换为datetime对象\n target_date = datetime.datetime.fromtimestamp(unix_timestamp)\n # 将当前时间的UNIX时间戳转换为datetime对象\n current_date = datetime.datetime.fromtimestamp(current_timestamp)\n # 计算两个日期之间的差异\n difference = current_date - target_date\n # 获取差异的天数部分\n days_difference = difference.days\n return -days_difference\n\nprint(\"Rainyun-PointRenew-V1 script, by CodeZhangBorui\\n[Time] \", end='')\nprint(time.ctime())\n\nfor instance in instances:\n key = instance[0]\n pid = instance[1] \n print(\"# 处理实例: API-KEY=\" + key[:10] + \"*\"*22 + \",产品ID=\" + pid)\n headers = {\n 'x-api-key': key,\n 'User-Agent': 'Rainyun-AutoRenew/1.0 (https://codezhangborui.eu.org/2023/06/rainyun-auto-python-scripts/)'\n }\n response = requests.request(\"GET\", url_getinfo.replace('{id}',pid), headers=headers, data={})\n result = json.loads(response.text)\n try:\n timestamp = result['data']['Data']['ExpDate']\n except:\n print(\"! 当在获取剩余天数时出错\\n\")\n continue\n remainingdays = GetRemainingDays(timestamp)\n if(remainingdays > 7):\n print(\"## 服务器还剩 \" + str(remainingdays) + \" 天到期,无法用积分续费!\\n\")\n continue\n print(\"## 服务器还剩 \" + str(remainingdays) + \" 天到期,尝试续费... \",end='')\n try:\n response = requests.request(\"POST\", url_renew, headers=headers, json={\"duration_day\":duration_day,\"product_id\":int(pid),\"product_type\":\"rgs\"})\n result = json.loads(response.text)\n print(\" | 服务器 DATA:\" + str(result))\n except:\n print(\":( Something went wrong, retry in 10 seconds...\")\n time.sleep(10)\n try:\n response = requests.request(\"POST\", url_renew, headers=headers, json={\"duration_day\":duration_day,\"product_id\":int(pid),\"product_type\":\"rgs\"})\n result = json.loads(response.text)\n print(\" | 服务器 DATA:\" + str(result))\n except:\n print(\":( Something went wrong, retry in 30 seconds...\")\n time.sleep(30)\n try:\n response = requests.request(\"POST\", url_renew, headers=headers, json={\"duration_day\":duration_day,\"product_id\":int(pid),\"product_type\":\"rgs\"})\n result = json.loads(response.text)\n print(\" | 服务器 DATA:\" + str(result))\n except:\n print(\":( Something went wrong, skip this task\")\n continue\n print(\"\")\nprint(\"# 程序已结束!\")\ntime.sleep(10)"} />
+
+Python
+
+注意，请将第 7 段替换为对应账号的 X-API-KEY 和产品 ID。例：
+
+<ArticleCodeBlock code={"import datetime\n\ninstances = [\n [\"gkFW55tqfDUzm1jNx3nij3RYKFoWR213\",'32312']\n]\nurl_getinfo = \"https://api.v2.rainyun.com/product/rgs/{id}/\"\nurl_renew = \"https://api.v2.rainyun.com/product/point_renew\""} />

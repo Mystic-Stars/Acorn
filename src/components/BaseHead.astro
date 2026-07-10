@@ -1,0 +1,73 @@
+---
+import type { ImageMetadata } from 'astro';
+import { siteConfig } from '@config/site';
+import '../styles/global.css';
+
+interface Props {
+  title?: string | undefined;
+  description?: string | undefined;
+  image?: ImageMetadata | string | undefined;
+  type?: 'website' | 'article' | undefined;
+  noindex?: boolean | undefined;
+}
+
+const {
+  title,
+  description = siteConfig.description,
+  image,
+  type = 'website',
+  noindex = false,
+} = Astro.props;
+const documentTitle = title ? `${title} · ${siteConfig.name}` : siteConfig.title;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = image
+  ? new URL(typeof image === 'string' ? image : image.src, Astro.site)
+  : undefined;
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#f8f8f0" data-theme-color />
+<script is:inline>
+  (() => {
+    const storedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme =
+      storedTheme === 'light' || storedTheme === 'dark'
+        ? storedTheme
+        : prefersDark
+          ? 'dark'
+          : 'light';
+    document.documentElement.dataset.theme = theme;
+    document
+      .querySelector('[data-theme-color]')
+      ?.setAttribute('content', theme === 'dark' ? '#181d1a' : '#f8f8f0');
+  })();
+</script>
+<meta name="generator" content={Astro.generator} />
+<meta name="description" content={description} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<title>{documentTitle}</title>
+<link rel="canonical" href={canonicalURL} />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={`${siteConfig.name} RSS`}
+  href={new URL('/rss.xml', Astro.site)}
+/>
+
+<meta property="og:type" content={type} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:site_name" content={siteConfig.name} />
+<meta property="og:title" content={documentTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:locale" content={siteConfig.locale.replace('-', '_')} />
+{imageURL && <meta property="og:image" content={imageURL} />}
+
+<meta name="twitter:card" content={imageURL ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:title" content={documentTitle} />
+<meta name="twitter:description" content={description} />
+{imageURL && <meta name="twitter:image" content={imageURL} />}

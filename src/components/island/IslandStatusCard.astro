@@ -1,0 +1,150 @@
+---
+import { Card } from '@components/animal';
+import { homeConfig } from '@config/index';
+import type { BlogStats } from '@lib/blog-stats';
+
+interface Props {
+  stats: BlogStats;
+}
+
+const { stats } = Astro.props;
+const formatter = new Intl.NumberFormat('zh-CN');
+const items = [
+  {
+    label: homeConfig.sidebar.statusLabels.posts,
+    value: formatter.format(stats.postCount),
+    unit: '篇',
+    icon: '✎',
+  },
+  {
+    label: homeConfig.sidebar.statusLabels.words,
+    value: formatter.format(stats.wordCount),
+    unit: '字',
+    icon: '文',
+  },
+  {
+    label: homeConfig.sidebar.statusLabels.days,
+    value: formatter.format(stats.siteDays),
+    unit: '天',
+    icon: '☀',
+  },
+];
+---
+
+<Card className="sidebar-card island-status-card" type="dashed">
+  <section aria-labelledby="island-status-title">
+    <header>
+      <span class="status-signal" aria-hidden="true"></span>
+      <h2 id="island-status-title">{homeConfig.sidebar.statusTitle}</h2>
+      <small>LIVE</small>
+    </header>
+    <dl>
+      {
+        items.map((item) => (
+          <div>
+            <dt>
+              <span aria-hidden="true">{item.icon}</span>
+              {item.label}
+            </dt>
+            <dd>
+              <strong>{item.value}</strong>
+              <small>{item.unit}</small>
+            </dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+</Card>
+
+<style>
+  :global(.island-status-card) {
+    padding: 1rem !important;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  h2 {
+    flex: 1;
+    margin: 0;
+    font-size: 1.05rem;
+  }
+
+  header small {
+    border-radius: var(--radius-pill);
+    background: rgb(127 189 88 / 14%);
+    padding: 0.14rem 0.4rem;
+    color: #5f9e3b;
+    font-size: 0.55rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+  }
+
+  .status-signal {
+    width: 0.58rem;
+    height: 0.58rem;
+    border: 2px solid rgb(255 255 255 / 80%);
+    border-radius: 50%;
+    background: #7fbd58;
+    box-shadow: 0 0 0 3px rgb(127 189 88 / 15%);
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.45rem;
+    margin: 0.85rem 0 0;
+  }
+
+  dl div {
+    min-width: 0;
+    border-radius: var(--radius-small);
+    background: rgb(255 255 255 / 42%);
+    padding: 0.58rem 0.35rem 0.5rem;
+    text-align: center;
+  }
+
+  dt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.22rem;
+    color: var(--color-text-muted);
+    font-size: 0.61rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  dt span {
+    color: #11a89b;
+    font-size: 0.7rem;
+    font-weight: 900;
+  }
+
+  dd {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.18rem;
+    margin: 0.25rem 0 0;
+    color: var(--color-text);
+  }
+
+  dd strong {
+    overflow: hidden;
+    font-size: clamp(0.85rem, 2vw, 1.12rem);
+    font-weight: 900;
+    line-height: 1.1;
+    text-overflow: ellipsis;
+  }
+
+  dd small {
+    color: var(--color-text-muted);
+    font-size: 0.58rem;
+    font-weight: 800;
+  }
+</style>

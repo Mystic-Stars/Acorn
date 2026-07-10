@@ -1,0 +1,107 @@
+---
+import { archiveConfig } from '@config/archives';
+import { getPostHref, slugifyTag, type BlogPost } from '@lib/posts';
+import FormattedDate from './FormattedDate.astro';
+import PostCover from './PostCover.astro';
+import TagList from './TagList.astro';
+import { Card } from './animal';
+
+interface Props {
+  post: BlogPost;
+}
+
+const { post } = Astro.props;
+---
+
+<article data-post-card data-category={post.data.category ? slugifyTag(post.data.category) : ''}>
+  <Card className="post-card" pattern="default">
+    <a class="cover-link" href={getPostHref(post)} tabindex="-1" aria-hidden="true">
+      <PostCover
+        title={post.data.title}
+        category={post.data.category}
+        tags={post.data.tags}
+        tone={post.data.cover.tone}
+        label={post.data.cover.label}
+        image={post.data.cover.image}
+        imageUrl={post.data.cover.url}
+        alt={post.data.cover.alt}
+      />
+    </a>
+    <div class="content">
+      <div class="meta">
+        {post.data.category && <span>{post.data.category}</span>}
+        {
+          archiveConfig.showPublishedDate && (
+            <span>
+              <FormattedDate date={post.data.pubDate} />
+            </span>
+          )
+        }
+      </div>
+      <h2><a href={getPostHref(post)}>{post.data.title}</a></h2>
+      {archiveConfig.showTags && post.data.tags.length > 0 && <TagList tags={post.data.tags} />}
+    </div>
+  </Card>
+</article>
+
+<style>
+  article {
+    height: 100%;
+  }
+
+  article :global(.post-card) {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .cover-link {
+    display: block;
+    flex: 0 0 auto;
+    padding: 0.65rem 0.65rem 0;
+    border-radius: var(--radius-large);
+  }
+
+  .content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1rem 1.15rem 1.1rem;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    justify-content: space-between;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+  }
+
+  h2 {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 0.45rem 0 0.7rem;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    font-size: clamp(1.1rem, 1.8vw, 1.35rem);
+    line-height: 1.35;
+  }
+
+  h2 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .meta span:last-child {
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .content :global(ul) {
+    margin-top: auto;
+    margin-bottom: 0;
+  }
+</style>

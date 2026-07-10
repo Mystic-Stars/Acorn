@@ -1,0 +1,102 @@
+---
+import { Card, Tag } from '@components/animal';
+import { homeConfig } from '@config/index';
+import { getArchiveHref, type BlogPost } from '@lib/posts';
+
+interface Props {
+  tags: Map<string, { label: string; posts: BlogPost[] }>;
+}
+
+const { tags } = Astro.props;
+---
+
+<Card className="sidebar-card tag-explorer-card">
+  <section aria-labelledby="tag-explorer-title">
+    <header>
+      <h2 id="tag-explorer-title">{homeConfig.sidebar.tagsTitle}</h2>
+      <span>{tags.size}</span>
+    </header>
+    <div class="tag-cloud">
+      {
+        [...tags.entries()].map(([slug, tag]) => (
+          <a
+            href={getArchiveHref({ tags: [slug] })}
+            aria-label={`标签 ${tag.label}，${tag.posts.length} 篇文章`}
+          >
+            <Tag size="small" variant="outlined">
+              #{tag.label} · {tag.posts.length}
+            </Tag>
+          </a>
+        ))
+      }
+    </div>
+    <a class="all-tags-link" href={getArchiveHref()}>
+      {homeConfig.sidebar.tagsLinkLabel}<span aria-hidden="true">→</span>
+    </a>
+  </section>
+</Card>
+
+<style>
+  :global(.tag-explorer-card) {
+    padding: 1rem !important;
+  }
+
+  :global(.tag-explorer-card:hover) {
+    transform: none !important;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--color-text);
+  }
+
+  header > span {
+    display: grid;
+    min-width: 1.55rem;
+    height: 1.55rem;
+    place-items: center;
+    border-radius: 50%;
+    background: rgb(140 107 69 / 12%);
+    color: #8c6b45;
+    font-size: 0.66rem;
+    font-weight: 900;
+  }
+
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.85rem;
+  }
+
+  .tag-cloud a {
+    display: block;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    transition: transform 300ms ease;
+  }
+
+  .tag-cloud a:hover,
+  .tag-cloud a:focus-visible {
+    transform: translateY(-2px);
+  }
+
+  .all-tags-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.85rem;
+    color: var(--color-text-body);
+    font-size: 0.74rem;
+    font-weight: 900;
+    text-decoration: none;
+  }
+</style>

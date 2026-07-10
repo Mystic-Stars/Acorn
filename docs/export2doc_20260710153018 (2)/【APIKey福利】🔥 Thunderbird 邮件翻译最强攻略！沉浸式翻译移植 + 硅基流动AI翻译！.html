@@ -1,0 +1,421 @@
+<blockquote>
+  <p style="">
+    SiliconFlow注册链接（带AFF）：<a href="https://cloud.siliconflow.cn/i/PGnHdyG0" target="_blank"
+      >https://cloud.siliconflow.cn/i/PGnHdyG0</a
+    >
+  </p>
+  <p style="">
+    沉浸式翻译移植原文帖子：<a href="https://linux.do/t/topic/285525" target="_blank"
+      >https://linux.do/t/topic/285525</a
+    >
+  </p>
+  <p style="">
+    沉浸式翻译提示词原文帖子：<a href="https://linux.do/t/topic/229713" target="_blank"
+      >https://linux.do/t/topic/229713</a
+    >
+  </p>
+  <p style="">
+    沉浸式翻译官方仓库：<a
+      href="https://github.com/immersive-translate/immersive-translate"
+      target="_blank"
+      >https://github.com/immersive-translate/immersive-translate</a
+    >
+  </p>
+  <p style="">
+    Thunderbird下载：<a href="https://www.thunderbird.net/zh-CN/thunderbird/all/"
+      >https://www.thunderbird.net/zh-CN/thunderbird/all/</a
+    >
+  </p>
+</blockquote>
+<h2 style="" id="%E5%89%8D%E8%A8%80">前言</h2>
+<p style="">
+  <a href="https://www.thunderbird.net/">雷鸟Thunderbird</a
+  >是一款免费的开源电子邮件客户端软件，由Mozilla基金会开发，也是我个人一直在使用的一款邮件聚合客户端。
+</p>
+<p style="">Thunderbird哪里都好，但是它的<code>邮件翻译</code>功能一直不尽人意</p>
+<p style="">
+  <img
+    src="https://bu.dusays.com/2024/12/13/675c4592be6ee.png"
+    width="70%"
+    height="100%"
+    style="display: inline-block"
+  />
+</p>
+<p style="">
+  可以看到，在官方的附加组件中没有一个好用的翻译插件，这也成了很多人宁愿承受广告而也要更换为<code>网易邮箱大师</code>等客户端的原因。
+</p>
+<p style="">
+  但是最近在冲浪的时候，我偶然发现了<a href="Linux.do" target="_blank">Linux.do</a>社区一位佬友将<a
+    href="https://immersivetranslate.com/"
+    target="_blank"
+    >沉浸式翻译</a
+  >插件移植到了雷鸟中，在经过一周左右的使用后，我发现其适配效果异常好，双语翻译更是遥遥领先于QQ邮箱、网易邮箱等客户端，所以将本篇教程分享给大家。
+</p>
+<blockquote>
+  <p style="">
+    <a href="https://linux.do/t/topic/285525"
+      >移植“沉浸式翻译”到Thunderbird实现邮件翻译 - 开发调优 - LINUX DO</a
+    >
+  </p>
+  <p style="">本文章“自己动手”部分转载自上述原帖，已征得作者同意发布</p>
+</blockquote>
+<h2 style="" id="%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86">实现原理</h2>
+<p style="">
+  <span style="font-size: 16px; color: rgb(34, 34, 34)">由于 </span><code>Thunderbird</code
+  ><span style="font-size: 16px; color: rgb(34, 34, 34)"> 和 </span><code>Firefox</code
+  ><span style="font-size: 16px; color: rgb(34, 34, 34)">
+    都基于相同的 Gecko 内核，它们的 API
+    有很高的兼容性，大大简化了移植工作。不过由于沉浸式翻译是一个</span
+  ><code>闭源项目</code> ，仅仅只对必要的功能进行修改。
+</p>
+<p style="">
+  如果你想要更高的<code>自主性</code>和<code>安全性</code> ，你可以在跳转到
+  <a href="#自己动手" target="_self">自己动手</a> 部分
+</p>
+<p style="">
+  如果你需要更<code>方便的安装</code> ，你可以跳转到
+  <a href="#一键安装" target="_self">一键安装</a> 部分
+</p>
+<h2 style="" id="%E8%87%AA%E5%B7%B1%E5%8A%A8%E6%89%8B">自己动手</h2>
+<p style="">首先下载沉浸式翻译官方的Firefox插件包</p>
+<p style="">
+  <a
+    href="https://github.com/immersive-translate/immersive-translate/releases/download/v1.12.2/firefox-immersive-translate-1.12.2.zip"
+    target="_blank"
+    >https://github.com/immersive-translate/immersive-translate/releases/download/v1.12.2/firefox-immersive-translate-1.12.2.zip</a
+  >
+</p>
+<p style="">对其进行解压缩</p>
+<h3 style="" id="%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E6%B3%A8%E5%85%A5js">第一步：注入JS</h3>
+<p style="">向 background.js 中的主体代码添加以下代码注入 js：</p>
+<pre><code class="language-json">async function registerMsgDisplayScript() {
+		await messenger.messageDisplayScripts.register({
+			js: [{file: "/content_script.js"}, {file: "/content_start.js"}]
+		});
+	}
+	registerMsgDisplayScript();</code></pre>
+<h3 style="" id="%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E4%BF%AE%E6%94%B9-manifest.json">
+  第二步：修改 manifest.json
+</h3>
+<ol>
+  <li>
+    <p style="">
+      permissions<br />修改 "contextMenus" 为 "menus"（右键菜单相关），添加 "messagesModify"
+      权限（实现邮件翻译的核心权限）。
+    </p>
+  </li>
+  <li>
+    <p style="">
+      browser_specific_settings<br />由于第一步中 messageDisplayScripts 的 API 从 Thunderbird 78
+      开始支持，所以 "strict_min_version" 最低版本理论上为 78.0。
+    </p>
+  </li>
+</ol>
+<h3
+  style=""
+  id="%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E4%BF%AE%E6%94%B9%E5%8F%B3%E9%94%AE%E8%8F%9C%E5%8D%95%E7%9B%B8%E5%85%B3-api%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"
+>
+  第三步：修改右键菜单相关 API（可选）
+</h3>
+<p style="">（如果不需要右键菜单翻译的功能，可以跳过此步。）</p>
+<ul>
+  <li>
+    <p style="">
+      重命名 background.js 和 options.js 中所有调用名为 "contextMenus" 的 API 为 "menus"
+    </p>
+  </li>
+  <li>
+    <p style="">
+      删除 background.js 中列表 "[“browser_action”, “page_action”]“中的"page_action”（该 ContextType
+      适用于 Firefox，而 Thunderbird 中无），否则无法创建右键菜单。
+    </p>
+  </li>
+</ul>
+<p style="">
+  <span style="font-size: 16px; color: rgb(34, 34, 34)">完整的修改可以参考这个 </span
+  ><a
+    rel="noopener nofollow ugc"
+    href="https://github.com/immersive-translate/immersive-translate/commit/af70f1edad53f4e28d97cf9708f45c730616dfdb#diff-ca926259d0aac071cde2dd5ccba8c33937de52af847bf48004fc0aa39fc99664L166"
+    class="external-link"
+    >commit</a
+  ><br /><span style="font-size: 16px; color: rgb(34, 34, 34)">修改完后直接打包 </span
+  ><code>manifest.json</code
+  ><span style="font-size: 16px; color: rgb(34, 34, 34)">
+    所在目录的所有文件为 zip，即可通过 Thunderbird 扩展页右上角的齿轮图标安装插件了</span
+  >
+</p>
+<h2 style="" id="%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85">一键安装</h2>
+<blockquote>
+  <p style="">
+    请注意，本版本也许<code>不会支持后续更新</code>，故沉浸式翻译有更新时建议前往
+    <a href="#自己动手" target="_self">自己动手</a> 部分自行操作
+  </p>
+</blockquote>
+<h3
+  style=""
+  id="%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E4%B8%8B%E8%BD%BD%E5%B9%B6%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6"
+>
+  第一步：下载并安装插件
+</h3>
+<p style="">
+  下载链接：<a
+    href="https://github.com/John-Wong/immersive-translate/releases/download/v1.11.7-tb/thunderbird-immersive-translate-1.11.7.xpi"
+    target="_blank"
+    >https://github.com/John-Wong/immersive-translate/releases/download/v1.11.7-tb/thunderbird-immersive-translate-1.11.7.xpi</a
+  ><br />点击上述链接下载已经修改好的<code>雷鸟适配版沉浸式翻译</code>插件
+</p>
+<p style="">打开雷鸟的<code>拓展与主题</code> 界面，安装插件</p>
+<p style="">
+  <img
+    src="https://bu.dusays.com/2024/12/14/675d1aa1e020a.png"
+    width="80%"
+    height="100%"
+    style="display: inline-block"
+  />
+</p>
+<p style="">
+  <img
+    src="https://bu.dusays.com/2024/12/14/675d1ae07b07e.png"
+    width="50%"
+    height="100%"
+    style="display: inline-block"
+  />
+</p>
+<h3
+  style=""
+  id="%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%AE%8C%E6%88%90%E6%8F%92%E4%BB%B6%E5%BC%95%E5%AF%BC%E5%92%8C%E5%9F%BA%E7%A1%80%E8%AE%BE%E7%BD%AE"
+>
+  第二步：完成插件引导和基础设置
+</h3>
+<p style="">
+  <img
+    src="https://bu.dusays.com/2024/12/14/675d1b0d9c78f.png"
+    width="100%"
+    height="100%"
+    style="display: inline-block"
+  />
+</p>
+<p style="">根据沉浸式翻译的内置提示完成初次使用的引导</p>
+<p style="">
+  <img
+    src="https://bu.dusays.com/2024/12/14/675d1b56baa8f.png"
+    width="100%"
+    height="100%"
+    style="display: inline-block"
+  />
+</p>
+<p style="">
+  Tips：在此处<span style="font-size: 16px; color: rgb(34, 34, 34)"
+    >由于 Thunderbird 置顶的扩展图标在除邮件页外的第三方页面中</span
+  ><code>不可见</code
+  ><span style="font-size: 16px; color: rgb(34, 34, 34)">，所以可以点击页面右侧的</span
+  ><code>悬浮窗</code><span style="font-size: 16px; color: rgb(34, 34, 34)">或使用默认快捷键</span
+  ><code>Alt+A</code
+  ><span style="font-size: 16px; color: rgb(34, 34, 34)">翻译，进而完成引导。</span>
+</p>
+<p style="">
+  <span style="font-size: 16px; color: rgb(34, 34, 34)"
+    ><img
+      src="https://bu.dusays.com/2024/12/14/675d1bf19482c.png"
+      width="100%"
+      height="100%"
+      style="display: inline-block"
+  /></span>
+</p>
+<p style="">登录你的沉浸式翻译账号，至此，大功告成！🎉🎉🎉</p>
+<p style="">
+  <img
+    src="https://bu.dusays.com/2024/12/14/675d1c2476f41.png"
+    width="100%"
+    height="100%"
+    style="display: inline-block"
+  />
+</p>
+<h2 style="" id="%E8%BF%9B%E9%98%B6%E9%85%8D%E7%BD%AE">进阶配置</h2>
+<h3
+  style=""
+  id="%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E9%85%8D%E7%BD%AE%E8%87%AA%E5%B7%B1%E7%9A%84%E7%A1%85%E5%9F%BA%E6%B5%81%E5%8A%A8%E5%AF%86%E9%92%A5"
+>
+  第一步：配置自己的硅基流动密钥
+</h3>
+<p style="">
+  沉浸式翻译内置了很多翻译引擎，而真正吸引我的是其高度的自定义性，其适配很多<code>大模型翻译</code>的接口，在这里我给大伙安利<a
+    href="https://cloud.siliconflow.cn/i/PGnHdyG0"
+    target="_blank"
+    >硅基流动（SiliconFlow）</a
+  >这一服务。
+</p>
+<p style="">
+  <img
+    src="https://bu.dusays.com/2024/12/14/675d1db0a7692.png"
+    width="50%"
+    height="100%"
+    style="display: inline-block"
+  />
+</p>
+<p style="">
+  <a href="https://cloud.siliconflow.cn/i/PGnHdyG0" target="_blank">硅基流动（SiliconFlow）</a
+  >是一家专注于GenAI（生成式人工智能）技术的公司，其<code>免费</code>提供了一些开源大模型，如<span
+    fontsize=""
+    color="rgb(0, 0, 0)"
+    style="color: rgb(0, 0, 0)"
+    >Qwen2.5-Coder-7B-Instruct等模型。</span
+  >
+</p>
+<p style="">
+  <span fontsize="" color="rgb(0, 0, 0)" style="color: rgb(0, 0, 0)">沉浸式翻译</span>和
+  <a href="https://siliconflow.cn/" target="_blank" class="immersive-translate-link"
+    >SiliconCloud</a
+  >
+  合作提供的免费大模型翻译
+</p>
+<p style="">
+  <img
+    src="https://bu.dusays.com/2024/12/14/675d1df8dc447.png"
+    width="40%"
+    height="100%"
+    style="display: inline-block"
+  />
+</p>
+<p style="">
+  但是为了更好的翻译体验，我们可以自己注册硅基流动账号，获得<code>14元</code>人民币的赠金，使用更高级的模型进行翻译操作。
+</p>
+<p style="">
+  注册链接（带AFF）：<a href="https://cloud.siliconflow.cn/i/PGnHdyG0" target="_blank"
+    >https://cloud.siliconflow.cn/i/PGnHdyG0</a
+  >
+</p>
+<p style="">
+  <img
+    src="https://bu.dusays.com/2024/12/14/675d1f22283e3.png"
+    width="90%"
+    height="100%"
+    style="display: inline-block"
+  />
+</p>
+<p style="">接下来在控制台中<code>获取API 密钥</code>即可</p>
+<p style="">
+  <img
+    src="https://bu.dusays.com/2024/12/14/675d200f2b1d8.png"
+    width="80%"
+    height="100%"
+    style="display: inline-block"
+  />
+</p>
+<p style="">接下来填入沉浸式翻译中即可</p>
+<blockquote>
+  <p style="">如果大家不想自己动手，可以使用我分享的自己的一个14¥密钥，欢迎大家使用体验~</p>
+  <p style=""><code>sk-hbwfquuupfnrwdvxywovunrkeoywxjuryhyfwuzmjypbrlti</code></p>
+</blockquote>
+<h3
+  style=""
+  id="%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E9%80%89%E6%8B%A9%E9%80%82%E5%BD%93%E6%A8%A1%E5%9E%8B%E5%B9%B6%E6%9B%B4%E6%94%B9%E7%B3%BB%E7%BB%9F%E6%8F%90%E7%A4%BA%E8%AF%8D"
+>
+  第二步：选择适当模型并更改系统提示词
+</h3>
+<p style="">
+  关于模型方面，我推荐使用阿里推出的开源模型
+  <code>Qwen/Qwen2.5-72B-Instruct</code> ，将其填写至沉浸式翻译的配置中。
+</p>
+<p style="">
+  <img
+    src="https://bu.dusays.com/2024/12/14/675d213a91edd.png"
+    width="80%"
+    height="100%"
+    style="display: inline-block"
+  />
+</p>
+<p style="">
+  沉浸式翻译中自带的AI提示词并不好用，不能够完全发挥出AI的实力。所以这里我顺便分享一份自用的沉浸式翻译<code
+    >AI提示词</code
+  >
+  （以下内容为转载，来源：<a href="https://linux.do/t/topic/229713" target="_blank"
+    >https://linux.do/t/topic/229713</a
+  >）
+</p>
+<ul>
+  <li><p style="">System Prompt</p></li>
+</ul>
+<pre><code>You are a translation expert, and your task is to translate the text provided by the user from {{from}} to {{to}}. Before translating, carefully analyze the user's text and connect it to your vast knowledge base to identify the most relevant field: avoid literal translations of specialized terminology to make the translation more professional. When translating, imagine {{to}} is your native language: flexibly use the grammar and vocabulary of {{to}} to make the translation more authentic. Finally, make your translation as fluent, smooth, natural, and elegant as possible. (You may make appropriate adjustments to the original sentence to generate better translation results.)</code></pre>
+<ul>
+  <li><p style="">Prompt</p></li>
+</ul>
+<pre><code>Translate the following source text, Output translation directly without any additional text.
+
+Source Text: {{text}}</code></pre>
+<ul>
+  <li><p style="">Multiple Prompt</p></li>
+</ul>
+<pre><code>You will be given a YAML formatted input containing entries with "id" and "{{imt_source_field}}" fields. Here is the input:
+
+```yaml
+{{yaml}}
+```
+
+For each entry in the YAML, translate the contents of the "{{imt_source_field}}" field, Write the translation back into the "{{imt_source_field}}" field for that entry.
+
+Here is an example of the expected format:
+
+User Input:
+
+```yaml
+- id: 1
+  {{imt_source_field}}: ...
+- id: 2
+  {{imt_source_field}}: ...
+```
+
+Your Output:
+
+```yaml
+- id: 1
+  {{imt_trans_field}}: ...
+- id: 2
+  {{imt_trans_field}}: ...
+```
+
+Please return the translated YAML directly without any additional information.</code></pre>
+<ul>
+  <li><p style="">Subtitle Prompt</p></li>
+</ul>
+<pre><code>You will be given a YAML formatted subtitles containing entries with "id" and "{{imt_sub_source_field}}" fields. Here is the input:
+
+```yaml
+{{yaml}}
+```
+
+For each entry in the YAML, translate the contents of the "{{imt_sub_source_field}}" field, Write the translation back into the "{{imt_sub_trans_field}}" field for that entry.
+
+Here is an example of the expected format:
+
+User Input:
+
+```yaml
+- id: 1
+  {{imt_sub_source_field}}: ...
+- id: 2
+  {{imt_sub_source_field}}: ...
+```
+
+Your Output:
+
+```yaml
+- id: 1
+  {{imt_sub_trans_field}}: ...
+- id: 2
+  {{imt_sub_trans_field}}: ...
+```
+
+Please return the translated YAML directly without any additional information.</code></pre>
+<p style="">
+  <img
+    src="https://bu.dusays.com/2024/12/14/675d22adb6a91.png"
+    width="70%"
+    height="100%"
+    style="display: inline-block"
+  />
+</p>
+<p style=""><span style="font-size: 12px">配置示例图片</span></p>
+<h2 style="" id="%E7%BB%93%E6%9D%9F%E8%AF%AD">结束语</h2>
+<p style="">好啦，本篇教程到这里就结束啦~如果还有任何疑问，欢迎在评论区进行询问！</p>
+<p style="">总之，谢谢你的观看🙏</p>

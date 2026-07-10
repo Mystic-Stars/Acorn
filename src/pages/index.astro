@@ -1,0 +1,11 @@
+---
+import HomePage from '@components/HomePage.astro';
+import { homeConfig } from '@config/index';
+import { getPublishedPosts } from '@lib/posts';
+
+const allPosts = await getPublishedPosts();
+const pagePosts = allPosts.slice(0, homeConfig.pagination.pageSize);
+const totalPages = Math.ceil(allPosts.length / homeConfig.pagination.pageSize);
+---
+
+<HomePage {allPosts} {pagePosts} currentPage={1} {totalPages} />

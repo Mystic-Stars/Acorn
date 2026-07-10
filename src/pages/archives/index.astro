@@ -1,0 +1,666 @@
+---
+import ArchivePostList from '@components/ArchivePostList.astro';
+import AuthorProfileCard from '@components/island/AuthorProfileCard.astro';
+import IslandStatusCard from '@components/island/IslandStatusCard.astro';
+import IslandTimeCard from '@components/island/IslandTimeCard.astro';
+import TagExplorerCard from '@components/island/TagExplorerCard.astro';
+import { Card, Title } from '@components/animal';
+import { archiveConfig, siteConfig } from '@config/index';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getBlogStats } from '@lib/blog-stats';
+import { collectCategories, collectTags, getPublishedPosts } from '@lib/posts';
+
+const posts = await getPublishedPosts();
+const categories = [...collectCategories(posts).entries()];
+const tags = collectTags(posts);
+const blogStats = getBlogStats(posts, siteConfig.establishedAt);
+const categoryTabs = [
+  { key: 'all', label: archiveConfig.filters.allCategoriesLabel, count: posts.length },
+  ...categories.map(([key, category]) => ({
+    key,
+    label: category.label,
+    count: category.posts.length,
+  })),
+];
+const years = [...new Set(posts.map((post) => post.data.pubDate.getFullYear()))].sort(
+  (a, b) => b - a,
+);
+---
+
+<BaseLayout title="文章归档" description={`浏览 ${siteConfig.name} 的全部文章。`}>
+  <section class="archives container" data-archive-page>
+    <nav class="topic-tabs" aria-label="文章分类筛选">
+      <div class="tab-track" role="toolbar" aria-label="筛选文章分类">
+        {
+          categoryTabs.map((tab, index) => (
+            <button
+              type="button"
+              data-filter-category={tab.key}
+              aria-pressed={index === 0 ? 'true' : 'false'}
+            >
+              <span>{tab.label}</span>
+              <small>{tab.count}</small>
+            </button>
+          ))
+        }
+      </div>
+    </nav>
+
+    <div class="tag-filter" data-expandable data-open>
+      <button class="tag-filter-summary" type="button" data-expand-toggle aria-expanded="true">
+        <span>{archiveConfig.filters.tagsLabel}</span>
+        <span class="tag-filter-badges">
+          <small>{tags.size}</small>
+          <span class="tag-filter-chevron" aria-hidden="true">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg
+            >
+          </span>
+        </span>
+      </button>
+      <div class="tag-filter-content">
+        <div class="tag-filter-options-wrapper">
+          <div
+            class="tag-filter-options"
+            role="group"
+            aria-label={archiveConfig.filters.tagsDescription}
+          >
+            {
+              [...tags.entries()].map(([slug, tag]) => (
+                <button
+                  type="button"
+                  data-filter-tag={slug}
+                  aria-pressed="false"
+                  aria-label={`筛选标签 ${tag.label}，${tag.posts.length} 篇文章`}
+                >
+                  <span>#{tag.label}</span>
+                  <small>{tag.posts.length}</small>
+                </button>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="archive-layout">
+      <section class="archive-main" aria-labelledby="archives-title">
+        <Card className="archive-surface" pattern="default">
+          <header class="archive-heading">
+            <div>
+              <Title size="small" color="app-teal">FIELD ARCHIVES</Title>
+              <h1 id="archives-title">文章归档</h1>
+            </div>
+            <span>{posts.length} 篇记录</span>
+          </header>
+
+          <nav class="year-filter" aria-label="按年份筛选文章">
+            <span class="year-filter-label">按年份</span>
+            <div class="year-pills" role="toolbar" aria-label="选择文章年份">
+              <button type="button" data-filter-year="all" aria-pressed="true">
+                {archiveConfig.filters.allYearsLabel}
+              </button>
+              {
+                years.map((year) => (
+                  <button type="button" data-filter-year={String(year)} aria-pressed="false">
+                    {year}
+                  </button>
+                ))
+              }
+            </div>
+          </nav>
+
+          {
+            posts.length > 0 ? (
+              <ArchivePostList {posts} />
+            ) : (
+              <p class="empty-state">{archiveConfig.emptyState}</p>
+            )
+          }
+          <p class="filter-empty" data-filter-empty hidden>
+            {archiveConfig.filters.noMatchesMessage}
+          </p>
+        </Card>
+      </section>
+
+      <aside class="sidebar" aria-label="侧边栏">
+        <AuthorProfileCard />
+        <IslandTimeCard />
+        <IslandStatusCard stats={blogStats} />
+        <TagExplorerCard {tags} />
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const categoryButtons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>('[data-filter-category]'),
+  );
+  const yearButtons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>('[data-filter-year]'),
+  );
+  const tagButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter-tag]'));
+  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-post-card]'));
+  const emptyState = document.querySelector<HTMLElement>('[data-filter-empty]');
+  let activeCategory = 'all';
+  let activeYear = 'all';
+  const activeTags = new Set<string>();
+
+  const applyUrlFilters = () => {
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get('category');
+    const year = params.get('year');
+
+    activeCategory =
+      category && categoryButtons.some((button) => button.dataset.filterCategory === category)
+        ? category
+        : 'all';
+    activeYear =
+      year && yearButtons.some((button) => button.dataset.filterYear === year) ? year : 'all';
+
+    activeTags.clear();
+    const requestedTags = new Set(
+      (params.get('tags') ?? '')
+        .split(',')
+        .map((tag) => tag.trim())
+        .filter(Boolean),
+    );
+
+    for (const button of tagButtons) {
+      const tag = button.dataset.filterTag;
+      if (tag && requestedTags.has(tag)) activeTags.add(tag);
+    }
+  };
+
+  const updateUrlFilters = () => {
+    const params = new URLSearchParams();
+
+    if (activeCategory !== 'all') params.set('category', activeCategory);
+    if (activeYear !== 'all') params.set('year', activeYear);
+    if (activeTags.size > 0) params.set('tags', [...activeTags].sort().join(','));
+
+    const url = new URL(window.location.href);
+    url.search = params.toString();
+    window.history.replaceState(null, '', url);
+  };
+
+  const applyFilters = () => {
+    let visibleCount = 0;
+
+    for (const card of cards) {
+      const categoryMatches = activeCategory === 'all' || card.dataset.category === activeCategory;
+      const yearMatches = activeYear === 'all' || card.dataset.year === activeYear;
+      const postTags = card.dataset.tags?.split('|').filter(Boolean) ?? [];
+      const tagMatches = activeTags.size === 0 || postTags.some((tag) => activeTags.has(tag));
+      const visible = categoryMatches && yearMatches && tagMatches;
+      card.hidden = !visible;
+      if (visible) visibleCount += 1;
+    }
+
+    for (const button of categoryButtons) {
+      button.setAttribute('aria-pressed', String(button.dataset.filterCategory === activeCategory));
+    }
+
+    for (const button of yearButtons) {
+      button.setAttribute('aria-pressed', String(button.dataset.filterYear === activeYear));
+    }
+
+    for (const button of tagButtons) {
+      button.setAttribute('aria-pressed', String(activeTags.has(button.dataset.filterTag ?? '')));
+    }
+
+    if (emptyState) emptyState.hidden = visibleCount > 0;
+  };
+
+  for (const button of categoryButtons) {
+    button.addEventListener('click', () => {
+      activeCategory = button.dataset.filterCategory ?? 'all';
+      applyFilters();
+      updateUrlFilters();
+    });
+  }
+
+  for (const button of yearButtons) {
+    button.addEventListener('click', () => {
+      activeYear = button.dataset.filterYear ?? 'all';
+      applyFilters();
+      updateUrlFilters();
+    });
+  }
+
+  for (const button of tagButtons) {
+    button.addEventListener('click', () => {
+      const tag = button.dataset.filterTag;
+      if (!tag) return;
+
+      if (activeTags.has(tag)) {
+        activeTags.delete(tag);
+      } else {
+        activeTags.add(tag);
+      }
+
+      applyFilters();
+      updateUrlFilters();
+    });
+  }
+
+  applyUrlFilters();
+  applyFilters();
+  window.addEventListener('popstate', () => {
+    applyUrlFilters();
+    applyFilters();
+  });
+
+  const expandToggle = document.querySelector<HTMLButtonElement>('[data-expand-toggle]');
+  const expandable = document.querySelector<HTMLElement>('[data-expandable]');
+  if (expandToggle && expandable) {
+    expandToggle.addEventListener('click', () => {
+      const isOpen = expandable.hasAttribute('data-open');
+      if (isOpen) {
+        expandable.removeAttribute('data-open');
+        expandToggle.setAttribute('aria-expanded', 'false');
+      } else {
+        expandable.setAttribute('data-open', '');
+        expandToggle.setAttribute('aria-expanded', 'true');
+      }
+    });
+  }
+</script>
+
+<style>
+  .archives {
+    padding-block: clamp(1.5rem, 3vw, 2.5rem) clamp(3.5rem, 8vw, 6rem);
+  }
+
+  .topic-tabs {
+    margin-bottom: 1.75rem;
+    overflow: hidden;
+    border: 1px solid rgb(196 184 158 / 65%);
+    border-radius: var(--radius-large);
+    background: rgb(247 243 223 / 70%);
+    box-shadow: inset 0 1px rgb(255 255 255 / 70%);
+  }
+
+  .tag-filter {
+    margin: 0 0 1.75rem;
+    overflow: hidden;
+    border: 1px solid rgb(196 184 158 / 50%);
+    border-radius: var(--radius-base);
+    background: rgb(255 255 255 / 40%);
+  }
+
+  .tag-filter-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1rem;
+    min-height: 2.85rem;
+    padding: 0.45rem 0.85rem;
+    border: none;
+    background: transparent;
+    color: var(--color-text-body);
+    font: inherit;
+    font-size: 0.82rem;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  .tag-filter-badges {
+    display: inline-flex;
+    gap: 0.45rem;
+    align-items: center;
+  }
+
+  .tag-filter-badges small {
+    display: grid;
+    min-width: 1.3rem;
+    height: 1.3rem;
+    place-items: center;
+    border-radius: 50%;
+    background: rgb(25 200 185 / 12%);
+    color: #0e988d;
+    font-size: 0.66rem;
+  }
+
+  .tag-filter-chevron {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #0e988d;
+    transition: transform var(--motion-duration) var(--motion-easing);
+  }
+
+  .tag-filter[data-open] .tag-filter-chevron {
+    transform: rotate(180deg);
+  }
+
+  .tag-filter-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--motion-duration) var(--motion-easing);
+  }
+
+  .tag-filter[data-open] .tag-filter-content {
+    grid-template-rows: 1fr;
+  }
+
+  .tag-filter-options-wrapper {
+    overflow: hidden;
+  }
+
+  .tag-filter-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    padding: 0.85rem;
+    border-top: 1px dashed rgb(159 146 125 / 38%);
+  }
+
+  .tag-filter-options button {
+    display: inline-flex;
+    min-height: 2rem;
+    align-items: center;
+    gap: 0.42rem;
+    border: 1px solid rgb(159 146 125 / 35%);
+    border-radius: var(--radius-pill);
+    background: rgb(255 255 255 / 50%);
+    padding: 0.28rem 0.62rem;
+    color: var(--color-text-body);
+    font: inherit;
+    font-size: 0.76rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition:
+      border-color var(--motion-duration) var(--motion-easing),
+      background var(--motion-duration) var(--motion-easing),
+      color var(--motion-duration) var(--motion-easing);
+  }
+
+  .tag-filter-options button:hover {
+    border-color: rgb(25 200 185 / 60%);
+    background: rgb(25 200 185 / 10%);
+  }
+
+  .tag-filter-options button[aria-pressed='true'] {
+    border-color: #19c8b9;
+    background: rgb(25 200 185 / 16%);
+    color: #0e988d;
+  }
+
+  .tag-filter-options button small {
+    display: grid;
+    min-width: 1.1rem;
+    height: 1.1rem;
+    place-items: center;
+    border-radius: 50%;
+    background: rgb(114 93 66 / 10%);
+    color: var(--color-text-muted);
+    font-size: 0.6rem;
+  }
+
+  .tab-track,
+  .year-pills {
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    padding: 0.55rem;
+    scrollbar-width: thin;
+  }
+
+  .tab-track button,
+  .year-pills button {
+    display: inline-flex;
+    min-height: 2.45rem;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    background: transparent;
+    padding: 0.42rem 0.8rem;
+    color: var(--color-text-body);
+    font: inherit;
+    font-size: 0.86rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition:
+      background var(--motion-duration) var(--motion-easing),
+      color var(--motion-duration) var(--motion-easing),
+      transform var(--motion-duration) var(--motion-easing);
+  }
+
+  .tab-track button small {
+    display: grid;
+    min-width: 1.15rem;
+    height: 1.15rem;
+    place-items: center;
+    border-radius: 50%;
+    background: rgb(114 93 66 / 10%);
+    color: var(--color-text-muted);
+    font-size: 0.65rem;
+  }
+
+  .tab-track button:hover,
+  .year-pills button:hover {
+    transform: translateY(-1px);
+    background: rgb(25 200 185 / 12%);
+  }
+
+  .tab-track button[aria-pressed='true'],
+  .year-pills button[aria-pressed='true'] {
+    border-color: #19c8b9;
+    background: #19c8b9;
+    color: #fff;
+  }
+
+  .tab-track button[aria-pressed='true'] small {
+    background: rgb(255 255 255 / 24%);
+    color: #fff;
+  }
+
+  .archive-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 21rem);
+    gap: clamp(1.25rem, 3vw, 2rem);
+    align-items: start;
+  }
+
+  .archive-main {
+    min-width: 0;
+  }
+
+  .archive-main :global(.archive-surface) {
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .archive-main :global(.archive-surface:hover) {
+    transform: none !important;
+  }
+
+  .archive-heading {
+    display: flex;
+    gap: 1rem;
+    align-items: end;
+    justify-content: space-between;
+    padding: clamp(1rem, 3vw, 1.5rem) clamp(1rem, 3vw, 1.35rem) 0;
+  }
+
+  h1 {
+    margin: 0.52rem 0 0;
+    font-size: clamp(1.35rem, 3vw, 1.9rem);
+  }
+
+  .archive-heading > span {
+    flex: 0 0 auto;
+    border-radius: var(--radius-pill);
+    background: rgb(247 205 103 / 20%);
+    padding: 0.35rem 0.58rem;
+    color: #936817;
+    font-size: 0.76rem;
+    font-weight: 900;
+  }
+
+  .year-filter {
+    display: flex;
+    gap: 0.65rem;
+    align-items: center;
+    margin: 1rem clamp(1rem, 3vw, 1.35rem) 0;
+    border-block: 1px dashed rgb(159 146 125 / 40%);
+  }
+
+  .year-filter-label {
+    flex: 0 0 auto;
+    color: var(--color-text-muted);
+    font-size: 0.76rem;
+    font-weight: 900;
+  }
+
+  .year-pills {
+    min-width: 0;
+    padding-block: 0.55rem;
+  }
+
+  .year-pills button {
+    min-height: 2rem;
+    background: rgb(255 255 255 / 55%);
+    padding: 0.3rem 0.64rem;
+    font-size: 0.76rem;
+  }
+
+  /* In dark mode the filters become calm, layered controls rather than a
+   * collection of light chips.  Teal is reserved for the active choice and
+   * the warm count labels keep category information scannable. */
+  :global(:root[data-theme='dark']) .topic-tabs {
+    border-color: #465448;
+    background: linear-gradient(135deg, rgb(42 52 44 / 90%), rgb(29 37 31 / 92%));
+    box-shadow: inset 0 1px rgb(255 248 232 / 6%);
+  }
+
+  :global(:root[data-theme='dark']) .tag-filter {
+    border-color: #465448;
+    background: linear-gradient(135deg, rgb(38 48 40 / 94%), rgb(29 37 31 / 94%));
+    box-shadow: inset 0 1px rgb(255 248 232 / 5%);
+  }
+
+  :global(:root[data-theme='dark']) .tag-filter-summary {
+    color: var(--color-text);
+  }
+
+  :global(:root[data-theme='dark']) .tag-filter-badges small,
+  :global(:root[data-theme='dark']) .tag-filter-chevron {
+    background: rgb(84 211 192 / 16%);
+    color: var(--color-primary);
+  }
+
+  :global(:root[data-theme='dark']) .tag-filter-chevron {
+    background: transparent;
+  }
+
+  :global(:root[data-theme='dark']) .tag-filter-options {
+    border-color: rgb(172 160 143 / 24%);
+  }
+
+  :global(:root[data-theme='dark']) .tag-filter-options button,
+  :global(:root[data-theme='dark']) .year-pills button {
+    border-color: #4c5b4e;
+    background: #293329;
+    color: #e6dccb;
+  }
+
+  :global(:root[data-theme='dark']) .tag-filter-options button:hover,
+  :global(:root[data-theme='dark']) .year-pills button:hover,
+  :global(:root[data-theme='dark']) .tab-track button:hover {
+    border-color: rgb(84 211 192 / 66%);
+    background: rgb(84 211 192 / 13%);
+    color: var(--color-text);
+  }
+
+  :global(:root[data-theme='dark']) .tag-filter-options button[aria-pressed='true'],
+  :global(:root[data-theme='dark']) .tab-track button[aria-pressed='true'],
+  :global(:root[data-theme='dark']) .year-pills button[aria-pressed='true'] {
+    border-color: var(--color-primary-active);
+    background: #277e72;
+    box-shadow:
+      inset 0 1px rgb(255 248 232 / 12%),
+      0 0.14rem 0 #1b554d;
+    color: #fff9eb;
+  }
+
+  :global(:root[data-theme='dark']) .tag-filter-options button small,
+  :global(:root[data-theme='dark']) .tab-track button small {
+    background: rgb(214 201 183 / 14%);
+    color: #d4c7b4;
+  }
+
+  :global(:root[data-theme='dark']) .tag-filter-options button[aria-pressed='true'] small,
+  :global(:root[data-theme='dark']) .tab-track button[aria-pressed='true'] small {
+    background: rgb(255 249 235 / 18%);
+    color: #fff9eb;
+  }
+
+  :global(:root[data-theme='dark']) .archive-heading > span {
+    background: rgb(231 189 99 / 16%);
+    color: #f1d38b;
+  }
+
+  :global(:root[data-theme='dark']) .year-filter {
+    border-color: rgb(172 160 143 / 25%);
+  }
+
+  .sidebar {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .empty-state,
+  .filter-empty {
+    margin: 1rem;
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-large);
+    padding: 2rem;
+    color: var(--color-text-muted);
+    text-align: center;
+  }
+
+  @media (max-width: 58rem) {
+    .archive-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 42rem) {
+    .sidebar {
+      grid-template-columns: 1fr;
+    }
+
+    .archive-heading {
+      align-items: start;
+    }
+
+    .year-filter {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0;
+      padding-top: 0.65rem;
+    }
+
+    .year-pills {
+      width: 100%;
+      padding-inline: 0;
+    }
+  }
+</style>

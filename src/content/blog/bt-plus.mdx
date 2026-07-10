@@ -1,0 +1,70 @@
+---
+title: "泰裤辣！宝塔面板企业版无限使用？"
+description: "宝塔面板企业版一键安装与破解升级脚本，免登录解锁全量高级功能。"
+pubDate: 2024-05-25T21:00:00+08:00
+cover:
+  tone: ocean
+  label: "软件技术"
+  url: "https://bu.dusays.com/2024/05/25/6651eb8b263e7.png"
+  alt: "泰裤辣！宝塔面板企业版无限使用？ 的封面图"
+draft: false
+featured: false
+category: "软件技术"
+tags:
+  - "软件分享"
+  - "破解软件"
+author: "Mystic Stars"
+---
+
+import ArticleCodeBlock from '@components/ArticleCodeBlock.astro';
+
+## **¶**前言
+
+宝塔面板是一款功能强大且简单易用的服务器管理软件，支持Linux与Windows系统，拥有美观友好的Web端操作界面。使用宝塔面板,无需专业技术背景,即可轻松完成服务器环境配置、网站搭建、程序安装等操作,并且还能一键部署WordPress、Discuz!等常用开源程序。
+
+但是随着发展，现在的宝塔早已不是多年前的样子，到处充斥着收费，甚至不登录就无法使用，但今天，我找到了一个企业版的宝塔，分享出来给大家使用。
+
+![](https://bu.dusays.com/2024/05/25/6651ecbe12d22.png)
+
+## **¶**食用方法
+
+### Centos安装命令
+
+<ArticleCodeBlock code={"yum install -y wget && wget -O install.sh http://io.bt.sy/install/install_6.0.sh && sh install.sh"} />
+
+### Ubuntu Deepin安装命令
+
+<ArticleCodeBlock code={"wget -O install.sh http://io.bt.sy/install/install-ubuntu_6.0.sh && sudo bash install.sh"} />
+
+### Debian安装命令
+
+<ArticleCodeBlock code={"wget -O install.sh http://io.bt.sy/install/install-ubuntu_6.0.sh && bash install.sh"} />
+
+### Fedora安装命令
+
+<ArticleCodeBlock code={"wget -O install.sh http://io.bt.sy/install/install_6.0.sh && bash install.sh"} />
+
+### 万能安装脚本
+
+<ArticleCodeBlock code={"if [ -f /usr/bin/curl ];then curl -sSO https://download.bt.cn/install/install_panel.sh;else wget -O install_panel.sh https://download.bt.cn/install/install_panel.sh;fi;bash install_panel.sh ed8484bec"} />
+
+### **如果你已经是一名宝塔面板用户，可以使用如下脚本进行更新**
+
+Linux面板升级企业版命令（所有版本均可升级）
+
+<ArticleCodeBlock code={"curl https://io.bt.sy/install/update_panel.sh|bash"} />
+
+<ArticleCodeBlock code={"curl http://io.bt.sy/install/update6.sh|bash"} />
+
+注意：必须为没装过其它环境如Apache/Nginx/php/MySQL的新系统,推荐使用centos
+ 7.X的系统安装宝塔面板
+
+如果不确定使用哪个Linux系统版本的，可以使用万能安装脚本
+
+## **¶**免责声明
+
+> 本资源来源于互联网，仅供学习交流使用，切勿用于盈利目的，下载后请在24h内删除。
+
+有关后门：
+
+本脚本没有加密，有没有后门大家可以自己看，同时，我自己也在用此脚本。如果对于此脚本不放心或者网站安全性要求比较高，请使用官方脚本！

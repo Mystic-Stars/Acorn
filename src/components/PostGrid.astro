@@ -1,0 +1,61 @@
+---
+import type { BlogPost } from '@lib/posts';
+import PostCard from './PostCard.astro';
+
+interface Props {
+  posts: BlogPost[];
+  emptyMessage: string;
+  layout?: 'grid' | 'masonry' | undefined;
+}
+
+const { posts, emptyMessage, layout = 'grid' } = Astro.props;
+---
+
+{
+  posts.length > 0 ? (
+    <div class:list={['posts', layout]}>
+      {posts.map((post) => (
+        <PostCard {post} />
+      ))}
+    </div>
+  ) : (
+    <p class="empty">{emptyMessage}</p>
+  )
+}
+
+<style>
+  .posts.grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 24rem;
+    gap: 1.5rem;
+  }
+
+  .posts.masonry {
+    columns: 2;
+    column-gap: 1.25rem;
+  }
+
+  .posts.masonry :global(article) {
+    break-inside: avoid;
+    margin-bottom: 1.25rem;
+  }
+
+  .empty {
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-large);
+    padding: 2rem;
+    text-align: center;
+  }
+
+  @media (max-width: 44rem) {
+    .posts.grid {
+      grid-template-columns: 1fr;
+      grid-auto-rows: auto;
+    }
+
+    .posts.masonry {
+      columns: 1;
+    }
+  }
+</style>

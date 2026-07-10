@@ -1,0 +1,28 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { Card, Title } from '@components/animal';
+---
+
+<BaseLayout title="页面未找到" description="请求的页面不存在。" noindex>
+  <section class="container not-found">
+    <Card className="not-found-card" pattern="app-yellow">
+      <Title size="large" color="app-yellow">404</Title>
+      <h1>这颗橡果滚去了别处。</h1>
+      <p>没有找到你访问的页面。</p>
+      <a class="button" href="/">返回首页</a>
+    </Card>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding-block: 8rem;
+    text-align: center;
+  }
+
+  .not-found :global(.not-found-card) {
+    width: min(100%, 42rem);
+    margin-inline: auto;
+    padding: clamp(2rem, 5vw, 4rem);
+  }
+</style>

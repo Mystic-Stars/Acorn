@@ -1,0 +1,323 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 20rem;
+  scrollbar-gutter: stable;
+  background: var(--color-surface);
+  color: var(--color-text-body);
+  font-family: 'Nunito', 'Noto Sans SC', sans-serif;
+  font-synthesis: none;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  background:
+    radial-gradient(ellipse 42rem 29rem at 8% -8rem, rgb(25 200 185 / 22%), transparent 74%),
+    radial-gradient(ellipse 34rem 24rem at 92% 9rem, rgb(247 205 103 / 15%), transparent 76%),
+    radial-gradient(ellipse 28rem 22rem at 54% 42rem, rgb(122 178 236 / 8%), transparent 78%),
+    var(--color-surface);
+  background-attachment: fixed;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.75;
+  text-rendering: optimizeLegibility;
+}
+
+:root[data-theme='dark'] body {
+  background:
+    radial-gradient(ellipse 44rem 30rem at 7% -10rem, rgb(43 160 142 / 19%), transparent 74%),
+    radial-gradient(ellipse 38rem 26rem at 96% 10rem, rgb(192 143 58 / 10%), transparent 76%),
+    radial-gradient(ellipse 32rem 24rem at 50% 45rem, rgb(85 116 95 / 12%), transparent 78%),
+    var(--color-surface);
+}
+
+main {
+  display: block;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--color-primary-active);
+  text-decoration-thickness: 0.12em;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--color-text);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--color-text);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.25;
+}
+
+h1 {
+  font-size: clamp(2rem, 6vw, 4.5rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+p,
+ul,
+ol {
+  margin-block: 0 1.25rem;
+}
+
+code {
+  border-radius: 0.4rem;
+  background: var(--color-surface-secondary);
+  padding: 0.14em 0.4em;
+  color: var(--color-text);
+  font-size: 0.92em;
+}
+
+pre {
+  overflow-x: auto;
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-base);
+  padding: 1.25rem;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+}
+
+/* Astro emits both Shiki palettes; switch without re-rendering highlighted posts. */
+pre.astro-code {
+  background-color: var(--shiki-light-bg) !important;
+  color: var(--shiki-light) !important;
+}
+
+pre.astro-code span {
+  color: var(--shiki-light) !important;
+}
+
+:root[data-theme='dark'] pre.astro-code {
+  background-color: var(--shiki-dark-bg) !important;
+  color: var(--shiki-dark) !important;
+}
+
+:root[data-theme='dark'] pre.astro-code span {
+  color: var(--shiki-dark) !important;
+}
+
+.container {
+  width: min(calc(100% - (var(--page-gutter) * 2)), var(--content-width));
+  margin-inline: auto;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 100;
+  top: 0.75rem;
+  left: 0.75rem;
+  transform: translateY(-180%);
+  border-radius: var(--radius-pill);
+  background: var(--color-text);
+  padding: 0.65rem 1rem;
+  color: var(--color-surface);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+.button {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  padding: 0.55rem 1.25rem;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform var(--motion-duration) var(--motion-easing),
+    background var(--motion-duration) var(--motion-easing);
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  background: var(--color-primary-hover);
+  color: var(--color-on-primary);
+}
+
+/* The library ships static light palette declarations.  Keep its components
+ * harmonious with the surrounding dark theme without changing its API. */
+:root[data-theme='dark'] [class*='animal-card-'],
+:root[data-theme='dark'] [class*='animal-pattern-default-'] {
+  background-color: var(--color-surface-content) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-body) !important;
+}
+
+:root[data-theme='dark'] [class*='animal-pattern-default-'] {
+  background-image:
+    radial-gradient(circle, rgb(214 201 183 / 11%) 1.5px, transparent 1.5px),
+    radial-gradient(circle, rgb(214 201 183 / 7%) 1px, transparent 1px) !important;
+}
+
+:root[data-theme='dark'] [class*='animal-card-dashed-'] {
+  background: #1d251f !important;
+  border-color: #526053 !important;
+}
+
+:root[data-theme='dark'] [class*='animal-variant-solid-'] {
+  background: var(--color-surface-secondary) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+:root[data-theme='dark'] [class*='animal-variant-outlined-'],
+:root[data-theme='dark'] [class*='animal-variant-dashed-'] {
+  border-color: var(--color-border) !important;
+  color: var(--color-text-body) !important;
+}
+
+:root[data-theme='dark'] [class*='animal-codeBlock-'],
+:root[data-theme='dark'] [class*='animal-code-block-'] {
+  background: #151a17 !important;
+  border-color: #3f4c41 !important;
+}
+
+:root[data-theme='dark'] .author-avatar {
+  border-color: var(--color-white);
+}
+
+:root[data-theme='dark'] .author-identity small,
+:root[data-theme='dark'] .author-chevron,
+:root[data-theme='dark'] .author-back-footer a {
+  color: var(--color-accent);
+}
+
+:root[data-theme='dark'] .author-chevron {
+  background: rgb(231 189 99 / 16%);
+}
+
+:root[data-theme='dark'] .author-back blockquote,
+:root[data-theme='dark'] .island-status-card dl div,
+:root[data-theme='dark'] .skill-item {
+  background: var(--color-surface-raised);
+}
+
+:root[data-theme='dark'] .article-toc-card header > span,
+:root[data-theme='dark'] .tag-explorer-card header > span {
+  background: rgb(231 189 99 / 14%);
+  color: var(--color-accent);
+}
+
+:root[data-theme='dark'] .island-status-card header small {
+  background: rgb(116 188 88 / 16%);
+  color: #a9d987;
+}
+
+:root[data-theme='dark'] .island-status-card .status-signal {
+  border-color: var(--color-surface-content);
+}
+
+:root[data-theme='dark'] .notice-bar {
+  border-color: var(--color-border);
+  background:
+    radial-gradient(circle, rgb(231 189 99 / 13%) 1.5px, transparent 1.6px) 0 0 / 28px 28px,
+    radial-gradient(circle, rgb(203 137 79 / 10%) 1px, transparent 1.1px) 7px 7px / 14px 14px,
+    #242a20;
+  box-shadow: inset 0 1px rgb(255 248 232 / 5%);
+}
+
+:root[data-theme='dark'] .notice-bar:hover {
+  border-color: #7c704d;
+  background:
+    radial-gradient(circle, rgb(231 189 99 / 18%) 1.5px, transparent 1.6px) 0 0 / 28px 28px,
+    radial-gradient(circle, rgb(203 137 79 / 13%) 1px, transparent 1.1px) 7px 7px / 14px 14px,
+    #293025;
+}
+
+:root[data-theme='dark'] .topic-tabs {
+  border-color: var(--color-border);
+  background: rgb(34 42 36 / 78%);
+  box-shadow: inset 0 1px rgb(255 248 232 / 5%);
+}
+
+:root[data-theme='dark'] .featured-copy {
+  background:
+    radial-gradient(circle at 92% 12%, rgb(84 211 192 / 13%) 0 0.32rem, transparent 0.38rem),
+    linear-gradient(135deg, rgb(255 248 232 / 5%), transparent 60%);
+}
+
+:root[data-theme='dark'] .featured-selector-track {
+  background: rgb(24 29 26 / 76%);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 22%);
+}
+
+:root[data-theme='dark'] .prose :not(pre) > code {
+  border-color: var(--color-border);
+  background: #151a17;
+  color: #f0cf8c;
+}
+
+:root[data-theme='dark'] .skill-item {
+  border-color: rgb(214 201 183 / 10%);
+}
+
+:root[data-theme='dark'] .skill-item:hover {
+  background: rgb(255 248 232 / 11%);
+}
+
+.button.secondary {
+  border-color: var(--color-border);
+  background: var(--color-surface-content);
+  box-shadow: var(--shadow-small);
+}
+
+.page-heading {
+  margin: 0 0 2rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  color: var(--color-primary-active);
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

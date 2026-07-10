@@ -1,0 +1,63 @@
+export const themeConfig = {
+  colors: {
+    primary: '#19c8b9',
+    primaryHover: '#3dd4c6',
+    primaryActive: '#11a89b',
+    focus: '#ffcc00',
+    text: '#794f27',
+    textBody: '#725d42',
+    textMuted: '#8a7b66',
+    surface: '#f8f8f0',
+    surfaceContent: '#f7f3df',
+    surfaceSecondary: '#f0e8d8',
+    border: '#c4b89e',
+    accent: '#f7cd67',
+  },
+  layout: {
+    contentWidth: '90rem',
+    proseWidth: '46rem',
+    headerHeight: '3.75rem',
+    headerWidth: '58rem',
+    headerOffset: '1rem',
+    pageGutter: 'clamp(1.25rem, 3vw, 3.5rem)',
+  },
+  radius: {
+    small: '0.75rem',
+    base: '1.125rem',
+    large: '1.5rem',
+    pill: '999px',
+  },
+  motion: {
+    duration: '220ms',
+    easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  },
+} as const;
+
+export const themeInlineStyle = Object.entries({
+  '--theme-primary': themeConfig.colors.primary,
+  '--theme-primary-hover': themeConfig.colors.primaryHover,
+  '--theme-primary-active': themeConfig.colors.primaryActive,
+  '--theme-focus': themeConfig.colors.focus,
+  '--theme-text': themeConfig.colors.text,
+  '--theme-text-body': themeConfig.colors.textBody,
+  '--theme-text-muted': themeConfig.colors.textMuted,
+  '--theme-surface': themeConfig.colors.surface,
+  '--theme-surface-content': themeConfig.colors.surfaceContent,
+  '--theme-surface-secondary': themeConfig.colors.surfaceSecondary,
+  '--theme-border': themeConfig.colors.border,
+  '--theme-accent': themeConfig.colors.accent,
+  '--theme-content-width': themeConfig.layout.contentWidth,
+  '--theme-prose-width': themeConfig.layout.proseWidth,
+  '--theme-header-height': themeConfig.layout.headerHeight,
+  '--theme-header-width': themeConfig.layout.headerWidth,
+  '--theme-header-offset': themeConfig.layout.headerOffset,
+  '--theme-page-gutter': themeConfig.layout.pageGutter,
+  '--theme-radius-small': themeConfig.radius.small,
+  '--theme-radius-base': themeConfig.radius.base,
+  '--theme-radius-large': themeConfig.radius.large,
+  '--theme-radius-pill': themeConfig.radius.pill,
+  '--theme-motion-duration': themeConfig.motion.duration,
+  '--theme-motion-easing': themeConfig.motion.easing,
+})
+  .map(([name, value]) => `${name}:${value}`)
+  .join(';');

@@ -1,0 +1,45 @@
+---
+import { getArchiveHref } from '@lib/posts';
+import { Tag } from './animal';
+
+interface Props {
+  tags: string[];
+}
+
+const { tags } = Astro.props;
+---
+
+<ul aria-label="文章标签">
+  {
+    tags.map((tag) => (
+      <li>
+        <a href={getArchiveHref({ tags: [tag] })}>
+          <Tag size="small" variant="outlined" color="brown">
+            #{tag}
+          </Tag>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    display: block;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+  }
+
+  a:hover :global([class*='animal-tag']) {
+    transform: translateY(-1px);
+  }
+</style>
