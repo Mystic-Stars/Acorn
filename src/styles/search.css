@@ -73,8 +73,7 @@
 
 .global-search-input[class*='animal-wrapper']:focus-within {
   border-color: var(--color-focus);
-  outline: 2px solid rgb(255 204 0 / 28%);
-  outline-offset: 2px;
+  outline: none;
 }
 
 .global-search-results {
