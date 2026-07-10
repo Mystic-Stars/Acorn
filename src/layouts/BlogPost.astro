@@ -27,7 +27,7 @@ const allTags = collectTags(posts);
 const blogStats = getBlogStats(posts, siteConfig.establishedAt);
 ---
 
-<BaseLayout image={cover.image ?? cover.url} {title} {description} type="article" headerOverlay>
+<BaseLayout image={cover.image ?? cover.url} {title} {description} type="article" {pubDate} {updatedDate} {author} {tags} headerOverlay>
   <article class="article">
     <header class="article-hero">
       <div class="hero-backdrop" aria-hidden="true">

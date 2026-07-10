@@ -13,15 +13,23 @@ interface Props {
   type?: 'website' | 'article' | undefined;
   noindex?: boolean | undefined;
   headerOverlay?: boolean | undefined;
+  // Article specific props
+  pubDate?: Date | undefined;
+  updatedDate?: Date | undefined;
+  author?: string | undefined;
+  tags?: string[] | undefined;
+  // Pagination props
+  prevUrl?: string | URL | undefined;
+  nextUrl?: string | URL | undefined;
 }
 
-const { title, description, image, type, noindex, headerOverlay = false } = Astro.props;
+const { title, description, image, type, noindex, headerOverlay = false, pubDate, updatedDate, author, tags, prevUrl, nextUrl } = Astro.props;
 ---
 
 <!doctype html>
 <html lang={siteConfig.language} style={themeInlineStyle}>
   <head>
-    <BaseHead {title} {description} {image} {type} {noindex} />
+    <BaseHead {title} {description} {image} {type} {noindex} {pubDate} {updatedDate} {author} {tags} {prevUrl} {nextUrl} />
   </head>
   <body data-header-overlay={headerOverlay || undefined}>
     <a class="skip-link" href="#main-content">跳到正文</a>

@@ -12,6 +12,7 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'always',
   compressHTML: true,
+  prefetch: true,
   integrations: [sitemap(), react()],
   markdown: {
     shikiConfig: {

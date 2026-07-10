@@ -34,9 +34,12 @@ const tabItems = [
     count: category.posts.length,
   })),
 ];
+
+const prevUrl = currentPage > 1 ? (currentPage === 2 ? '/' : `/page/${currentPage - 1}/`) : undefined;
+const nextUrl = currentPage < totalPages ? `/page/${currentPage + 1}/` : undefined;
 ---
 
-<BaseLayout description={siteConfig.description}>
+<BaseLayout description={siteConfig.description} {prevUrl} {nextUrl}>
   <section class="home-lead container">
     <div class="notice-shell" data-notice-carousel>
       <button type="button" class="notice-bar" data-notice-next aria-label="切换至下一条公告">

@@ -9,6 +9,14 @@ interface Props {
   image?: ImageMetadata | string | undefined;
   type?: 'website' | 'article' | undefined;
   noindex?: boolean | undefined;
+  // Article specific props
+  pubDate?: Date | undefined;
+  updatedDate?: Date | undefined;
+  author?: string | undefined;
+  tags?: string[] | undefined;
+  // Pagination props
+  prevUrl?: string | URL | undefined;
+  nextUrl?: string | URL | undefined;
 }
 
 const {
@@ -17,12 +25,86 @@ const {
   image,
   type = 'website',
   noindex = false,
+  pubDate,
+  updatedDate,
+  author,
+  tags = [],
+  prevUrl,
+  nextUrl,
 } = Astro.props;
+
 const documentTitle = title ? `${title} · ${siteConfig.name}` : siteConfig.title;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = image
   ? new URL(typeof image === 'string' ? image : image.src, Astro.site)
   : undefined;
+
+// Construct JSON-LD SameAs links
+const sameAsLinks = siteConfig.socialLinks
+  .filter(link => link.href.includes('github.com') || link.href.includes('bilibili.com') || link.href.includes('twitter.com') || link.href.includes('x.com'))
+  .map(link => link.href);
+
+// Base Person Schema
+const personSchema = {
+  '@type': 'Person',
+  name: author || siteConfig.author.name,
+  url: Astro.site,
+  sameAs: sameAsLinks,
+};
+
+// Website Schema
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteConfig.name,
+  url: Astro.site,
+  description: siteConfig.description,
+  author: personSchema,
+};
+
+// Article Schema
+const articleSchema = type === 'article' ? {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalURL,
+  },
+  headline: title,
+  description: description,
+  image: imageURL ? [imageURL] : undefined,
+  datePublished: pubDate?.toISOString(),
+  dateModified: updatedDate?.toISOString() || pubDate?.toISOString(),
+  author: personSchema,
+  publisher: {
+    '@type': 'Organization',
+    name: siteConfig.name,
+    logo: {
+      '@type': 'ImageObject',
+      url: new URL(siteConfig.branding.logoSrc, Astro.site),
+    },
+  },
+} : null;
+
+// Breadcrumb Schema for Articles
+const breadcrumbSchema = type === 'article' ? {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: Astro.site,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: title,
+      item: canonicalURL,
+    }
+  ]
+} : null;
 ---
 
 <meta charset="utf-8" />
@@ -68,6 +150,10 @@ const imageURL = image
   href={new URL('/rss.xml', Astro.site)}
 />
 
+{/* Pagination */}
+{prevUrl && <link rel="prev" href={prevUrl} />}
+{nextUrl && <link rel="next" href={nextUrl} />}
+
 <meta property="og:type" content={type} />
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:site_name" content={siteConfig.name} />
@@ -76,7 +162,18 @@ const imageURL = image
 <meta property="og:locale" content={siteConfig.locale.replace('-', '_')} />
 {imageURL && <meta property="og:image" content={imageURL} />}
 
+{/* Article Specific Open Graph */}
+{type === 'article' && pubDate && <meta property="article:published_time" content={pubDate.toISOString()} />}
+{type === 'article' && updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
+{type === 'article' && author && <meta property="article:author" content={author} />}
+{type === 'article' && tags.map(tag => <meta property="article:tag" content={tag} />)}
+
 <meta name="twitter:card" content={imageURL ? 'summary_large_image' : 'summary'} />
 <meta name="twitter:title" content={documentTitle} />
 <meta name="twitter:description" content={description} />
 {imageURL && <meta name="twitter:image" content={imageURL} />}
+
+{/* JSON-LD Schemas */}
+<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+{articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
+{breadcrumbSchema && <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />}
