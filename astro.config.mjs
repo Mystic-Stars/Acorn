@@ -24,6 +24,11 @@ export default defineConfig({
     },
   },
   vite: {
+    server: {
+      // giscus loads the site-hosted theme from inside https://giscus.app.
+      // Enable CORS during local Astro development to mirror the EdgeOne header.
+      cors: true,
+    },
     ssr: {
       noExternal: ['animal-island-ui'],
     },

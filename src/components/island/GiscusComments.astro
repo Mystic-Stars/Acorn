@@ -1,0 +1,247 @@
+---
+import { commentsConfig } from '@config/comments';
+import { Card, Title, Divider } from '@components/animal';
+
+interface Props {
+  path: string;
+}
+
+const { path } = Astro.props;
+const config = JSON.stringify(commentsConfig);
+---
+
+{
+  commentsConfig.enabled && (
+    <section
+      class="comments"
+      aria-labelledby="comments-heading"
+      data-giscus-comments
+      data-giscus-config={config}
+      data-comment-path={path}
+    >
+      <Card className="comments-card" pattern="default">
+        <header class="comments-header">
+          <p class="eyebrow">COMMUNITY NOTES</p>
+          <Title size="small" color="app-yellow">
+            <span id="comments-heading">{commentsConfig.heading}</span>
+          </Title>
+          <p class="description">{commentsConfig.description}</p>
+        </header>
+
+        <Divider type="dashed-brown" className="comment-divider" />
+
+        <div class="giscus-mount" data-giscus-mount aria-live="polite">
+          <Card type="dashed" className="loading-message">
+            <span class="loading-leaf" aria-hidden="true">
+              ✦
+            </span>
+            <span>评论区将在滚动到这里时加载。</span>
+          </Card>
+        </div>
+      </Card>
+    </section>
+  )
+}
+
+<script>
+  const commentsRoot = document.querySelector<HTMLElement>('[data-giscus-comments]');
+
+  if (commentsRoot) {
+    const mount = commentsRoot.querySelector<HTMLElement>('[data-giscus-mount]');
+    const configText = commentsRoot.dataset.giscusConfig;
+    let hasLoaded = false;
+
+    const loadGiscus = async () => {
+      if (hasLoaded || !mount || !configText) return;
+
+      hasLoaded = true;
+      const config = JSON.parse(configText) as Record<string, string | boolean>;
+      const script = document.createElement('script');
+
+      script.src = 'https://giscus.app/client.js';
+      script.async = true;
+      script.crossOrigin = 'anonymous';
+      script.dataset.repo = String(config.repo);
+      script.dataset.repoId = String(config.repoId);
+      script.dataset.category = String(config.category);
+      script.dataset.categoryId = String(config.categoryId);
+      script.dataset.mapping = String(config.mapping);
+      script.dataset.strict = config.strict ? '1' : '0';
+      script.dataset.reactionsEnabled = config.reactionsEnabled ? '1' : '0';
+      script.dataset.emitMetadata = config.emitMetadata ? '1' : '0';
+      script.dataset.inputPosition = String(config.inputPosition);
+      script.dataset.lang = String(config.lang);
+      const themeUrl = new URL(String(config.themePath), window.location.origin);
+      themeUrl.searchParams.set('v', String(config.themeVersion));
+      script.dataset.theme = themeUrl.href;
+
+      const isLocalDevelopment = ['localhost', '127.0.0.1'].includes(window.location.hostname);
+      let localThemeUrl: string | undefined;
+
+      // A HTTPS iframe cannot directly read a HTTP localhost stylesheet, even
+      // when Astro serves CORS headers. In development, pass the stylesheet to
+      // giscus as a data URL after its iframe has initialized instead.
+      if (isLocalDevelopment) {
+        try {
+          const response = await fetch(themeUrl, { cache: 'no-store' });
+          if (response.ok) {
+            localThemeUrl = `data:text/css,${encodeURIComponent(await response.text())}`;
+          }
+        } catch {
+          // Keep giscus usable with its default theme if the local stylesheet fails to load.
+        }
+      }
+
+      script.addEventListener('load', () => {
+        mount.querySelector('.loading-message')?.remove();
+      });
+
+      mount.append(script);
+
+      if (localThemeUrl) {
+        let attempts = 0;
+        const applyLocalTheme = () => {
+          const iframe = mount.querySelector<HTMLIFrameElement>('iframe.giscus-frame');
+          if (!iframe?.contentWindow) return false;
+
+          iframe.contentWindow.postMessage(
+            { giscus: { setConfig: { theme: localThemeUrl } } },
+            'https://giscus.app',
+          );
+          return true;
+        };
+
+        const timer = window.setInterval(() => {
+          attempts += 1;
+          applyLocalTheme();
+          if (attempts >= 20) window.clearInterval(timer);
+        }, 100);
+      }
+    };
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          observer.disconnect();
+          loadGiscus();
+        },
+        { rootMargin: '240px 0px' },
+      );
+
+      observer.observe(commentsRoot);
+    } else {
+      loadGiscus();
+    }
+  }
+</script>
+
+<style>
+  .comments {
+    margin-top: clamp(2.25rem, 6vw, 4rem);
+  }
+
+  .comments :global(.comments-card) {
+    position: relative;
+    overflow: hidden;
+    border: 1.5px solid rgb(159 146 125 / 28%);
+    border-radius: calc(var(--radius-large) + 0.4rem);
+    padding: clamp(1.25rem, 4vw, 2.25rem);
+    background:
+      radial-gradient(circle at 93% 8%, rgb(247 205 103 / 31%), transparent 21%),
+      radial-gradient(circle at 4% 94%, rgb(25 200 185 / 13%), transparent 25%),
+      rgb(247 243 223 / 96%);
+  }
+
+  .comments :global(.comments-card::before) {
+    position: absolute;
+    top: -1.8rem;
+    right: clamp(0.8rem, 4vw, 2.5rem);
+    width: 4.75rem;
+    aspect-ratio: 1;
+    border-radius: 42% 58% 54% 46%;
+    background: rgb(255 253 246 / 42%);
+    content: '';
+    transform: rotate(18deg);
+  }
+
+  .comments-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.65rem;
+    max-width: 42rem;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    margin: 0;
+    color: var(--color-primary-active);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+  }
+
+  .comments :global(.animal-title) {
+    margin: 0.2rem 0;
+  }
+
+  .description {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.94rem;
+    font-weight: 700;
+    line-height: 1.7;
+  }
+
+  .comments :global(.comment-divider) {
+    margin: 1.5rem 0 1.15rem;
+  }
+
+  .giscus-mount {
+    min-height: 4rem;
+  }
+
+  .comments :global(.loading-message) {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .loading-leaf {
+    display: grid;
+    width: 1.9rem;
+    height: 1.9rem;
+    flex: none;
+    place-items: center;
+    border-radius: 0.7rem 0.9rem 0.7rem 0.9rem;
+    background: rgb(25 200 185 / 17%);
+    color: var(--color-primary-active);
+    animation: leaf-bob 1.8s ease-in-out infinite;
+  }
+
+  @keyframes leaf-bob {
+    50% {
+      transform: translateY(-0.18rem) rotate(12deg);
+    }
+  }
+
+  @keyframes leaf-bob {
+    50% {
+      transform: translateY(-0.18rem) rotate(12deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loading-leaf {
+      animation: none;
+    }
+  }
+</style>

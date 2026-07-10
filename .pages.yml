@@ -153,6 +153,13 @@ content:
         format: code
         operations:
           delete: false
+      - name: comments
+        label: 评论配置
+        type: file
+        path: src/config/comments.ts
+        format: code
+        operations:
+          delete: false
       - name: theme
         label: 主题配置
         type: file

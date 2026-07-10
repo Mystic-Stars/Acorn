@@ -4,6 +4,7 @@ import PostCover from '@components/PostCover.astro';
 import TagList from '@components/TagList.astro';
 import { Card, Divider, Title } from '@components/animal';
 import AuthorProfileCard from '@components/island/AuthorProfileCard.astro';
+import GiscusComments from '@components/island/GiscusComments.astro';
 import IslandStatusCard from '@components/island/IslandStatusCard.astro';
 import IslandTimeCard from '@components/island/IslandTimeCard.astro';
 import TagExplorerCard from '@components/island/TagExplorerCard.astro';
@@ -11,7 +12,7 @@ import ArticleTableOfContents from '@components/island/ArticleTableOfContents.as
 import { archiveConfig, siteConfig } from '@config/index';
 import { getBlogStats } from '@lib/blog-stats';
 import type { BlogPost } from '@lib/posts';
-import { collectTags, getPublishedPosts } from '@lib/posts';
+import { collectTags, getPostHref, getPublishedPosts } from '@lib/posts';
 import BaseLayout from './BaseLayout.astro';
 
 interface Props {
@@ -114,6 +115,7 @@ const blogStats = getBlogStats(posts, siteConfig.establishedAt);
             <slot />
           </div>
         </Card>
+        <GiscusComments path={getPostHref(post)} />
       </section>
 
       <aside class="sidebar" aria-label="博客小组件">

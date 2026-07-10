@@ -1,0 +1,17 @@
+{
+  "headers": [
+    {
+      "source": "/styles/giscus-island.css",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
+    }
+  ]
+}

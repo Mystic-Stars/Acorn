@@ -1,6 +1,8 @@
 export { archiveConfig } from './archives';
+export { commentsConfig } from './comments';
 export { aboutConfig, homeConfig } from './content';
 export { navigationConfig } from './navigation';
 export { siteConfig } from './site';
 export { themeConfig, themeInlineStyle } from './theme';
+export type { GiscusCommentsConfig } from './comments';
 export type { FeatureCard, LinkItem, SocialLink } from './types';
