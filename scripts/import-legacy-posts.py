@@ -163,27 +163,6 @@ def html_to_markdown(source: str) -> str:
     return markdown.strip() + "\n"
 
 
-FENCED_CODE_BLOCK = re.compile(
-    r"^(?P<fence>`{3,})[^\n]*\n(?P<code>.*?)(?:\n)?^(?P=fence)[ \t]*$",
-    re.MULTILINE | re.DOTALL,
-)
-
-
-def use_animal_code_blocks(markdown: str) -> tuple[str, bool]:
-    """Replace Markdown fences with the site's Animal Island CodeBlock component."""
-
-    def replace(match: re.Match[str]) -> str:
-        code = match.group("code")
-        return f"<ArticleCodeBlock code={{{json.dumps(code, ensure_ascii=False)}}} />"
-
-    content, replacements = FENCED_CODE_BLOCK.subn(replace, markdown)
-    if not replacements:
-        return markdown, False
-
-    component_import = "import ArticleCodeBlock from '@components/ArticleCodeBlock.astro';\n\n"
-    return component_import + content, True
-
-
 def make_description(markdown: str) -> str:
     text = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", markdown)
     text = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", text)
@@ -234,11 +213,8 @@ def main() -> None:
         if not source_path.exists():
             raise FileNotFoundError(f"Missing exported HTML for {post['title']}: {source_path}")
         markdown = html_to_markdown(source_path.read_text(encoding="utf-8"))
-        content, needs_mdx = use_animal_code_blocks(markdown)
-        output_path = OUTPUT_DIR / f"{post['slug']}{'.mdx' if needs_mdx else '.md'}"
-        stale_path = output_path.with_suffix('.md' if needs_mdx else '.mdx')
-        stale_path.unlink(missing_ok=True)
-        output_path.write_text(frontmatter(post, make_description(markdown)) + content, encoding="utf-8")
+        output_path = OUTPUT_DIR / f"{post['slug']}.md"
+        output_path.write_text(frontmatter(post, make_description(markdown)) + markdown, encoding="utf-8")
         imported += 1
 
     skipped = sorted(path.stem for path in EXPORT_DIR.glob("*.html") if path.stem in SKIPPED_EXPORTS)

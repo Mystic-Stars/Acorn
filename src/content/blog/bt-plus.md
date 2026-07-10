@@ -1,22 +1,20 @@
 ---
-title: "泰裤辣！宝塔面板企业版无限使用？"
-description: "宝塔面板企业版一键安装与破解升级脚本，免登录解锁全量高级功能。"
+title: '泰裤辣！宝塔面板企业版无限使用？'
+description: '宝塔面板企业版一键安装与破解升级脚本，免登录解锁全量高级功能。'
 pubDate: 2024-05-25T21:00:00+08:00
 cover:
   tone: ocean
-  label: "软件技术"
-  url: "https://bu.dusays.com/2024/05/25/6651eb8b263e7.png"
-  alt: "泰裤辣！宝塔面板企业版无限使用？ 的封面图"
+  label: '软件技术'
+  url: 'https://bu.dusays.com/2024/05/25/6651eb8b263e7.png'
+  alt: '泰裤辣！宝塔面板企业版无限使用？ 的封面图'
 draft: false
 featured: false
-category: "软件技术"
+category: '软件技术'
 tags:
-  - "软件分享"
-  - "破解软件"
-author: "Mystic Stars"
+  - '软件分享'
+  - '破解软件'
+author: 'Mystic Stars'
 ---
-
-import ArticleCodeBlock from '@components/ArticleCodeBlock.astro';
 
 ## **¶**前言
 
@@ -30,34 +28,48 @@ import ArticleCodeBlock from '@components/ArticleCodeBlock.astro';
 
 ### Centos安装命令
 
-<ArticleCodeBlock code={"yum install -y wget && wget -O install.sh http://io.bt.sy/install/install_6.0.sh && sh install.sh"} />
+```
+yum install -y wget && wget -O install.sh http://io.bt.sy/install/install_6.0.sh && sh install.sh
+```
 
 ### Ubuntu Deepin安装命令
 
-<ArticleCodeBlock code={"wget -O install.sh http://io.bt.sy/install/install-ubuntu_6.0.sh && sudo bash install.sh"} />
+```
+wget -O install.sh http://io.bt.sy/install/install-ubuntu_6.0.sh && sudo bash install.sh
+```
 
 ### Debian安装命令
 
-<ArticleCodeBlock code={"wget -O install.sh http://io.bt.sy/install/install-ubuntu_6.0.sh && bash install.sh"} />
+```
+wget -O install.sh http://io.bt.sy/install/install-ubuntu_6.0.sh && bash install.sh
+```
 
 ### Fedora安装命令
 
-<ArticleCodeBlock code={"wget -O install.sh http://io.bt.sy/install/install_6.0.sh && bash install.sh"} />
+```
+wget -O install.sh http://io.bt.sy/install/install_6.0.sh && bash install.sh
+```
 
 ### 万能安装脚本
 
-<ArticleCodeBlock code={"if [ -f /usr/bin/curl ];then curl -sSO https://download.bt.cn/install/install_panel.sh;else wget -O install_panel.sh https://download.bt.cn/install/install_panel.sh;fi;bash install_panel.sh ed8484bec"} />
+```
+if [ -f /usr/bin/curl ];then curl -sSO https://download.bt.cn/install/install_panel.sh;else wget -O install_panel.sh https://download.bt.cn/install/install_panel.sh;fi;bash install_panel.sh ed8484bec
+```
 
 ### **如果你已经是一名宝塔面板用户，可以使用如下脚本进行更新**
 
 Linux面板升级企业版命令（所有版本均可升级）
 
-<ArticleCodeBlock code={"curl https://io.bt.sy/install/update_panel.sh|bash"} />
+```
+curl https://io.bt.sy/install/update_panel.sh|bash
+```
 
-<ArticleCodeBlock code={"curl http://io.bt.sy/install/update6.sh|bash"} />
+```
+curl http://io.bt.sy/install/update6.sh|bash
+```
 
 注意：必须为没装过其它环境如Apache/Nginx/php/MySQL的新系统,推荐使用centos
- 7.X的系统安装宝塔面板
+7.X的系统安装宝塔面板
 
 如果不确定使用哪个Linux系统版本的，可以使用万能安装脚本
 

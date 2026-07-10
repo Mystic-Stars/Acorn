@@ -1,21 +1,19 @@
 ---
-title: "我搭建了我的个人主页网站"
-description: "基于 Next.js 开发的个人主页项目展示，含源码获取与 Vercel 部署指南。"
+title: '我搭建了我的个人主页网站'
+description: '基于 Next.js 开发的个人主页项目展示，含源码获取与 Vercel 部署指南。'
 pubDate: 2024-05-18T21:08:00+08:00
 cover:
   tone: ocean
-  label: "软件技术"
-  url: "https://bu.dusays.com/2024/05/18/6648b0f15d0d8.png"
-  alt: "我搭建了我的个人主页网站 的封面图"
+  label: '软件技术'
+  url: 'https://bu.dusays.com/2024/05/18/6648b0f15d0d8.png'
+  alt: '我搭建了我的个人主页网站 的封面图'
 draft: false
 featured: false
-category: "软件技术"
+category: '软件技术'
 tags:
-  - "网站"
-author: "Mystic Stars"
+  - '网站'
+author: 'Mystic Stars'
 ---
-
-import ArticleCodeBlock from '@components/ArticleCodeBlock.astro';
 
 今天（2024年5月18日），我搭建了我的个人主页网站，你可以点击[这里](https://me.mysticstars.cn)访问。
 
@@ -40,7 +38,13 @@ import ArticleCodeBlock from '@components/ArticleCodeBlock.astro';
 
 如果你要对其进行二次开发，首先，运行开发服务器：（确保已安装[Next.js](https://nextjs.org/)）
 
-<ArticleCodeBlock code={"npm run dev\n# or\nyarn dev\n# or\npnpm dev"} />
+```
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+```
 
 大功告成后，你可以在在浏览器中打开[http://localhost:3000](http://localhost:3000/)查看页面。
 

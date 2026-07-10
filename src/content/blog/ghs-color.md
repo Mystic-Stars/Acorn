@@ -1,22 +1,20 @@
 ---
-title: "【项目】GHS Color：开源色彩管理库"
-description: "GHS Color：一款开源、美观且高效的云端色彩管理器。"
+title: '【项目】GHS Color：开源色彩管理库'
+description: 'GHS Color：一款开源、美观且高效的云端色彩管理器。'
 pubDate: 2024-08-05T14:30:00+08:00
 cover:
   tone: ocean
-  label: "软件技术"
-  url: "https://bu.dusays.com/2024/07/31/66a9948463ed9.webp"
-  alt: "【项目】GHS Color：开源色彩管理库 的封面图"
+  label: '软件技术'
+  url: 'https://bu.dusays.com/2024/07/31/66a9948463ed9.webp'
+  alt: '【项目】GHS Color：开源色彩管理库 的封面图'
 draft: false
 featured: false
-category: "软件技术"
+category: '软件技术'
 tags:
-  - "网站"
-  - "项目"
-author: "Mystic Stars"
+  - '网站'
+  - '项目'
+author: 'Mystic Stars'
 ---
-
-import ArticleCodeBlock from '@components/ArticleCodeBlock.astro';
 
 ## ¶前言
 
@@ -62,7 +60,16 @@ GHS Color仍在不断完善中，我们需要并接受更多颜色库。
 
 如果你有好的颜色主意，可用以下格式在[Github](https://github.com/Mystic-Stars/GHS-Color/pulls)中提Pull request：
 
-<ArticleCodeBlock code={"{\n name: \"Box Yellow\",\n nameZh: \"盒子黄\",\n hex: \"#f6dc50\",\n description: \"The exclusive yellow color of BoxWorld, the logo color of GHS.\",\n descriptionZh: \"盒王的专属黄色，GHS的标志颜色。\",\n temperature: \"warm\"\n }"} />
+```
+{
+ name: "Box Yellow",
+ nameZh: "盒子黄",
+ hex: "#f6dc50",
+ description: "The exclusive yellow color of BoxWorld, the logo color of GHS.",
+ descriptionZh: "盒王的专属黄色，GHS的标志颜色。",
+ temperature: "warm"
+ }
+```
 
 ## ¶后记
 

@@ -1,21 +1,19 @@
 ---
-title: "Minecraft披风没有同步？快快来看如何申诉吧！"
-description: "Minecraft 披风同步失败？微软官方申诉渠道与参考模板分享。"
+title: 'Minecraft披风没有同步？快快来看如何申诉吧！'
+description: 'Minecraft 披风同步失败？微软官方申诉渠道与参考模板分享。'
 pubDate: 2024-09-08T19:42:00+08:00
 cover:
   tone: forest
-  label: "日常生活"
-  url: "https://bu.dusays.com/2024/09/08/66dd8d71f36f3.webp"
-  alt: "Minecraft披风没有同步？快快来看如何申诉吧！ 的封面图"
+  label: '日常生活'
+  url: 'https://bu.dusays.com/2024/09/08/66dd8d71f36f3.webp'
+  alt: 'Minecraft披风没有同步？快快来看如何申诉吧！ 的封面图'
 draft: false
 featured: false
-category: "日常生活"
+category: '日常生活'
 tags:
-  - "游戏"
-author: "Mystic Stars"
+  - '游戏'
+author: 'Mystic Stars'
 ---
-
-import ArticleCodeBlock from '@components/ArticleCodeBlock.astro';
 
 ## ¶写在前面
 
@@ -55,7 +53,18 @@ import ArticleCodeBlock from '@components/ArticleCodeBlock.astro';
 
 下面附上一份我自己的申诉`樱花披风`时用到的文案，仅供参考~
 
-<ArticleCodeBlock code={"Dear Microsoft,\n\nI am writing to appeal regarding an issue with my Java Edition Minecraft account. After completing the Mob Vote event, I did not receive the promised Cherry Blossom cape. I would like to bring this matter to your attention and request assistance in resolving this issue.\n\nI participated in the Mob Vote event as required, but the Cherry Blossom cape has not been added to my account as expected. I kindly request that you investigate this matter and ensure that the cape is properly awarded to my account.\n\nThank you for your attention to this issue. I look forward to your response and a satisfactory resolution.\n\nSincerely,\n[你的名字。]"} />
+```
+Dear Microsoft,
+
+I am writing to appeal regarding an issue with my Java Edition Minecraft account. After completing the Mob Vote event, I did not receive the promised Cherry Blossom cape. I would like to bring this matter to your attention and request assistance in resolving this issue.
+
+I participated in the Mob Vote event as required, but the Cherry Blossom cape has not been added to my account as expected. I kindly request that you investigate this matter and ensure that the cape is properly awarded to my account.
+
+Thank you for your attention to this issue. I look forward to your response and a satisfactory resolution.
+
+Sincerely,
+[你的名字。]
+```
 
 ## ¶结束语
 
