@@ -6,6 +6,7 @@ export interface LinkItem {
 
 export interface SocialLink extends LinkItem {
   ariaLabel: string;
+  icon?: string;
 }
 
 export interface FeatureCard {

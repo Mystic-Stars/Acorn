@@ -1,0 +1,174 @@
+media:
+  input: public/images
+  output: /images
+  rename: safe
+  extensions: [jpg, jpeg, png, webp, gif, avif, svg]
+
+content:
+  - name: blog
+    label: 博客文章
+    type: collection
+    path: src/content/blog
+    filename:
+      template: '{primary}.md'
+      field: create
+    format: yaml-frontmatter
+    subfolders: false
+    view:
+      primary: title
+      fields: [title, pubDate, category, draft, featured]
+      sort: [pubDate, title]
+      search: [title, description, category, tags, author]
+      default:
+        sort: pubDate
+        order: desc
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+        options:
+          minlength: 1
+          maxlength: 120
+      - name: description
+        label: 摘要
+        type: text
+        required: true
+        description: 用于文章列表、搜索引擎和社交分享。
+        options:
+          minlength: 1
+          maxlength: 300
+      - name: pubDate
+        label: 发布时间
+        type: date
+        required: true
+        options:
+          time: true
+          format: "yyyy-MM-dd'T'HH:mm:ssXXX"
+      - name: updatedDate
+        label: 更新时间
+        type: date
+        default: ''
+        description: 留空表示文章尚未更新。
+        options:
+          time: true
+          format: "yyyy-MM-dd'T'HH:mm:ssXXX"
+      - name: cover
+        label: 封面
+        type: object
+        required: true
+        fields:
+          - name: tone
+            label: 默认封面色调
+            type: select
+            required: true
+            default: mint
+            description: 未设置封面图片时使用。
+            options:
+              values:
+                - name: mint
+                  label: 薄荷绿
+                - name: sunset
+                  label: 日落橙
+                - name: ocean
+                  label: 海洋蓝
+                - name: plum
+                  label: 李子紫
+                - name: forest
+                  label: 森林绿
+          - name: label
+            label: 封面标签
+            type: string
+            description: 留空时自动使用文章分类。
+            options:
+              maxlength: 32
+          - name: url
+            label: 封面图片
+            type: image
+            description: 可上传图片，也可保留已有的远程图片地址。
+            options:
+              path: posts
+              extensions: [jpg, jpeg, png, webp, gif, avif, svg]
+          - name: alt
+            label: 封面替代文本
+            type: string
+            description: 为图片提供简洁的无障碍说明。
+      - name: draft
+        label: 草稿
+        type: boolean
+        default: false
+        description: 生产构建不会发布草稿文章。
+      - name: featured
+        label: 置顶文章
+        type: boolean
+        default: false
+      - name: category
+        label: 分类
+        type: string
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+        description: 每个标签单独添加；文章归档支持按标签筛选。
+      - name: author
+        label: 作者
+        type: string
+      - name: body
+        label: 正文（Markdown / MDX）
+        type: code
+        required: true
+        description: 使用源码编辑器以保留 Markdown 与现有 MDX 组件。
+        options:
+          format: mdx
+
+  - name: site-settings
+    label: 站点配置（高级）
+    type: group
+    items:
+      - name: site
+        label: 站点与作者资料
+        type: file
+        path: src/config/site.ts
+        format: code
+        operations:
+          delete: false
+      - name: navigation
+        label: 导航配置
+        type: file
+        path: src/config/navigation.ts
+        format: code
+        operations:
+          delete: false
+      - name: page-content
+        label: 页面文案与首页组件
+        type: file
+        path: src/config/content.ts
+        format: code
+        operations:
+          delete: false
+      - name: archives
+        label: 归档配置
+        type: file
+        path: src/config/archives.ts
+        format: code
+        operations:
+          delete: false
+      - name: theme
+        label: 主题配置
+        type: file
+        path: src/config/theme.ts
+        format: code
+        operations:
+          delete: false
+
+settings:
+  content:
+    # Preserve frontmatter keys that are intentionally not exposed in the CMS,
+    # such as Astro's local `cover.image` metadata.
+    merge: true
+  commit:
+    templates:
+      create: 'content: add {filename}'
+      update: 'content: update {filename}'
+      delete: 'content: remove {filename}'
+      rename: 'content: rename {oldFilename} -> {newFilename}'

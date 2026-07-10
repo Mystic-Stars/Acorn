@@ -38,6 +38,10 @@ src/
 
 配置入口及新增文章说明见 [`docs/CONFIGURATION.md`](docs/CONFIGURATION.md)。
 
+## Pages CMS
+
+仓库根目录的 [`.pages.yml`](.pages.yml) 已配置为 Pages CMS 内容模型：可管理文章 frontmatter、Markdown/MDX 正文、封面上传和高级站点配置。将仓库连接到 [Pages CMS](https://pagescms.org/) 后即可使用；CMS 提交的图片会保存到 `public/images/posts/`。
+
 ## 技术基础
 
 - Astro 7，静态输出

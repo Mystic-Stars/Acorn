@@ -1,12 +1,19 @@
 ---
 import { navigationConfig, siteConfig } from '@config/index';
 import { Divider, Footer as AnimalFooter } from './animal';
+import { SiBilibili, SiGithub } from 'react-icons/si';
 
 const year = new Date().getFullYear();
 const yearLabel =
   year === siteConfig.footer.copyrightStartYear
     ? String(year)
     : `${siteConfig.footer.copyrightStartYear}–${year}`;
+
+const getIcon = (iconName?: string) => {
+  if (iconName === 'github') return SiGithub;
+  if (iconName === 'bilibili') return SiBilibili;
+  return null;
+};
 ---
 
 <footer>
@@ -21,29 +28,45 @@ const yearLabel =
     <nav aria-label="页脚导航">
       {navigationConfig.utility.map((item) => <a href={item.href}>{item.label}</a>)}
       {
-        siteConfig.socialLinks.map((item) => (
-          <a
-            href={item.href}
-            aria-label={item.ariaLabel}
-            target={item.external ? '_blank' : undefined}
-            rel={item.external ? 'noreferrer' : undefined}
-          >
-            {item.label}
-          </a>
-        ))
+        siteConfig.socialLinks.map((item) => {
+          const IconComponent = getIcon(item.icon);
+          return (
+            <a
+              href={item.href}
+              aria-label={item.ariaLabel}
+              title={item.label}
+              target={item.external ? '_blank' : undefined}
+              rel={item.external ? 'noreferrer' : undefined}
+              class="social-link"
+            >
+              {IconComponent ? <IconComponent size={20} /> : item.label}
+            </a>
+          );
+        })
       }
     </nav>
   </div>
   <div class="container divider" aria-hidden="true"><Divider type="dashed-teal" /></div>
   <div class="container copyright">
-    <span>© {yearLabel} {siteConfig.author.name}</span>
-    <span class="credits">
-      <span>{siteConfig.footer.themeCredit}</span>
-      <span aria-hidden="true">·</span>
-      <a href={siteConfig.footer.uiCredit.href} target="_blank" rel="noreferrer">
-        {siteConfig.footer.uiCredit.label}
-      </a>
-    </span>
+    <div class="copyright-left">
+      <span>© {yearLabel} {siteConfig.author.name}</span>
+      <span class="credits">
+        <span>{siteConfig.footer.themeCredit}</span>
+        <span aria-hidden="true">·</span>
+        <a href={siteConfig.footer.uiCredit.href} target="_blank" rel="noreferrer">
+          {siteConfig.footer.uiCredit.label}
+        </a>
+      </span>
+    </div>
+    {
+      siteConfig.footer.icp && (
+        <div class="copyright-right">
+          <a href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer" class="icp-link">
+            {siteConfig.footer.icp}
+          </a>
+        </div>
+      )
+    }
   </div>
 </footer>
 
@@ -83,17 +106,35 @@ const yearLabel =
   nav {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-start;
+    align-items: center;
     gap: 1rem;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    color: var(--color-text-muted);
+    transition: color 0.2s ease;
+  }
+
+  .social-link:hover {
+    color: var(--color-text);
   }
 
   .copyright {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.35rem 0.7rem;
+    justify-content: space-between;
+    gap: 0.35rem 1rem;
     margin-top: 0.75rem;
     color: var(--color-text-muted);
     font-size: 0.88rem;
+  }
+
+  .copyright-left {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.7rem;
   }
 
   .credits {
@@ -102,12 +143,12 @@ const yearLabel =
     gap: 0.35rem;
   }
 
-  .credits a {
+  .credits a, .icp-link {
     color: inherit;
     text-underline-offset: 0.16em;
   }
 
-  .credits a:hover {
+  .credits a:hover, .icp-link:hover {
     color: var(--color-text);
   }
 

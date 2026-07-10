@@ -37,13 +37,22 @@ export const siteConfig = {
       label: '使用 animal-island-ui',
       href: 'https://github.com/guokaigdg/animal-island-ui',
     },
+    icp: '蜀ICP备2024060713号',
   },
   socialLinks: [
     {
       label: 'GitHub',
-      href: 'https://github.com/',
+      href: 'https://github.com/Mystic-Stars',
       external: true,
       ariaLabel: '访问 GitHub 主页',
+      icon: 'github',
+    },
+    {
+      label: 'Bilibili',
+      href: 'https://space.bilibili.com/2007491365',
+      external: true,
+      ariaLabel: '访问 Bilibili 主页',
+      icon: 'bilibili',
     },
   ] satisfies SocialLink[],
 } as const;
