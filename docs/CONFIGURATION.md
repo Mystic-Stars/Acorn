@@ -20,9 +20,10 @@ Acorn 将频繁修改的站点内容集中在 `src/config/`，将框架构建选
 
 根目录的 [`.pages.yml`](../.pages.yml) 是 Pages CMS 的配置入口。将 GitHub 仓库接入 [Pages CMS](https://pagescms.org/) 后，侧栏会提供以下内容：
 
-- **博客文章**：可新建、编辑、重命名与删除 `src/content/blog/` 内的文章；文章列表默认按发布时间倒序排列，并支持标题、摘要、分类、标签和作者搜索。
+- **博客文章（Markdown）**：管理 `src/content/blog/` 内的 `.md` 文章；文章列表默认按发布时间倒序排列，并支持标题、摘要、分类、标签和作者搜索。
+- **博客文章（MDX）**：管理同一目录内含 Astro 组件的 `.mdx` 文章。两个入口分开是因为 Pages CMS 依据 `filename.template` 的扩展名筛选集合文件。
 - **封面图片**：封面上传至 `public/images/posts/`，并以 `/images/posts/...` 写入 `cover.url`。已有文章的远程封面地址会原样保留。
-- **正文**：使用 Markdown/MDX 源码编辑器，避免保存时破坏现有文章中的 MDX import 和 Astro 组件。
+- **正文**：两类文章都使用源码编辑器；MDX 入口会保留文章内的 import 与 Astro 组件，避免保存时破坏代码块组件。
 - **站点配置（高级）**：`src/config/` 中作为站点内容来源的 TypeScript 文件以代码编辑器提供；仅适合熟悉 TypeScript 的维护者使用，且不能从 CMS 删除。
 
 Pages CMS 不需要添加 npm 依赖或改动 Astro 构建流程；内容保存为 Git 提交，现有部署流程会照常构建和发布。Pages CMS 的 `cover.url` 上传路径已在 `src/content.config.ts` 中校验为合法远程 URL 或 `/images/...` 公共路径。
