@@ -1,26 +1,25 @@
 ---
-title: "我的个人项目汇总"
-description: "个人开发与参与贡献的开源项目大汇总，欢迎体验与 Star。"
-pubDate: 2024-09-04T20:00:00+08:00
+title: 我的个人项目汇总
+description: 个人开发与参与贡献的开源项目大汇总，欢迎体验与 Star。
+pubDate: 2024-09-04T12:00:00Z
 cover:
   tone: ocean
-  label: "软件技术"
-  url: "https://bu.dusays.com/2024/09/04/66d85a330ba73.webp"
-  alt: "我的个人项目汇总 的封面图"
+  label: 软件技术
+  url: /images/file.webp
+  alt: 我的个人项目汇总 的封面图
 draft: false
 featured: true
-category: "软件技术"
+category: 软件技术
 tags:
-  - "网站"
-  - "项目"
-author: "Mystic Stars"
+  - 网站
+  - 项目
+author: Mystic Stars
 ---
-
-## ¶写在前面
+## 写在前面
 
 最近一段时间，写了挺多项目。但是写来写去越写越多，却导致竟忘记一些古老的项目。故开此文，记录一下我的项目，也欢迎大家围观😆
 
-## ¶个人项目
+## 个人项目
 
 ### **网页项目：**
 
@@ -34,7 +33,7 @@ author: "Mystic Stars"
 
 智慧中小学教材下载（Textbook-Downloader）：[https://github.com/Mystic-Stars/Textbook-Downloader](https://github.com/Mystic-Stars/Textbook-Downloader)
 
-## ¶GHS项目
+## GHS项目
 
 以下是[**Garbage Human Studio**](https://www.ghs.red/#)的一些项目，所列出来的项目均由我制作并维护。
 
@@ -54,7 +53,7 @@ GHS临时邮箱（Temp Mail）：[https://mail.ghs.red](https://mail.ghs.red)
 
 键入我境（Typing Me）：[https://github.com/Mystic-Stars/Typing-Me](https://github.com/Mystic-Stars/Typing-Me)
 
-## ¶参与贡献的项目
+## 参与贡献的项目
 
 以下是我参与贡献的一些项目，贡献或小或大都算上了（包括`改错别字`也包括`整个网页的开发`）
 
