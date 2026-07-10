@@ -13,7 +13,6 @@ export interface GiscusCommentsConfig {
   inputPosition: 'top' | 'bottom';
   lang: 'zh-CN';
   themePath: string;
-  themeVersion: string;
 }
 
 /**
@@ -35,7 +34,4 @@ export const commentsConfig = {
   inputPosition: 'top',
   lang: 'zh-CN',
   themePath: '/styles/giscus-island.css',
-  // Update this whenever the iframe stylesheet changes so EdgeOne and giscus
-  // cannot reuse a stale theme response.
-  themeVersion: '20260710-2',
 } as const satisfies GiscusCommentsConfig;

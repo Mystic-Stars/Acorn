@@ -72,7 +72,6 @@ const config = JSON.stringify(commentsConfig);
       script.dataset.inputPosition = String(config.inputPosition);
       script.dataset.lang = String(config.lang);
       const themeUrl = new URL(String(config.themePath), window.location.origin);
-      themeUrl.searchParams.set('v', String(config.themeVersion));
       script.dataset.theme = themeUrl.href;
 
       const isLocalDevelopment = ['localhost', '127.0.0.1'].includes(window.location.hostname);
