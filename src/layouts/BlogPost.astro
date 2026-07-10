@@ -139,7 +139,7 @@ const blogStats = getBlogStats(posts, siteConfig.establishedAt);
     overflow: hidden;
     margin-top: calc(-1 * var(--header-height));
     padding-block: calc(var(--header-height) + clamp(1.5rem, 4vw, 3rem)) clamp(1.5rem, 4vw, 3rem);
-    background: #5ea893;
+    background: #000;
   }
 
   .hero-backdrop,
@@ -151,33 +151,44 @@ const blogStats = getBlogStats(posts, siteConfig.establishedAt);
 
   .hero-backdrop {
     z-index: -2;
-    transform: scale(1.2);
+    display: grid;
+    place-items: center;
   }
 
   .hero-backdrop :global(.post-cover) {
-    width: 100%;
-    height: 100%;
+    width: 150%;
+    height: 150%;
     border: 0;
-    border-radius: 0;
-    filter: blur(42px) saturate(0.9) brightness(0.76);
+    /* Organic blob shape for distortion */
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    /* Contrast boost and adjusted filters to prevent muddy/burnt colors */
+    filter: blur(120px) saturate(1.5) contrast(1.2) brightness(1.1);
+    opacity: 0.85;
+    transform: scale(1.2) rotate(-15deg) skew(-10deg);
   }
 
   .hero-backdrop :global(img),
   .hero-backdrop :global(.generated-cover) {
     width: 100%;
     height: 100%;
+    object-fit: cover;
   }
 
   .hero-scrim {
     z-index: -1;
+    /* Pure black transparent gradients prevent dirty color mixing, fading to 0 opacity */
     background:
       linear-gradient(
         90deg,
-        rgb(27 67 53 / 88%) 0%,
-        rgb(34 80 63 / 79%) 49%,
-        rgb(39 82 67 / 55%) 100%
+        rgba(0, 0, 0, 0.75) 0%,
+        rgba(0, 0, 0, 0.35) 55%,
+        rgba(0, 0, 0, 0) 100%
       ),
-      linear-gradient(180deg, rgb(14 44 34 / 28%), rgb(21 57 45 / 58%));
+      linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.5) 100%
+      );
   }
 
   .hero-inner {
@@ -190,25 +201,25 @@ const blogStats = getBlogStats(posts, siteConfig.establishedAt);
 
   .hero-copy {
     max-width: 46rem;
-    color: #fffaf0;
+    color: #fff;
   }
 
   .hero-copy h1 {
     max-width: 25ch;
     margin: 1.35rem 0 1rem;
-    color: #fffdf6;
+    color: #fff;
     font-size: clamp(2.2rem, 4.2vw, 4.2rem);
     font-weight: 900;
     letter-spacing: -0.035em;
     line-height: 1.06;
     text-wrap: balance;
-    text-shadow: 0 0.18rem 1.8rem rgb(25 45 36 / 34%);
+    text-shadow: 0 0.18rem 1.8rem rgb(0 0 0 / 45%);
   }
 
   .description {
     max-width: 42rem;
     margin: 0;
-    color: rgb(255 253 246 / 90%);
+    color: #fff;
     font-size: clamp(1rem, 1.4vw, 1.22rem);
     line-height: 1.85;
     text-wrap: pretty;
@@ -227,7 +238,7 @@ const blogStats = getBlogStats(posts, siteConfig.establishedAt);
   }
 
   .meta dt {
-    color: rgb(255 253 246 / 68%);
+    color: #fff;
     font-size: 0.72rem;
     font-weight: 900;
     letter-spacing: 0.12em;
@@ -235,7 +246,7 @@ const blogStats = getBlogStats(posts, siteConfig.establishedAt);
 
   .meta dd {
     margin: 0;
-    color: #fffdf6;
+    color: #fff;
     font-size: 0.92rem;
     font-weight: 800;
   }
@@ -246,7 +257,11 @@ const blogStats = getBlogStats(posts, siteConfig.establishedAt);
 
   .hero-copy :global([class*='animal-tag']) {
     background: rgb(255 255 255 / 16%);
-    color: #fffdf6;
+    color: #fff;
+  }
+
+  .hero-copy :global([class*='animal-text']) {
+    color: #fff;
   }
 
   .hero-cover {
@@ -257,7 +272,7 @@ const blogStats = getBlogStats(posts, siteConfig.establishedAt);
     padding: 0.65rem;
     background: rgb(255 253 246 / 82%);
     box-shadow:
-      0 1.35rem 3.7rem rgb(27 55 43 / 34%),
+      0 1.35rem 3.7rem rgb(20 18 15 / 34%),
       0 0.25rem 0 rgb(255 255 255 / 28%);
   }
 

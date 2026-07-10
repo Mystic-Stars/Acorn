@@ -1,5 +1,6 @@
 ---
 import { navigationConfig, siteConfig } from '@config/index';
+import GlobalSearch from '@components/react/GlobalSearch';
 
 const pathname = Astro.url.pathname;
 const isActive = (href: string) =>
@@ -22,19 +23,30 @@ const isActive = (href: string) =>
           </a>
         )
       }
-      <nav aria-label="主导航">
-        <ul>
-          {
-            navigationConfig.primary.map((item) => (
-              <li>
-                <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
-                  {item.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
+      <div class="primary-navigation" id="primary-navigation">
+        <nav aria-label="主导航">
+          <ul>
+            {
+              navigationConfig.primary.map((item) => (
+                <li>
+                  <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+        {
+          navigationConfig.search.enabled && (
+            <GlobalSearch
+              indexUrl={navigationConfig.search.indexUrl}
+              config={navigationConfig.search}
+              client:load
+            />
+          )
+        }
+      </div>
       <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换至暗色模式">
         <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"
           ><circle cx="12" cy="12" r="4"></circle><path
@@ -45,6 +57,16 @@ const isActive = (href: string) =>
           ><path d="M20.4 15.5A8.5 8.5 0 0 1 8.5 3.6 8.5 8.5 0 1 0 20.4 15.5Z"></path></svg
         >
         <span class="theme-toggle-label">主题</span>
+      </button>
+      <button
+        class="menu-toggle"
+        type="button"
+        data-menu-toggle
+        aria-label="打开导航菜单"
+        aria-controls="primary-navigation"
+        aria-expanded="false"
+      >
+        <span></span><span></span><span></span>
       </button>
     </div>
   </div>
@@ -85,6 +107,31 @@ const isActive = (href: string) =>
   });
 
   updateThemeToggle();
+
+  const menuToggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const primaryNavigation = document.querySelector<HTMLElement>('#primary-navigation');
+
+  const setMenuOpen = (open: boolean) => {
+    header?.classList.toggle('is-menu-open', open);
+    menuToggle?.setAttribute('aria-expanded', String(open));
+    menuToggle?.setAttribute('aria-label', open ? '关闭导航菜单' : '打开导航菜单');
+  };
+
+  menuToggle?.addEventListener('click', () => {
+    setMenuOpen(!header?.classList.contains('is-menu-open'));
+  });
+
+  primaryNavigation?.addEventListener('click', (event) => {
+    if ((event.target as Element).closest('a, .global-search-trigger')) setMenuOpen(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setMenuOpen(false);
+  });
+
+  window.matchMedia('(min-width: 40.01rem)').addEventListener('change', (event) => {
+    if (event.matches) setMenuOpen(false);
+  });
 </script>
 
 <style>
@@ -125,12 +172,12 @@ const isActive = (href: string) =>
   }
 
   .header-inner {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     width: 100%;
     min-height: var(--header-height);
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    gap: 0;
     padding: 0.5rem clamp(1rem, 5vw, 5rem);
     transition: padding 360ms var(--motion-easing);
   }
@@ -140,6 +187,7 @@ const isActive = (href: string) =>
     align-items: center;
     gap: 0.6rem;
     color: var(--color-text);
+    justify-self: start;
     text-decoration: none;
   }
 
@@ -185,6 +233,16 @@ const isActive = (href: string) =>
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+
+  .primary-navigation {
+    display: flex;
+    align-items: center;
+    justify-self: center;
+  }
+
+  .menu-toggle {
+    display: none;
   }
 
   nav a {
@@ -233,6 +291,7 @@ const isActive = (href: string) =>
     font-size: 0.76rem;
     font-weight: 800;
     cursor: pointer;
+    justify-self: end;
     transition:
       background var(--motion-duration) var(--motion-easing),
       color var(--motion-duration) var(--motion-easing);
@@ -333,18 +392,25 @@ const isActive = (href: string) =>
   }
 
   :global(body[data-header-overlay]) .site-header:not(.is-compact) .brand,
-  :global(body[data-header-overlay]) .site-header:not(.is-compact) nav a {
-    color: #fffdf6;
+  :global(body[data-header-overlay]) .site-header:not(.is-compact) nav a,
+  :global(body[data-header-overlay]) .site-header:not(.is-compact) .theme-toggle,
+  :global(body[data-header-overlay]) .site-header:not(.is-compact) .menu-toggle {
+    color: #fff;
     text-shadow: 0 0.12rem 0.75rem rgb(27 55 43 / 44%);
   }
 
   :global(body[data-header-overlay]) .site-header:not(.is-compact) .brand-copy small {
-    color: rgb(255 253 246 / 78%);
+    color: #fff;
   }
 
   :global(body[data-header-overlay]) .site-header:not(.is-compact) nav a:hover {
     background: rgb(255 255 255 / 15%);
-    color: #fffdf6;
+    color: #fff;
+  }
+
+  :global(body[data-header-overlay]) .site-header:not(.is-compact) .theme-toggle:hover {
+    background: rgb(255 255 255 / 15%);
+    color: #fff;
   }
 
   :global(body[data-header-overlay]) .site-header:not(.is-compact) nav a[aria-current='page'] {
@@ -355,8 +421,14 @@ const isActive = (href: string) =>
   }
 
   @media (max-width: 40rem) {
+    .header-surface {
+      overflow: visible;
+    }
+
     .header-inner {
-      padding-inline: 0.7rem;
+      display: flex;
+      gap: 0;
+      padding-inline: 0.5rem;
     }
 
     .site-header.is-compact .header-surface {
@@ -364,18 +436,110 @@ const isActive = (href: string) =>
       transform: translateY(0.5rem);
     }
 
-    nav {
-      min-width: 0;
-      overflow-x: auto;
-      scrollbar-width: none;
+    .primary-navigation {
+      position: absolute;
+      top: calc(100% + 0.45rem);
+      left: 50%;
+      z-index: 2;
+      display: none;
+      width: 100vw;
+      transform: translateX(-50%);
+      border: 1px solid rgb(159 146 125 / 48%);
+      border-radius: var(--radius-large);
+      background: var(--color-surface-content);
+      padding: 0.7rem;
+      box-shadow: var(--shadow-base);
     }
 
-    ul {
-      flex-wrap: nowrap;
+    .site-header.is-menu-open .primary-navigation {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .primary-navigation nav {
+      min-width: 0;
+      overflow: visible;
+    }
+
+    .primary-navigation ul {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .primary-navigation nav a {
+      width: 100%;
+      min-height: 3.1rem;
+      justify-content: flex-start;
+      padding-inline: 1rem;
+      font-size: 0.96rem;
+    }
+
+    .brand {
+      margin-right: auto;
+    }
+
+    .brand-copy {
+      display: grid;
+      max-width: min(40vw, 9rem);
     }
 
     .brand-copy small {
       display: none;
+    }
+
+    .brand-copy strong {
+      overflow: hidden;
+      font-size: 1rem;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 2.25rem;
+      height: 2.25rem;
+    }
+
+    .theme-toggle {
+      min-width: 2.25rem;
+      min-height: 2.25rem;
+      margin-left: 0.15rem;
+    }
+
+    .menu-toggle {
+      display: grid;
+      width: 2.75rem;
+      min-width: 2.75rem;
+      height: 2.75rem;
+      align-content: center;
+      justify-content: center;
+      gap: 0.24rem;
+      margin-left: 0.15rem;
+      border: 1px solid transparent;
+      border-radius: var(--radius-pill);
+      background: transparent;
+      color: var(--color-text-body);
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 1.15rem;
+      height: 0.14rem;
+      border-radius: var(--radius-pill);
+      background: currentcolor;
+      transition: transform var(--motion-duration) var(--motion-easing);
+    }
+
+    .site-header.is-menu-open .menu-toggle span:nth-child(1) {
+      transform: translateY(0.4rem) rotate(45deg);
+    }
+
+    .site-header.is-menu-open .menu-toggle span:nth-child(2) {
+      transform: scaleX(0);
+    }
+
+    .site-header.is-menu-open .menu-toggle span:nth-child(3) {
+      transform: translateY(-0.4rem) rotate(-45deg);
     }
 
     .theme-toggle-label {
