@@ -56,6 +56,9 @@ const isActive = (href: string) =>
         <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"
           ><path d="M20.4 15.5A8.5 8.5 0 0 1 8.5 3.6 8.5 8.5 0 1 0 20.4 15.5Z"></path></svg
         >
+        <svg class="theme-icon theme-icon-system" viewBox="0 0 24 24" aria-hidden="true"
+          ><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg
+        >
         <span class="theme-toggle-label">主题</span>
       </button>
       <button
@@ -92,17 +95,37 @@ const isActive = (href: string) =>
 
   const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
   const updateThemeToggle = () => {
-    const isDark = document.documentElement.dataset.theme === 'dark';
-    themeToggle?.setAttribute('aria-label', isDark ? '切换至亮色模式' : '切换至暗色模式');
+    const setting = document.documentElement.dataset.themeSetting || 'system';
+    let label = '切换主题 (当前：跟随系统)';
+    if (setting === 'light') label = '切换主题 (当前：亮色模式)';
+    if (setting === 'dark') label = '切换主题 (当前：暗色模式)';
+    themeToggle?.setAttribute('aria-label', label);
   };
 
   themeToggle?.addEventListener('click', () => {
-    const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
-    document.documentElement.dataset.theme = nextTheme;
-    localStorage.setItem('theme', nextTheme);
-    document
-      .querySelector('[data-theme-color]')
-      ?.setAttribute('content', nextTheme === 'dark' ? '#181d1a' : '#f8f8f0');
+    const currentSetting = document.documentElement.dataset.themeSetting || 'system';
+    const currentTheme = document.documentElement.dataset.theme; // actual visual theme ('light' or 'dark')
+    
+    let nextSetting = 'system';
+    if (currentSetting === 'system') {
+      // If currently following system, clicking should switch to the OPPOSITE of what's currently shown
+      nextSetting = currentTheme === 'dark' ? 'light' : 'dark';
+    } else if (currentSetting === 'light') {
+      nextSetting = 'dark';
+    } else {
+      nextSetting = 'system';
+    }
+    
+    if (nextSetting === 'system') {
+      localStorage.setItem('theme', 'system');
+    } else {
+      localStorage.setItem('theme', nextSetting);
+    }
+    
+    // Call the applyTheme function exposed by BaseHead.astro
+    if (window.applyTheme) {
+      window.applyTheme();
+    }
     updateThemeToggle();
   });
 
@@ -312,13 +335,32 @@ const isActive = (href: string) =>
     stroke-width: 1.9;
   }
 
-  .theme-icon-moon {
+  .theme-icon-moon,
+  .theme-icon-system {
     display: none;
   }
-  :global(:root[data-theme='dark']) .theme-icon-sun {
+  
+  :global(:root[data-theme-setting='light']) .theme-icon-sun {
+    display: block;
+  }
+  :global(:root[data-theme-setting='light']) .theme-icon-moon,
+  :global(:root[data-theme-setting='light']) .theme-icon-system {
     display: none;
   }
-  :global(:root[data-theme='dark']) .theme-icon-moon {
+
+  :global(:root[data-theme-setting='dark']) .theme-icon-sun,
+  :global(:root[data-theme-setting='dark']) .theme-icon-system {
+    display: none;
+  }
+  :global(:root[data-theme-setting='dark']) .theme-icon-moon {
+    display: block;
+  }
+
+  :global(:root[data-theme-setting='system']) .theme-icon-sun,
+  :global(:root[data-theme-setting='system']) .theme-icon-moon {
+    display: none;
+  }
+  :global(:root[data-theme-setting='system']) .theme-icon-system {
     display: block;
   }
 

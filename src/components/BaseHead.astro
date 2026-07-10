@@ -30,18 +30,27 @@ const imageURL = image
 <meta name="theme-color" content="#f8f8f0" data-theme-color />
 <script is:inline>
   (() => {
-    const storedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const theme =
-      storedTheme === 'light' || storedTheme === 'dark'
-        ? storedTheme
-        : prefersDark
-          ? 'dark'
-          : 'light';
-    document.documentElement.dataset.theme = theme;
-    document
-      .querySelector('[data-theme-color]')
-      ?.setAttribute('content', theme === 'dark' ? '#181d1a' : '#f8f8f0');
+    const applyTheme = () => {
+      const storedTheme = localStorage.getItem('theme');
+      const isSystem = !storedTheme || storedTheme === 'system';
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = isSystem ? (prefersDark ? 'dark' : 'light') : storedTheme;
+      
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.dataset.themeSetting = isSystem ? 'system' : theme;
+      document
+        .querySelector('[data-theme-color]')
+        ?.setAttribute('content', theme === 'dark' ? '#181d1a' : '#f8f8f0');
+    };
+
+    applyTheme();
+    window.applyTheme = applyTheme;
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (!localStorage.getItem('theme') || localStorage.getItem('theme') === 'system') {
+        applyTheme();
+      }
+    });
   })();
 </script>
 <meta name="generator" content={Astro.generator} />
