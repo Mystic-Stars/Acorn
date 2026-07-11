@@ -93,8 +93,27 @@ const isConfigured = Boolean(commentsConfig.envId);
     // remove that second control rather than leaving a disabled dead-end.
     const removePublicAdminEntry = () => {
       mount
-        ?.querySelector<HTMLElement>('.tk-comments-actions .tk-icon.__comments + .tk-icon.__comments')
+        ?.querySelector<HTMLElement>(
+          '.tk-comments-actions .tk-icon.__comments + .tk-icon.__comments',
+        )
         ?.remove();
+    };
+
+    const alignEmojiPicker = () => {
+      const trigger = mount?.querySelector<HTMLElement>('.OwO');
+      const panel = mount?.querySelector<HTMLElement>('.OwO-body');
+      if (!trigger || !panel || !trigger.classList.contains('OwO-open')) return;
+
+      // The picker is absolutely positioned from the small emoji button. On
+      // narrow screens, shift it back into the viewport after OwO opens it.
+      panel.style.left = '0px';
+      const gutter = 16;
+      const triggerRect = trigger.getBoundingClientRect();
+      const panelRect = panel.getBoundingClientRect();
+      const minLeft = gutter;
+      const maxLeft = Math.max(gutter, window.innerWidth - gutter - panelRect.width);
+      const clampedLeft = Math.min(Math.max(triggerRect.left, minLeft), maxLeft);
+      panel.style.left = `${Math.round(clampedLeft - triggerRect.left)}px`;
     };
 
     const loadTwikoo = async () => {
@@ -138,6 +157,11 @@ const isConfigured = Boolean(commentsConfig.envId);
             childList: true,
             subtree: true,
           });
+          mount.addEventListener('click', (event) => {
+            if (!(event.target instanceof Element) || !event.target.closest('.OwO')) return;
+            window.requestAnimationFrame(alignEmojiPicker);
+          });
+          window.addEventListener('resize', alignEmojiPicker);
         } catch {
           setStatus('留言簿暂时无法连接，请稍后再试。', true);
         } finally {
@@ -179,6 +203,11 @@ const isConfigured = Boolean(commentsConfig.envId);
       radial-gradient(circle at 93% 8%, rgb(247 205 103 / 31%), transparent 21%),
       radial-gradient(circle at 4% 94%, rgb(25 200 185 / 13%), transparent 25%),
       var(--color-surface-content);
+    cursor: default;
+    transition: none;
+  }
+  .comments :global(.comments-card:hover) {
+    transform: none !important;
   }
   .comments :global(.comments-card::before) {
     position: absolute;

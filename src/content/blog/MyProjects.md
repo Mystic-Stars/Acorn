@@ -15,6 +15,7 @@ tags:
   - 项目
 author: Mystic Stars
 ---
+
 ## 写在前面
 
 最近一段时间，写了挺多项目。但是写来写去越写越多，却导致竟忘记一些古老的项目。故开此文，记录一下我的项目，也欢迎大家围观😆
@@ -25,13 +26,23 @@ author: Mystic Stars
 
 博客（Blog）：[https://www.mysticstars.cn](https://www.mysticstars.cn)
 
-图片博客（Plog）：[https://plog.mysticstars.cn](https://plog.mysticstars.cn)
+~~图片博客（Plog）：[https://plog.mysticstars.cn](https://plog.mysticstars.cn)~~（已弃用）
 
 个人主页（HomePage）：[https://me.mysticstars.cn](https://me.mysticstars.cn)
 
 ### **程序项目：**
 
 智慧中小学教材下载（Textbook-Downloader）：[https://github.com/Mystic-Stars/Textbook-Downloader](https://github.com/Mystic-Stars/Textbook-Downloader)
+
+### **综合项目：**
+
+#### CNTier：
+
+官网：https://cntier.games/
+
+KOOK（Bot由我维护）：https://www.kookapp.cn/app/invite/urj0mq
+
+Minecraft 服务器：cntier.games
 
 ## GHS项目
 
@@ -43,11 +54,9 @@ GHS官网（Official Website）：[https://www.ghs.red](https://www.ghs.red)
 
 GHS颜色管理（GHS Color）：[https://color.ghs.red](https://color.ghs.red)
 
-ChatGHS（Private）：[https://chat.ghs.red](https://chat.ghs.red)
+~~ChatGHS（Private）：[https://chat.ghs.red](https://chat.ghs.red)~~（已弃用）
 
 加入GHS（Temporary closure）：[https://join.ghs.red](https://join.ghs.red)
-
-GHS临时邮箱（Temp Mail）：[https://mail.ghs.red](https://mail.ghs.red)
 
 ### **程序项目：**
 

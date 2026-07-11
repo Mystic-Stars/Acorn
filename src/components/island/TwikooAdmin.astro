@@ -1,10 +1,12 @@
 ---
 import { commentsConfig } from '@config/comments';
+import { TwikooAdminTabs } from '../react/TwikooAdminTabs';
 
 const config = JSON.stringify(commentsConfig);
 ---
 
 <div data-twikoo-admin-view data-twikoo-admin-config={config} aria-live="polite" aria-busy="true">
+  <TwikooAdminTabs client:only="react" />
   <div id="twikoo" class="twikoo-admin-mount">
     <p class="twikoo-admin-loading">正在打开岛屿管理台…</p>
   </div>
@@ -12,7 +14,12 @@ const config = JSON.stringify(commentsConfig);
 
 <script>
   interface TwikooClient {
-    init: (options: { envId: string; el: string; path: string; lang: string }) => Promise<unknown> | unknown;
+    init: (options: {
+      envId: string;
+      el: string;
+      path: string;
+      lang: string;
+    }) => Promise<unknown> | unknown;
   }
 
   declare global {
@@ -28,7 +35,8 @@ const config = JSON.stringify(commentsConfig);
     const configText = adminView?.dataset.twikooAdminConfig;
     const fail = () => {
       adminView?.setAttribute('aria-busy', 'false');
-      mount.innerHTML = '<p class="twikoo-admin-loading is-error">管理台暂时无法打开，请稍后再试。</p>';
+      mount.innerHTML =
+        '<p class="twikoo-admin-loading is-error">管理台暂时无法打开，请稍后再试。</p>';
     };
 
     if (!configText) {
