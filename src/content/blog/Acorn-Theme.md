@@ -1,21 +1,20 @@
 ---
-title: "Acorn：我的新 Astro 博客主题"
-description: "介绍一下我的新博客主题 Acorn：一套由 Astro 驱动、带着一点动森气息的温暖博客主题。"
-pubDate: 2026-07-11T19:40:00+08:00
+title: Acorn：我的新 Astro 博客主题
+description: 介绍一下我的新博客主题 Acorn：一套由 Astro 驱动、带着一点动森气息的温暖博客主题。
+pubDate: 2026-07-11T11:40:00Z
 cover:
   tone: forest
-  label: "软件技术"
-draft: false
-featured: true
-category: "软件技术"
+  label: 软件技术
+draft: true
+featured: false
+category: 软件技术
 tags:
-  - "Astro"
-  - "博客"
-  - "开源"
-  - "项目"
-author: "Mystic Stars"
+  - Astro
+  - 博客
+  - 开源
+  - 项目
+author: Mystic Stars
 ---
-
 ## 写在前面
 
 折腾博客这件事，大概永远不会有真正的“结束”。从最初想找一个能安静写点东西的地方，到后来慢慢加上归档、友链、评论、搜索、统计……功能越来越多，也越来越想把它做成真正属于自己的样子。
