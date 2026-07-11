@@ -88,6 +88,15 @@ const isConfigured = Boolean(commentsConfig.envId);
       status.innerHTML = `<span class="loading-leaf" aria-hidden="true">${isError ? '!' : '✦'}</span><span>${message}</span>`;
     };
 
+    // Twikoo renders a refresh icon followed by its built-in admin gear.
+    // Moderation lives on the unlinked /manage-comments/ page instead, so
+    // remove that second control rather than leaving a disabled dead-end.
+    const removePublicAdminEntry = () => {
+      mount
+        ?.querySelector<HTMLElement>('.tk-comments-actions .tk-icon.__comments + .tk-icon.__comments')
+        ?.remove();
+    };
+
     const loadTwikoo = async () => {
       if (hasLoaded || !mount || !configText || !path) return;
 
@@ -124,6 +133,11 @@ const isConfigured = Boolean(commentsConfig.envId);
             lang: config.lang,
           });
           mount.querySelector('[data-comment-status]')?.remove();
+          removePublicAdminEntry();
+          new MutationObserver(removePublicAdminEntry).observe(mount, {
+            childList: true,
+            subtree: true,
+          });
         } catch {
           setStatus('留言簿暂时无法连接，请稍后再试。', true);
         } finally {

@@ -46,6 +46,11 @@
   display: none !important;
 }
 
+/* Safety net for a Twikoo re-render while the public-page observer runs. */
+[data-twikoo-comments] #twikoo .tk-comments-actions .tk-icon.__comments + .tk-icon.__comments {
+  display: none !important;
+}
+
 #twikoo .tk-comment .tk-main,
 #twikoo .tk-submit .tk-col {
   min-width: 0;
