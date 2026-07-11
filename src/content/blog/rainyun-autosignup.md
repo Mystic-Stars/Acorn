@@ -45,7 +45,7 @@ import json
 import time
 
 api_keys = [
- # 在这里放置 "<X-API-KEY>"，可放置多项
+    # 在这里放置 "<X-API-KEY>"，可放置多项
 ]
 url = "https://api.v2.rainyun.com/user/reward/tasks"
 
@@ -53,55 +53,58 @@ print("Rainyun-AutoSignin-V2 script, by CodeZhangBorui\n[Time] ", end='')
 print(time.ctime())
 
 for key in api_keys:
- print("# 用 X-API-KEY 登录: " + key[:10] + "*"*22)
- headers = {
- 'x-api-key': key,
- 'User-Agent': 'Rainyun-AutoSignin/2.0 (https://codezhangborui.eu.org/2023/06/rainyun-auto-python-scripts/)'
- }
- response = requests.request("GET", url, headers=headers, data={})
- result = json.loads(response.text)
- print("# 获取可领取任务列表")
- undone = []
- for task in result['data']:
- if(task['Status'] == 0):
- print("## - 未完成：" + task['Name'])
- elif(task['Status'] == 1):
- print("## > 可领取：" + task['Name'] + " | 可获得积分：" + str(task['Points']))
- undone.append(task['Name'])
- elif(task['Status'] == 2):
- print("## V 已领取：" + task['Name'])
- else:
- print("## ? 未知状态：" + task['Name'] + " | 服务器 DATA：" + str(task))
- # undone.append("每日签到")
- if(undone == []):
- print("# 没有可领取任务！")
- else:
- for task in undone:
- try:
- print("## 请求完成任务：" + task, end='')
- response = requests.request("POST", url, headers=headers, json={"task_name": task})
- result = json.loads(response.text)
- print(" | 服务器 DATA：" + str(result))
- except:
- print(":( Something went wrong, retry in 10 seconds...")
- time.sleep(10)
- try:
- print("## 请求完成任务：" + task, end='')
- response = requests.request("POST", url, headers=headers, json={"task_name": task})
- result = json.loads(response.text)
- print(" | 服务器 DATA：" + str(result))
- except:
- print(":( Something went wrong, retry in 30 seconds...")
- time.sleep(30)
- try:
- print("## 请求完成任务：" + task, end='')
- response = requests.request("POST", url, headers=headers, json={"task_name": task})
- result = json.loads(response.text)
- print(" | 服务器 DATA：" + str(result))
- except:
- print(":( Something went wrong, skip this task")
- continue
- print("")
+    print("# 用 X-API-KEY 登录: " + key[:10] + "*" * 22)
+    headers = {
+        'x-api-key': key,
+        'User-Agent': 'Rainyun-AutoSignin/2.0 (https://codezhangborui.eu.org/2023/06/rainyun-auto-python-scripts/)',
+    }
+    response = requests.request("GET", url, headers=headers, data={})
+    result = json.loads(response.text)
+    print("# 获取可领取任务列表")
+    undone = []
+
+    for task in result['data']:
+        if task['Status'] == 0:
+            print("## - 未完成：" + task['Name'])
+        elif task['Status'] == 1:
+            print("## > 可领取：" + task['Name'] + " | 可获得积分：" + str(task['Points']))
+            undone.append(task['Name'])
+        elif task['Status'] == 2:
+            print("## V 已领取：" + task['Name'])
+        else:
+            print("## ? 未知状态：" + task['Name'] + " | 服务器 DATA：" + str(task))
+
+    # undone.append("每日签到")
+    if not undone:
+        print("# 没有可领取任务！")
+    else:
+        for task in undone:
+            try:
+                print("## 请求完成任务：" + task, end='')
+                response = requests.request("POST", url, headers=headers, json={"task_name": task})
+                result = json.loads(response.text)
+                print(" | 服务器 DATA：" + str(result))
+            except Exception:
+                print(":( Something went wrong, retry in 10 seconds...")
+                time.sleep(10)
+                try:
+                    print("## 请求完成任务：" + task, end='')
+                    response = requests.request("POST", url, headers=headers, json={"task_name": task})
+                    result = json.loads(response.text)
+                    print(" | 服务器 DATA：" + str(result))
+                except Exception:
+                    print(":( Something went wrong, retry in 30 seconds...")
+                    time.sleep(30)
+                    try:
+                        print("## 请求完成任务：" + task, end='')
+                        response = requests.request("POST", url, headers=headers, json={"task_name": task})
+                        result = json.loads(response.text)
+                        print(" | 服务器 DATA：" + str(result))
+                    except Exception:
+                        print(":( Something went wrong, skip this task")
+                        continue
+            print("")
+
 print("# 程序已结束！")
 time.sleep(10)
 ```
@@ -114,8 +117,8 @@ Python
 import time
 
 api_keys = [
- "gkFW55tqfDUzm1jNx3nij3RYKFoWR213",
- "fw8WEDjNx3ntqfDUzij3RYK1oWR213Fm"
+    "gkFW55tqfDUzm1jNx3nij3RYKFoWR213",
+    "fw8WEDjNx3ntqfDUzij3RYK1oWR213Fm",
 ]
 url = "https://api.v2.rainyun.com/user/reward/tasks"
 ```
@@ -131,7 +134,7 @@ import time
 import datetime
 
 instances = [
- # 在这里放置 ["<X-API-KEY>", "<产品ID>"]，可放置多项
+    # 在这里放置 ["<X-API-KEY>", "<产品ID>"]，可放置多项
 ]
 url_getinfo = "https://api.v2.rainyun.com/product/rgs/{id}/"
 url_renew = "https://api.v2.rainyun.com/product/point_renew"
@@ -139,64 +142,83 @@ url_renew = "https://api.v2.rainyun.com/product/point_renew"
 # 一次续费的天数
 duration_day = 7
 
-def GetRemainingDays(unix_timestamp):
- # 获取当前时间的UNIX时间戳
- current_timestamp = datetime.datetime.now().timestamp()
- # 将UNIX时间戳转换为datetime对象
- target_date = datetime.datetime.fromtimestamp(unix_timestamp)
- # 将当前时间的UNIX时间戳转换为datetime对象
- current_date = datetime.datetime.fromtimestamp(current_timestamp)
- # 计算两个日期之间的差异
- difference = current_date - target_date
- # 获取差异的天数部分
- days_difference = difference.days
- return -days_difference
+
+def get_remaining_days(unix_timestamp):
+    # 获取当前时间的 UNIX 时间戳
+    current_timestamp = datetime.datetime.now().timestamp()
+    # 将 UNIX 时间戳转换为 datetime 对象
+    target_date = datetime.datetime.fromtimestamp(unix_timestamp)
+    # 将当前时间的 UNIX 时间戳转换为 datetime 对象
+    current_date = datetime.datetime.fromtimestamp(current_timestamp)
+    # 计算两个日期之间的差异
+    difference = current_date - target_date
+    # 获取差异的天数部分
+    return -difference.days
+
 
 print("Rainyun-PointRenew-V1 script, by CodeZhangBorui\n[Time] ", end='')
 print(time.ctime())
 
 for instance in instances:
- key = instance[0]
- pid = instance[1]
- print("# 处理实例: API-KEY=" + key[:10] + "*"*22 + ",产品ID=" + pid)
- headers = {
- 'x-api-key': key,
- 'User-Agent': 'Rainyun-AutoRenew/1.0 (https://codezhangborui.eu.org/2023/06/rainyun-auto-python-scripts/)'
- }
- response = requests.request("GET", url_getinfo.replace('{id}',pid), headers=headers, data={})
- result = json.loads(response.text)
- try:
- timestamp = result['data']['Data']['ExpDate']
- except:
- print("! 当在获取剩余天数时出错\n")
- continue
- remainingdays = GetRemainingDays(timestamp)
- if(remainingdays > 7):
- print("## 服务器还剩 " + str(remainingdays) + " 天到期,无法用积分续费!\n")
- continue
- print("## 服务器还剩 " + str(remainingdays) + " 天到期,尝试续费... ",end='')
- try:
- response = requests.request("POST", url_renew, headers=headers, json={"duration_day":duration_day,"product_id":int(pid),"product_type":"rgs"})
- result = json.loads(response.text)
- print(" | 服务器 DATA:" + str(result))
- except:
- print(":( Something went wrong, retry in 10 seconds...")
- time.sleep(10)
- try:
- response = requests.request("POST", url_renew, headers=headers, json={"duration_day":duration_day,"product_id":int(pid),"product_type":"rgs"})
- result = json.loads(response.text)
- print(" | 服务器 DATA:" + str(result))
- except:
- print(":( Something went wrong, retry in 30 seconds...")
- time.sleep(30)
- try:
- response = requests.request("POST", url_renew, headers=headers, json={"duration_day":duration_day,"product_id":int(pid),"product_type":"rgs"})
- result = json.loads(response.text)
- print(" | 服务器 DATA:" + str(result))
- except:
- print(":( Something went wrong, skip this task")
- continue
- print("")
+    key = instance[0]
+    pid = instance[1]
+    print("# 处理实例: API-KEY=" + key[:10] + "*" * 22 + ",产品ID=" + pid)
+    headers = {
+        'x-api-key': key,
+        'User-Agent': 'Rainyun-AutoRenew/1.0 (https://codezhangborui.eu.org/2023/06/rainyun-auto-python-scripts/)',
+    }
+    response = requests.request("GET", url_getinfo.replace('{id}', pid), headers=headers, data={})
+    result = json.loads(response.text)
+
+    try:
+        timestamp = result['data']['Data']['ExpDate']
+    except Exception:
+        print("! 当在获取剩余天数时出错\n")
+        continue
+
+    remaining_days = get_remaining_days(timestamp)
+    if remaining_days > 7:
+        print("## 服务器还剩 " + str(remaining_days) + " 天到期,无法用积分续费!\n")
+        continue
+
+    print("## 服务器还剩 " + str(remaining_days) + " 天到期,尝试续费... ", end='')
+    try:
+        response = requests.request(
+            "POST",
+            url_renew,
+            headers=headers,
+            json={"duration_day": duration_day, "product_id": int(pid), "product_type": "rgs"},
+        )
+        result = json.loads(response.text)
+        print(" | 服务器 DATA:" + str(result))
+    except Exception:
+        print(":( Something went wrong, retry in 10 seconds...")
+        time.sleep(10)
+        try:
+            response = requests.request(
+                "POST",
+                url_renew,
+                headers=headers,
+                json={"duration_day": duration_day, "product_id": int(pid), "product_type": "rgs"},
+            )
+            result = json.loads(response.text)
+            print(" | 服务器 DATA:" + str(result))
+        except Exception:
+            print(":( Something went wrong, retry in 30 seconds...")
+            time.sleep(30)
+            try:
+                response = requests.request(
+                    "POST",
+                    url_renew,
+                    headers=headers,
+                    json={"duration_day": duration_day, "product_id": int(pid), "product_type": "rgs"},
+                )
+                result = json.loads(response.text)
+                print(" | 服务器 DATA:" + str(result))
+            except Exception:
+                print(":( Something went wrong, skip this task")
+                continue
+
 print("# 程序已结束!")
 time.sleep(10)
 ```
@@ -209,7 +231,7 @@ Python
 import datetime
 
 instances = [
- ["gkFW55tqfDUzm1jNx3nij3RYKFoWR213",'32312']
+    ["gkFW55tqfDUzm1jNx3nij3RYKFoWR213", '32312'],
 ]
 url_getinfo = "https://api.v2.rainyun.com/product/rgs/{id}/"
 url_renew = "https://api.v2.rainyun.com/product/point_renew"

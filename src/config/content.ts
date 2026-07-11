@@ -87,3 +87,27 @@ export const articleTocConfig = {
   title: '文章目录',
   maxDepth: 3,
 } as const;
+
+/** Controls the client-side helpers available inside article Markdown bodies. */
+export const articleReaderConfig = {
+  codeCopy: {
+    enabled: true,
+    buttonLabel: '复制代码',
+    copiedLabel: '已复制',
+    failedLabel: '复制失败，请手动复制',
+    copiedStatus: '代码已复制。',
+    failedStatus: '代码复制失败，请手动复制。',
+    languageFallback: '纯文本',
+  },
+  imagePreview: {
+    enabled: true,
+    openLabel: '放大查看图片',
+    closeLabel: '关闭图片预览',
+    dialogLabel: '图片预览',
+    previousLabel: '查看上一张图片',
+    nextLabel: '查看下一张图片',
+    zoomInLabel: '放大图片',
+    zoomOutLabel: '缩小图片',
+    resetZoomLabel: '还原图片大小和位置',
+  },
+} as const;

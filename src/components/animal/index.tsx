@@ -6,6 +6,7 @@ import {
   Icon as AnimalIcon,
   Progress as AnimalProgress,
   Tag as AnimalTag,
+  Table as AnimalTable,
   Time as AnimalTime,
   Title as AnimalTitle,
 } from 'animal-island-ui';
@@ -17,6 +18,7 @@ import type {
   IconProps,
   ProgressProps,
   TagProps,
+  TableProps,
   TimeProps,
   TitleProps,
 } from 'animal-island-ui';
@@ -45,6 +47,10 @@ export function Footer(props: FooterProps) {
 
 export function Tag(props: TagProps) {
   return <AnimalTag {...props} />;
+}
+
+export function Table(props: TableProps) {
+  return <AnimalTable {...props} />;
 }
 
 export function Time(props: TimeProps) {

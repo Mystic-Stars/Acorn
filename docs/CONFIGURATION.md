@@ -4,17 +4,17 @@ Acorn 将频繁修改的站点内容集中在 `src/config/`，将框架构建选
 
 ## 配置文件
 
-| 文件                       | 修改内容                                                 |
-| -------------------------- | -------------------------------------------------------- |
-| `src/config/site.ts`       | 站点名称、创站日期、作者资料、语言、日期、页脚和社交链接 |
-| `src/config/navigation.ts` | 主导航、全局搜索与页脚工具导航                           |
-| `src/config/archives.ts`   | 归档路由、开发环境草稿、文章元信息与归档筛选文案         |
-| `src/config/content.ts`    | 首页侧边栏小组件与关于页文案                             |
-| `src/config/theme.ts`      | 颜色、内容宽度、文章宽度、圆角和动效                     |
-| `src/config/comments.ts`   | giscus 评论区、GitHub Discussions 与评论区文案           |
-| `src/config/friend-links.ts` | 友链页文案、分类、GitHub 仓库与自助提交行为             |
-| `astro.config.mjs`         | 输出模式、域名、集成、URL 规则与 Markdown 高亮           |
-| `src/content.config.ts`    | 文章 frontmatter 的类型与校验规则                        |
+| 文件                         | 修改内容                                                 |
+| ---------------------------- | -------------------------------------------------------- |
+| `src/config/site.ts`         | 站点名称、创站日期、作者资料、语言、日期、页脚和社交链接 |
+| `src/config/navigation.ts`   | 主导航、全局搜索与页脚工具导航                           |
+| `src/config/archives.ts`     | 归档路由、开发环境草稿、文章元信息与归档筛选文案         |
+| `src/config/content.ts`      | 首页侧边栏小组件与关于页文案                             |
+| `src/config/theme.ts`        | 颜色、内容宽度、文章宽度、圆角和动效                     |
+| `src/config/comments.ts`     | giscus 评论区、GitHub Discussions 与评论区文案           |
+| `src/config/friend-links.ts` | 友链页文案、分类、GitHub 仓库与自助提交行为              |
+| `astro.config.mjs`           | 输出模式、域名、集成、URL 规则与 Markdown 高亮           |
+| `src/content.config.ts`      | 文章 frontmatter 的类型与校验规则                        |
 
 `siteConfig.branding` 统一管理站点 logo 与作者头像路径；默认两者均使用 `public/favicon.svg`。`siteConfig.footer` 中的主题与组件库署名会显示在页脚。
 
@@ -79,6 +79,8 @@ establishedAt: '2026-07-10',
 
 `articleTocConfig` 同样位于 `src/config/content.ts`，用于控制文章页侧栏的“文章目录”。目录会从文章 Markdown 的二、三级标题自动生成锚点链接，并在阅读滚动时高亮当前章节；它不需要为每篇文章单独维护。
 
+`articleReaderConfig` 控制文章正文的渐进式阅读工具：`codeCopy` 为每个 Markdown 围栏代码块提供 macOS 风格红黄绿窗口按钮、语言标识、复制按钮及成功/失败提示；构建流程会先去除整段代码共同的左侧空白、保留各行的相对缩进，再优先使用围栏的语言标记，或识别常见的 Python、JavaScript、SQL、Shell、HTML、CSS、Mermaid、YAML 与 JSON 内容并交给 Shiki 高亮。仍无法判断时显示 `languageFallback`（默认“纯文本”）。`imagePreview` 让未被链接包裹的正文图片可点击或通过键盘 <kbd>Enter</kbd>/<kbd>Space</kbd> 打开预览。预览会按文章内图片顺序提供上一张/下一张切换，也支持按钮、滚轮或 <kbd>+</kbd>/<kbd>-</kbd> 缩放；放大后可拖拽查看局部，按 <kbd>0</kbd> 还原。两项工具都只在文章页加载，不改变 Markdown 写法，也不会作用于文章封面或已经带链接的图片。请持续为正文图片提供有意义的 alt 文本，它会显示为预览说明并用于辅助技术。
+
 ## 首页文字公告与置顶文章
 
 `src/config/content.ts` 的 `homeConfig.notices` 是首页顶部的纯文字公告列表：默认自动轮播，点击整条公告或圆点都可手动切换。`homeConfig.featured` 控制置顶文章横条的文案和 `maxItems` 数量（最多 5）；横条会自动选择最新的 `featured: true` 文章，并在右侧列表中平滑切换。没有置顶文章时，该横条不会渲染。
@@ -124,6 +126,8 @@ author: 作者名
 ```
 
 `title`、`description`、`pubDate` 和 `cover` 必填。每一篇文章都会渲染一个固定 **1000 × 500（2:1）** 的封面区域：只提供 `tone` 时使用站点内置的 CSS 封面版式；`image` 用于本地 Astro 资源，`url` 用于远程图片（例如迁移文章时保留原封面链接），两者提供其一即可。开发模式是否显示草稿由 `archives.ts` 控制；生产构建始终过滤草稿。
+
+文章只使用原生 `.md`，以便通过 Pages CMS 编辑。标准 Markdown 表格会保留语义化 HTML 作为无 JavaScript 的回退，并在仅含表格的文章页 React island 加载后替换为 `animal-island-ui` `Table`；无需在正文中编写 JSX。请保持第一行表头与每行单元格数量一致，复杂单元格继续使用标准 Markdown（链接、强调、行内代码）。
 
 ## 迁移旧文章
 

@@ -9,6 +9,8 @@ import IslandStatusCard from '@components/island/IslandStatusCard.astro';
 import IslandTimeCard from '@components/island/IslandTimeCard.astro';
 import TagExplorerCard from '@components/island/TagExplorerCard.astro';
 import ArticleTableOfContents from '@components/island/ArticleTableOfContents.astro';
+import ArticleReaderEnhancements from '@components/island/ArticleReaderEnhancements.astro';
+import MarkdownTableEnhancer from '@components/react/MarkdownTableEnhancer';
 import { archiveConfig, siteConfig } from '@config/index';
 import { getBlogStats } from '@lib/blog-stats';
 import type { BlogPost } from '@lib/posts';
@@ -25,9 +27,21 @@ const { title, description, pubDate, updatedDate, cover, tags, author, category 
 const posts = await getPublishedPosts();
 const allTags = collectTags(posts);
 const blogStats = getBlogStats(posts, siteConfig.establishedAt);
+const hasMarkdownTable =
+  /^[^\n]*\|[^\n]*\n\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/m.test(post.body ?? '');
 ---
 
-<BaseLayout image={cover.image ?? cover.url} {title} {description} type="article" {pubDate} {updatedDate} {author} {tags} headerOverlay>
+<BaseLayout
+  image={cover.image ?? cover.url}
+  {title}
+  {description}
+  type="article"
+  {pubDate}
+  {updatedDate}
+  {author}
+  {tags}
+  headerOverlay
+>
   <article class="article">
     <header class="article-hero">
       <div class="hero-backdrop" aria-hidden="true">
@@ -114,6 +128,8 @@ const blogStats = getBlogStats(posts, siteConfig.establishedAt);
           <div class="prose">
             <slot />
           </div>
+          {hasMarkdownTable && <MarkdownTableEnhancer client:load />}
+          <ArticleReaderEnhancements />
         </Card>
         <GiscusComments path={getPostHref(post)} />
       </section>
@@ -186,11 +202,7 @@ const blogStats = getBlogStats(posts, siteConfig.establishedAt);
         rgba(0, 0, 0, 0.35) 55%,
         rgba(0, 0, 0, 0) 100%
       ),
-      linear-gradient(
-        180deg,
-        rgba(0, 0, 0, 0) 0%,
-        rgba(0, 0, 0, 0.5) 100%
-      );
+      linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
   }
 
   .hero-inner {
@@ -447,7 +459,7 @@ const blogStats = getBlogStats(posts, siteConfig.establishedAt);
     border-top: 2px dashed rgb(159 146 125 / 44%);
   }
 
-  .prose :global(table) {
+  .prose :global(table:not(.article-animal-table)) {
     display: block;
     width: 100%;
     overflow-x: auto;
@@ -457,21 +469,21 @@ const blogStats = getBlogStats(posts, siteConfig.establishedAt);
     background: rgb(255 255 255 / 35%);
   }
 
-  .prose :global(th),
-  .prose :global(td) {
+  .prose :global(table:not(.article-animal-table) th),
+  .prose :global(table:not(.article-animal-table) td) {
     min-width: 8rem;
     padding: 0.75rem 0.9rem;
     border-bottom: 1px dashed rgb(159 146 125 / 32%);
     text-align: left;
   }
 
-  .prose :global(th) {
+  .prose :global(table:not(.article-animal-table) th) {
     background: rgb(247 205 103 / 16%);
     color: var(--color-text);
     font-weight: 900;
   }
 
-  .prose :global(tr:last-child td) {
+  .prose :global(table:not(.article-animal-table) tr:last-child td) {
     border-bottom: 0;
   }
 

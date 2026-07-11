@@ -1,0 +1,792 @@
+---
+import { articleReaderConfig } from '@config/content';
+
+const { codeCopy, imagePreview } = articleReaderConfig;
+---
+
+<div
+  class="article-reader-enhancements"
+  data-article-reader
+  data-code-copy-enabled={String(codeCopy.enabled)}
+  data-code-copy-label={codeCopy.buttonLabel}
+  data-code-copied-label={codeCopy.copiedLabel}
+  data-code-failed-label={codeCopy.failedLabel}
+  data-code-copied-status={codeCopy.copiedStatus}
+  data-code-failed-status={codeCopy.failedStatus}
+  data-code-language-fallback={codeCopy.languageFallback}
+  data-image-preview-enabled={String(imagePreview.enabled)}
+  data-image-open-label={imagePreview.openLabel}
+>
+  <dialog class="article-image-preview" data-image-preview aria-label={imagePreview.dialogLabel}>
+    <div class="article-image-preview__surface">
+      <div class="article-image-preview__toolbar">
+        <div class="article-image-preview__navigation" aria-label="图片切换">
+          <button type="button" data-image-preview-previous aria-label={imagePreview.previousLabel}>
+            <span aria-hidden="true">←</span>
+          </button>
+          <span data-image-preview-counter aria-live="polite"></span>
+          <button type="button" data-image-preview-next aria-label={imagePreview.nextLabel}>
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <div class="article-image-preview__zoom-controls" aria-label="图片缩放">
+          <button type="button" data-image-preview-zoom-out aria-label={imagePreview.zoomOutLabel}>
+            <span aria-hidden="true">−</span>
+          </button>
+          <button
+            type="button"
+            data-image-preview-reset-zoom
+            aria-label={imagePreview.resetZoomLabel}
+          >
+            <span aria-hidden="true">1:1</span>
+          </button>
+          <button type="button" data-image-preview-zoom-in aria-label={imagePreview.zoomInLabel}>
+            <span aria-hidden="true">＋</span>
+          </button>
+        </div>
+        <button class="article-image-preview__close" type="button" data-image-preview-close>
+          <span aria-hidden="true">×</span>
+          <span class="sr-only">{imagePreview.closeLabel}</span>
+        </button>
+      </div>
+      <figure>
+        <div class="article-image-preview__viewport" data-image-preview-viewport>
+          <img data-image-preview-image alt="" />
+        </div>
+        <figcaption data-image-preview-caption hidden></figcaption>
+      </figure>
+    </div>
+  </dialog>
+</div>
+
+<script>
+  type ReaderRoot = HTMLElement & { dataset: DOMStringMap };
+
+  const getDatasetValue = (root: ReaderRoot, name: string) => root.dataset[name] ?? '';
+
+  const copyWithFallback = async (value: string): Promise<boolean> => {
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(value);
+        return true;
+      }
+    } catch {
+      // Some browsers deny Clipboard API access outside a secure context. Try the legacy path.
+    }
+
+    const previousFocus =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const textarea = document.createElement('textarea');
+    textarea.value = value;
+    textarea.setAttribute('readonly', '');
+    textarea.setAttribute('aria-hidden', 'true');
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    textarea.style.pointerEvents = 'none';
+    document.body.append(textarea);
+    textarea.select();
+
+    let copied = false;
+    try {
+      const legacyClipboard = document as unknown as {
+        execCommand: (command: string) => boolean;
+      };
+      copied = legacyClipboard.execCommand('copy');
+    } catch {
+      copied = false;
+    }
+
+    textarea.remove();
+    previousFocus?.focus({ preventScroll: true });
+    return copied;
+  };
+
+  const formatCodeLanguage = (pre: HTMLElement, code: HTMLElement, fallback: string) => {
+    const declaredLanguage =
+      pre.dataset.language ??
+      Array.from(code.classList)
+        .find((className) => className.startsWith('language-'))
+        ?.replace('language-', '');
+    const labels: Record<string, string> = {
+      bash: 'Bash',
+      css: 'CSS',
+      html: 'HTML',
+      javascript: 'JavaScript',
+      js: 'JavaScript',
+      json: 'JSON',
+      markdown: 'Markdown',
+      md: 'Markdown',
+      mermaid: 'Mermaid',
+      python: 'Python',
+      py: 'Python',
+      shell: 'Shell',
+      sh: 'Shell',
+      sql: 'SQL',
+      ts: 'TypeScript',
+      tsx: 'TSX',
+      typescript: 'TypeScript',
+      yaml: 'YAML',
+      yml: 'YAML',
+    };
+
+    const source = code.textContent?.trim() ?? '';
+    const inferLanguage = () => {
+      if (/^(?:from\s+[\w.]+\s+import|import\s+[\w.]+|def\s+\w+\(|print\()/m.test(source)) {
+        return 'python';
+      }
+      if (/^(?:const|let|var)\s+\w+|=>|console\.(?:log|error|warn)\(/m.test(source)) {
+        return 'javascript';
+      }
+      if (/^(?:SELECT|INSERT|UPDATE|DELETE|CREATE\s+TABLE)\b/im.test(source)) return 'sql';
+      if (/^\s*{\s*(?:\n\s*)?[\w$]+\s*:/m.test(source)) return 'javascript';
+      if (/^(?:#!\/bin\/(?:ba)?sh|(?:apt|curl|echo|export|sudo|wget|yum)\b)/m.test(source)) {
+        return 'shell';
+      }
+      if (/^\s*<(?:!doctype|html|div|section|script|style)\b/i.test(source)) return 'html';
+      if (/^(?:graph|flowchart|sequenceDiagram|classDiagram)\b/m.test(source)) return 'mermaid';
+      if (/^\s*[.#][\w-]+\s*{|^[\w-]+\s*:\s*[^;{}]+;/m.test(source)) return 'css';
+      if (/^[\w-]+:\s*.+$/m.test(source) && !/[{};]/.test(source)) return 'yaml';
+
+      try {
+        JSON.parse(source);
+        return 'json';
+      } catch {
+        return undefined;
+      }
+    };
+
+    const declared = declaredLanguage?.toLowerCase().trim();
+    const language =
+      !declared || ['plaintext', 'text', 'txt', 'none'].includes(declared)
+        ? inferLanguage()
+        : declared;
+    if (!language) return fallback;
+
+    return (
+      labels[language] ??
+      language.replace(
+        /(^|[-_])([a-z])/g,
+        (_, prefix, letter) => `${prefix}${letter.toUpperCase()}`,
+      )
+    );
+  };
+
+  document.querySelectorAll<ReaderRoot>('[data-article-reader]').forEach((reader) => {
+    if (reader.dataset.enhanced === 'true') return;
+    reader.dataset.enhanced = 'true';
+
+    const prose = reader.parentElement?.querySelector<HTMLElement>('.prose');
+    if (!prose) return;
+
+    const codeCopyEnabled = getDatasetValue(reader, 'codeCopyEnabled') === 'true';
+    const imagePreviewEnabled = getDatasetValue(reader, 'imagePreviewEnabled') === 'true';
+
+    if (codeCopyEnabled) {
+      const copyLabel = getDatasetValue(reader, 'codeCopyLabel');
+      const copiedLabel = getDatasetValue(reader, 'codeCopiedLabel');
+      const failedLabel = getDatasetValue(reader, 'codeFailedLabel');
+      const copiedStatus = getDatasetValue(reader, 'codeCopiedStatus');
+      const failedStatus = getDatasetValue(reader, 'codeFailedStatus');
+      const languageFallback = getDatasetValue(reader, 'codeLanguageFallback');
+
+      prose.querySelectorAll<HTMLElement>('pre').forEach((pre) => {
+        const code = pre.querySelector<HTMLElement>(':scope > code');
+        if (!code || pre.dataset.codeCopyEnhanced === 'true') return;
+        pre.dataset.codeCopyEnhanced = 'true';
+
+        const button = document.createElement('button');
+        button.className = 'article-code-copy';
+        button.type = 'button';
+        button.textContent = copyLabel;
+
+        const toolbar = document.createElement('div');
+        toolbar.className = 'article-code-toolbar';
+
+        const trafficLights = document.createElement('span');
+        trafficLights.className = 'article-code-traffic-lights';
+        trafficLights.setAttribute('aria-hidden', 'true');
+        ['red', 'yellow', 'green'].forEach((color) => {
+          const light = document.createElement('span');
+          light.className = `article-code-traffic-light is-${color}`;
+          trafficLights.append(light);
+        });
+
+        const language = document.createElement('span');
+        language.className = 'article-code-language';
+        language.textContent = formatCodeLanguage(pre, code, languageFallback);
+
+        const status = document.createElement('span');
+        status.className = 'sr-only';
+        status.setAttribute('aria-live', 'polite');
+
+        button.addEventListener('click', async () => {
+          button.disabled = true;
+          const copied = await copyWithFallback(code.textContent ?? '');
+          button.textContent = copied ? copiedLabel : failedLabel;
+          status.textContent = copied ? copiedStatus : failedStatus;
+
+          window.setTimeout(() => {
+            button.textContent = copyLabel;
+            button.disabled = false;
+          }, 1800);
+        });
+
+        toolbar.append(trafficLights, language, button);
+        pre.append(toolbar, status);
+      });
+    }
+
+    if (!imagePreviewEnabled || typeof HTMLDialogElement === 'undefined') return;
+
+    const dialog = reader.querySelector<HTMLDialogElement>('[data-image-preview]');
+    const previewImage = reader.querySelector<HTMLImageElement>('[data-image-preview-image]');
+    const previewCaption = reader.querySelector<HTMLElement>('[data-image-preview-caption]');
+    const viewport = reader.querySelector<HTMLElement>('[data-image-preview-viewport]');
+    const counter = reader.querySelector<HTMLElement>('[data-image-preview-counter]');
+    const closeButton = reader.querySelector<HTMLButtonElement>('[data-image-preview-close]');
+    const previousButton = reader.querySelector<HTMLButtonElement>('[data-image-preview-previous]');
+    const nextButton = reader.querySelector<HTMLButtonElement>('[data-image-preview-next]');
+    const zoomOutButton = reader.querySelector<HTMLButtonElement>('[data-image-preview-zoom-out]');
+    const zoomInButton = reader.querySelector<HTMLButtonElement>('[data-image-preview-zoom-in]');
+    const resetZoomButton = reader.querySelector<HTMLButtonElement>(
+      '[data-image-preview-reset-zoom]',
+    );
+    if (
+      !dialog ||
+      !previewImage ||
+      !previewCaption ||
+      !viewport ||
+      !counter ||
+      !closeButton ||
+      !previousButton ||
+      !nextButton ||
+      !zoomOutButton ||
+      !zoomInButton ||
+      !resetZoomButton
+    ) {
+      return;
+    }
+
+    const images = Array.from(prose.querySelectorAll<HTMLImageElement>('img')).filter(
+      (image) => image.src && !image.closest('a'),
+    );
+    if (!images.length) return;
+
+    const minimumZoom = 1;
+    const maximumZoom = 3;
+    const zoomStep = 0.25;
+    let activeIndex = 0;
+    let trigger: HTMLElement | null = null;
+    let zoom = minimumZoom;
+    let panX = 0;
+    let panY = 0;
+    let panPointer:
+      | { id: number; startX: number; startY: number; initialX: number; initialY: number }
+      | undefined;
+
+    const clamp = (value: number, minimum: number, maximum: number) =>
+      Math.min(Math.max(value, minimum), maximum);
+
+    const constrainPan = () => {
+      const maximumX = Math.max(0, (previewImage.clientWidth * zoom - viewport.clientWidth) / 2);
+      const maximumY = Math.max(0, (previewImage.clientHeight * zoom - viewport.clientHeight) / 2);
+      panX = clamp(panX, -maximumX, maximumX);
+      panY = clamp(panY, -maximumY, maximumY);
+    };
+
+    const renderTransform = () => {
+      constrainPan();
+      viewport.classList.toggle('is-zoomed', zoom > minimumZoom);
+      previewImage.style.setProperty('--article-image-preview-zoom', String(zoom));
+      previewImage.style.setProperty('--article-image-preview-pan-x', `${panX}px`);
+      previewImage.style.setProperty('--article-image-preview-pan-y', `${panY}px`);
+      zoomOutButton.disabled = zoom <= minimumZoom;
+      zoomInButton.disabled = zoom >= maximumZoom;
+      resetZoomButton.disabled = zoom === minimumZoom && panX === 0 && panY === 0;
+    };
+
+    const resetZoom = () => {
+      zoom = minimumZoom;
+      panX = 0;
+      panY = 0;
+      renderTransform();
+    };
+
+    const setZoom = (nextZoom: number) => {
+      zoom = clamp(Math.round(nextZoom / zoomStep) * zoomStep, minimumZoom, maximumZoom);
+      renderTransform();
+    };
+
+    const renderImage = (index: number) => {
+      const image = images[index];
+      if (!image) return;
+
+      activeIndex = index;
+      previewImage.src = image.currentSrc || image.src;
+      previewImage.alt = image.alt;
+      previewCaption.textContent = image.alt;
+      previewCaption.hidden = !image.alt;
+      counter.textContent = `第 ${activeIndex + 1} 张，共 ${images.length} 张`;
+      previousButton.disabled = activeIndex === 0;
+      nextButton.disabled = activeIndex === images.length - 1;
+      resetZoom();
+    };
+
+    const showPrevious = () => {
+      if (activeIndex > 0) renderImage(activeIndex - 1);
+    };
+
+    const showNext = () => {
+      if (activeIndex < images.length - 1) renderImage(activeIndex + 1);
+    };
+
+    const closePreview = () => {
+      if (dialog.open) dialog.close();
+    };
+
+    const openPreview = (image: HTMLImageElement) => {
+      if (typeof dialog.showModal !== 'function') return;
+
+      trigger = image;
+      renderImage(images.indexOf(image));
+      dialog.showModal();
+      closeButton.focus({ preventScroll: true });
+    };
+
+    closeButton.addEventListener('click', closePreview);
+    previousButton.addEventListener('click', showPrevious);
+    nextButton.addEventListener('click', showNext);
+    zoomOutButton.addEventListener('click', () => setZoom(zoom - zoomStep));
+    zoomInButton.addEventListener('click', () => setZoom(zoom + zoomStep));
+    resetZoomButton.addEventListener('click', resetZoom);
+    previewImage.addEventListener('load', resetZoom);
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) closePreview();
+    });
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        showPrevious();
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        showNext();
+      } else if (event.key === '+' || event.key === '=') {
+        event.preventDefault();
+        setZoom(zoom + zoomStep);
+      } else if (event.key === '-' || event.key === '_') {
+        event.preventDefault();
+        setZoom(zoom - zoomStep);
+      } else if (event.key === '0') {
+        event.preventDefault();
+        resetZoom();
+      }
+    });
+    dialog.addEventListener('close', () => {
+      previewImage.removeAttribute('src');
+      previewImage.alt = '';
+      previewCaption.textContent = '';
+      previewCaption.hidden = true;
+      resetZoom();
+      trigger?.focus({ preventScroll: true });
+      trigger = null;
+    });
+
+    viewport.addEventListener(
+      'wheel',
+      (event) => {
+        if (!dialog.open) return;
+        event.preventDefault();
+        setZoom(zoom + (event.deltaY < 0 ? zoomStep : -zoomStep));
+      },
+      { passive: false },
+    );
+    viewport.addEventListener('pointerdown', (event) => {
+      if (zoom <= minimumZoom) return;
+      event.preventDefault();
+      panPointer = {
+        id: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        initialX: panX,
+        initialY: panY,
+      };
+      viewport.setPointerCapture(event.pointerId);
+      viewport.classList.add('is-panning');
+    });
+    viewport.addEventListener('pointermove', (event) => {
+      if (!panPointer || panPointer.id !== event.pointerId) return;
+      panX = panPointer.initialX + event.clientX - panPointer.startX;
+      panY = panPointer.initialY + event.clientY - panPointer.startY;
+      renderTransform();
+    });
+    const stopPanning = (event: PointerEvent) => {
+      if (!panPointer || panPointer.id !== event.pointerId) return;
+      if (viewport.hasPointerCapture(event.pointerId))
+        viewport.releasePointerCapture(event.pointerId);
+      panPointer = undefined;
+      viewport.classList.remove('is-panning');
+    };
+    viewport.addEventListener('pointerup', stopPanning);
+    viewport.addEventListener('pointercancel', stopPanning);
+
+    images.forEach((image) => {
+      if (image.dataset.imagePreviewEnhanced === 'true') return;
+      image.dataset.imagePreviewEnhanced = 'true';
+      image.tabIndex = 0;
+      image.setAttribute('role', 'button');
+      image.setAttribute('aria-haspopup', 'dialog');
+      image.setAttribute(
+        'aria-label',
+        `${getDatasetValue(reader, 'imageOpenLabel')}${image.alt ? `：${image.alt}` : ''}`,
+      );
+
+      image.addEventListener('click', () => openPreview(image));
+      image.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        openPreview(image);
+      });
+    });
+  });
+</script>
+
+<style>
+  .article-reader-enhancements {
+    display: contents;
+  }
+
+  :global(.prose pre[data-code-copy-enhanced='true']) {
+    position: relative;
+    padding-top: 3.35rem;
+  }
+
+  :global(.article-code-toolbar) {
+    position: absolute;
+    top: 0.65rem;
+    right: 0.7rem;
+    left: 0.7rem;
+    z-index: 1;
+    display: flex;
+    min-height: 2rem;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  :global(.article-code-traffic-lights) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.38rem;
+  }
+
+  :global(.article-code-traffic-light) {
+    width: 0.72rem;
+    height: 0.72rem;
+    border: 1px solid rgb(0 0 0 / 18%);
+    border-radius: 50%;
+    box-shadow: inset 0 0.06rem rgb(255 255 255 / 32%);
+  }
+
+  :global(.article-code-traffic-light.is-red) {
+    background: #ff5f57;
+  }
+
+  :global(.article-code-traffic-light.is-yellow) {
+    background: #febc2e;
+  }
+
+  :global(.article-code-traffic-light.is-green) {
+    background: #28c840;
+  }
+
+  :global(.article-code-language) {
+    overflow: hidden;
+    min-width: 0;
+    color: rgb(93 75 54 / 88%);
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  :global(.article-code-copy) {
+    margin-left: auto;
+    min-height: 2rem;
+    border: 1px solid rgb(255 255 255 / 20%);
+    border-radius: var(--radius-pill);
+    background: rgb(0 0 0 / 28%);
+    padding: 0.32rem 0.72rem;
+    color: #fff;
+    font: inherit;
+    font-size: 0.75rem;
+    font-weight: 800;
+    line-height: 1.2;
+    cursor: pointer;
+    transition:
+      background-color var(--motion-duration) var(--motion-easing),
+      transform var(--motion-duration) var(--motion-easing);
+  }
+
+  :global(.article-code-copy:hover:not(:disabled)) {
+    background: rgb(0 0 0 / 48%);
+    transform: translateY(-1px);
+  }
+
+  :global(.article-code-copy:focus-visible) {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  :global(.article-code-copy:disabled) {
+    cursor: wait;
+  }
+
+  :global([data-theme='dark']) .article-code-language {
+    color: var(--color-text-muted);
+  }
+
+  :global([data-theme='dark']) .article-code-copy {
+    border-color: rgb(255 255 255 / 14%);
+    background: rgb(255 255 255 / 9%);
+  }
+
+  :global([data-theme='dark']) .article-code-copy:hover:not(:disabled) {
+    background: rgb(255 255 255 / 17%);
+  }
+
+  .article-image-preview {
+    width: min(92vw, 72rem);
+    max-width: none;
+    max-height: 90vh;
+    overflow: visible;
+    border: 0;
+    border-radius: var(--radius-large);
+    background: transparent;
+    padding: 0;
+  }
+
+  .article-image-preview::backdrop {
+    background: rgb(28 22 15 / 78%);
+    backdrop-filter: blur(0.3rem);
+  }
+
+  .article-image-preview__surface {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    overflow: hidden;
+    max-height: 90vh;
+    border: 2px solid rgb(255 255 255 / 22%);
+    border-radius: var(--radius-large);
+    background: var(--color-surface-content);
+    padding: clamp(0.65rem, 2vw, 1.15rem);
+    box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 38%);
+  }
+
+  .article-image-preview__toolbar,
+  .article-image-preview__navigation,
+  .article-image-preview__zoom-controls {
+    display: flex;
+    align-items: center;
+  }
+
+  .article-image-preview__toolbar {
+    min-height: 2.5rem;
+    justify-content: space-between;
+    gap: 0.55rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .article-image-preview__navigation,
+  .article-image-preview__zoom-controls {
+    gap: 0.35rem;
+  }
+
+  .article-image-preview__toolbar button {
+    display: grid;
+    min-width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    border: 1px solid rgb(126 105 78 / 30%);
+    border-radius: var(--radius-pill);
+    background: rgb(255 255 255 / 62%);
+    color: var(--color-text);
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 900;
+    line-height: 1;
+    cursor: pointer;
+    transition:
+      background-color var(--motion-duration) var(--motion-easing),
+      transform var(--motion-duration) var(--motion-easing);
+  }
+
+  .article-image-preview__toolbar button:hover:not(:disabled) {
+    background: #fffdf4;
+    transform: translateY(-1px);
+  }
+
+  .article-image-preview__toolbar button:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  .article-image-preview__toolbar button:disabled {
+    cursor: not-allowed;
+    opacity: 0.42;
+  }
+
+  .article-image-preview__navigation span {
+    min-width: 6.6rem;
+    color: var(--color-text-body);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .article-image-preview__zoom-controls button:nth-child(2) {
+    min-width: 2.65rem;
+    font-size: 0.72rem;
+  }
+
+  .article-image-preview figure {
+    display: grid;
+    gap: 0.75rem;
+    min-height: 0;
+    margin: 0;
+  }
+
+  .article-image-preview__viewport {
+    display: grid;
+    min-height: 14rem;
+    max-height: calc(90vh - 7.5rem);
+    place-items: center;
+    overflow: hidden;
+    border-radius: var(--radius-base);
+    background: rgb(110 92 67 / 9%);
+    cursor: default;
+    touch-action: pan-y;
+  }
+
+  .article-image-preview__viewport.is-zoomed {
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .article-image-preview__viewport.is-panning {
+    cursor: grabbing;
+  }
+
+  .article-image-preview img {
+    --article-image-preview-pan-x: 0px;
+    --article-image-preview-pan-y: 0px;
+    --article-image-preview-zoom: 1;
+
+    width: 100%;
+    max-height: calc(90vh - 7.5rem);
+    object-fit: contain;
+    transform: translate(var(--article-image-preview-pan-x), var(--article-image-preview-pan-y))
+      scale(var(--article-image-preview-zoom));
+    transform-origin: center;
+    transition: transform var(--motion-duration) var(--motion-easing);
+  }
+
+  .article-image-preview figcaption {
+    color: var(--color-text-body);
+    font-size: 0.86rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .article-image-preview__close {
+    margin-left: auto;
+  }
+
+  .article-image-preview__close span:first-child {
+    font-size: 1.35rem;
+  }
+
+  :global([data-theme='dark']) .article-image-preview::backdrop {
+    background: rgb(5 9 7 / 86%);
+  }
+
+  :global([data-theme='dark']) .article-image-preview__surface {
+    border-color: var(--color-border);
+    background: var(--color-surface-content);
+    box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 62%);
+  }
+
+  :global([data-theme='dark']) .article-image-preview__toolbar button {
+    border-color: var(--color-border);
+    background: var(--color-surface-secondary);
+    color: var(--color-text);
+  }
+
+  :global([data-theme='dark']) .article-image-preview__toolbar button:hover:not(:disabled) {
+    background: var(--color-surface-raised);
+  }
+
+  :global([data-theme='dark']) .article-image-preview__viewport {
+    background: #151a17;
+  }
+
+  :global(.prose img[data-image-preview-enhanced='true']) {
+    cursor: zoom-in;
+  }
+
+  :global(.prose img[data-image-preview-enhanced='true']:focus-visible) {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 32rem) {
+    .article-image-preview {
+      width: calc(100vw - 1rem);
+    }
+
+    .article-image-preview__surface {
+      border-radius: var(--radius-base);
+    }
+
+    .article-image-preview__toolbar {
+      flex-wrap: wrap;
+    }
+
+    .article-image-preview__navigation {
+      order: 1;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .article-image-preview__zoom-controls {
+      order: 2;
+    }
+
+    .article-image-preview__close {
+      order: 2;
+    }
+
+    .article-image-preview__viewport {
+      min-height: 11rem;
+      max-height: calc(90vh - 10rem);
+    }
+
+    .article-image-preview img {
+      max-height: calc(90vh - 10rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :global(.article-code-copy) {
+      transition: none;
+    }
+
+    .article-image-preview img,
+    .article-image-preview__toolbar button {
+      transition: none;
+    }
+  }
+</style>

@@ -211,6 +211,54 @@ pre.astro-code span {
   border-color: #3f4c41 !important;
 }
 
+:root[data-theme='dark'] .article-animal-table-mount [class*='animal-wrapper-'],
+:root[data-theme='dark'] .article-animal-table-mount [class*='animal-thead-'],
+:root[data-theme='dark'] .article-animal-table-mount [class*='animal-tbody-'] {
+  background: var(--color-surface-content);
+}
+
+:root[data-theme='dark'] .article-animal-table-mount [class*='animal-headerCell-'],
+:root[data-theme='dark'] .article-animal-table-mount [class*='animal-cell-'] {
+  color: var(--color-text-body);
+}
+
+:root[data-theme='dark'] .article-animal-table-mount [class*='animal-headerRow-']::after,
+:root[data-theme='dark'] .article-animal-table-mount [class*='animal-row-']::after {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-border) 0,
+    var(--color-border) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+}
+
+:root[data-theme='dark'] .article-animal-table-mount [class*='animal-striped-'] {
+  background: var(--color-surface-raised);
+}
+
+:root[data-theme='dark']
+  .article-animal-table-mount
+  [class*='animal-row-'] {
+  transition: background-color 0.15s ease-out;
+  border-radius: var(--radius-small);
+}
+
+:root[data-theme='dark']
+  .article-animal-table-mount
+  [class*='animal-row-']:hover {
+  background-image: none !important;
+  background-color: rgb(84 211 192 / 12%); /* softer highlight than solid primary */
+  clip-path: none !important;
+}
+
+:root[data-theme='dark']
+  .article-animal-table-mount
+  [class*='animal-row-']:hover
+  [class*='animal-cell-'] {
+  color: var(--color-primary); /* Use primary text color to highlight instead of solid background */
+}
+
 :root[data-theme='dark'] .author-avatar {
   border-color: var(--color-white);
 }
