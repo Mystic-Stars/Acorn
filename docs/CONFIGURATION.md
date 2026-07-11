@@ -25,7 +25,7 @@ Acorn 将频繁修改的站点内容集中在 `src/config/`，将框架构建选
 
 51LA 的数据 API 需要服务端凭据，不应直接从静态页面调用。页脚公开显示的总访问量和总访客数、文章页公开显示的新阅读量因此使用独立的不蒜子计数器，并由 `analyticsConfig.publicCounter` 控制；将其中的 `enabled` 改为 `false` 可隐藏页脚计数、停止加载该脚本，文章页则只显示导入的历史阅读量。51LA 继续用于后台详细分析，两套数据的去重规则不同，数值不保证完全一致。
 
-文章的 `legacyViews` frontmatter 保存旧博客迁移时的阅读量。页面显示值为 `legacyViews + 不蒜子当前文章路径的新增阅读量`；新文章可以省略该字段并从 0 开始。`scripts/import-legacy-posts.py` 会从 `docs/legacy-post-metadata.json` 的 `views` 字段写入它。
+文章的 `legacyViews` frontmatter 可保存历史阅读量。页面显示值为 `legacyViews + 不蒜子当前文章路径的新增阅读量`；新文章可以省略该字段并从 0 开始。
 
 ## 友链
 
@@ -143,16 +143,6 @@ author: 作者名
 `title`、`description`、`pubDate` 和 `cover` 必填。每一篇文章都会渲染一个固定 **1000 × 500（2:1）** 的封面区域：只提供 `tone` 时使用站点内置的 CSS 封面版式；`image` 用于本地 Astro 资源，`url` 用于远程图片（例如迁移文章时保留原封面链接），两者提供其一即可。开发模式是否显示草稿由 `archives.ts` 控制；生产构建始终过滤草稿。
 
 文章只使用原生 `.md`，以便通过 Pages CMS 编辑。标准 Markdown 表格会保留语义化 HTML 作为无 JavaScript 的回退，并在仅含表格的文章页 React island 加载后替换为 `animal-island-ui` `Table`；无需在正文中编写 JSX。请保持第一行表头与每行单元格数量一致，复杂单元格继续使用标准 Markdown（链接、强调、行内代码）。
-
-## 迁移旧文章
-
-`scripts/import-legacy-posts.py` 将 `docs/export2doc_20260710153018 (2)/` 中的 Halo HTML 导出内容转换为 `src/content/blog/` 的 Markdown。脚本使用 `docs/legacy-post-metadata.json` 对齐旧文章的发布日期、别名、分类、标签、置顶状态和封面链接；代码块会保留为标准 Markdown 围栏代码块。
-
-```bash
-python scripts/import-legacy-posts.py
-```
-
-`Hello Halo.html`（Halo 默认欢迎文章）和 `test.html`（第三方验证文件）会被明确跳过。重新执行脚本会覆盖已迁移文章文件。
 
 ## 文章归档
 
