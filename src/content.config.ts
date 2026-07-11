@@ -48,7 +48,7 @@ const friends = defineCollection({
   schema: z.object({
     name: z.string().min(1).max(40),
     url: httpUrl,
-    description: z.string().min(1).max(40),
+    description: z.string().min(1).max(80),
     avatar: z.union([httpUrl, z.string().startsWith('/')]),
     category: z.enum(['技术', '生活', '创作', '游戏', '学习', '其他']).default('其他'),
     tags: z.array(z.string().min(1).max(16)).max(4).default([]),
