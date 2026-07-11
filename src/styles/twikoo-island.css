@@ -7,8 +7,8 @@
   --twikoo-quiet: color-mix(in srgb, var(--color-text-muted) 72%, transparent);
   color: var(--color-text-body);
   font-family: inherit;
-  font-size: 0.94rem;
-  line-height: 1.7;
+  font-size: 1rem;
+  line-height: 1.75;
 }
 
 #twikoo *,
@@ -20,7 +20,7 @@
 #twikoo .tk-comments-container,
 #twikoo .tk-comments {
   display: grid;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 #twikoo .tk-submit,
@@ -32,13 +32,18 @@
 }
 
 #twikoo .tk-submit {
-  padding: clamp(1rem, 3vw, 1.35rem);
+  padding: clamp(1.1rem, 3vw, 1.5rem);
 }
 
 #twikoo .tk-comment {
   display: flex;
-  gap: 0.8rem;
-  padding: 1rem;
+  gap: 0.95rem;
+  padding: clamp(1rem, 2.6vw, 1.3rem);
+}
+
+/* The built-in manager is intentionally absent from public article pages. */
+[data-twikoo-comments] #twikoo .tk-admin-container {
+  display: none !important;
 }
 
 #twikoo .tk-comment .tk-main,
@@ -158,17 +163,17 @@
   position: relative;
   align-items: center;
   justify-content: space-between;
-  margin-top: 0.8rem;
+  margin-top: 1rem;
 }
 
 #twikoo button,
 #twikoo .el-button {
   appearance: none;
-  min-height: 2.45rem;
+  min-height: 2.55rem;
   border: 1px solid transparent;
   border-radius: var(--radius-pill);
   background: transparent;
-  padding: 0.48rem 0.95rem;
+  padding: 0.5rem 1rem;
   color: var(--color-text-body);
   font: inherit;
   font-size: 0.86rem;
@@ -179,6 +184,40 @@
     transform var(--motion-duration) var(--motion-easing),
     background var(--motion-duration) var(--motion-easing),
     color var(--motion-duration) var(--motion-easing);
+}
+
+#twikoo .tk-submit-action-icon,
+#twikoo .tk-action,
+#twikoo .tk-action-link,
+#twikoo .tk-expand {
+  border-radius: var(--radius-pill);
+}
+
+#twikoo .tk-submit-action-icon {
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--color-border) 72%, transparent);
+  border-radius: 0.75rem 0.95rem 0.75rem 0.95rem;
+  background: color-mix(in srgb, var(--color-surface) 84%, transparent);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition:
+    background var(--motion-duration) var(--motion-easing),
+    color var(--motion-duration) var(--motion-easing),
+    transform var(--motion-duration) var(--motion-easing);
+}
+
+#twikoo .tk-submit-action-icon:hover {
+  background: color-mix(in srgb, var(--color-accent) 25%, var(--color-surface));
+  color: var(--color-text);
+  transform: translateY(-1px) rotate(-3deg);
+}
+
+#twikoo .tk-submit-action-icon svg {
+  width: 1.05rem;
+  height: 1.05rem;
 }
 
 #twikoo button:hover,
@@ -299,7 +338,7 @@
 #twikoo .tk-expand {
   border: 0;
   background: none;
-  padding: 0;
+  padding: 0.22rem 0.45rem;
   color: var(--color-primary-active);
   font: inherit;
   font-size: 0.82rem;
@@ -318,6 +357,40 @@
   display: inline-flex;
   gap: 0.5rem;
   margin-left: 0.75rem;
+}
+
+#twikoo .OwO-body {
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-border) 72%, transparent);
+  border-radius: var(--radius-base);
+  background: var(--color-surface-content);
+  box-shadow: 0 0.7rem 1.5rem rgb(99 76 48 / 16%);
+}
+
+#twikoo .OwO-items {
+  gap: 0.2rem;
+  padding: 0.55rem;
+}
+
+#twikoo .OwO-item {
+  border-radius: 0.55rem;
+  color: var(--color-text-body);
+  transition: background var(--motion-duration) var(--motion-easing);
+}
+
+#twikoo .OwO-item:hover {
+  background: color-mix(in srgb, var(--color-accent) 24%, transparent);
+}
+
+#twikoo .OwO-bar {
+  border-top: 1px dashed color-mix(in srgb, var(--color-border) 70%, transparent);
+  background: color-mix(in srgb, var(--color-surface-secondary) 72%, transparent);
+}
+
+#twikoo .OwO-package-active {
+  border-bottom-color: var(--color-primary-active);
+  color: var(--color-primary-active);
+  font-weight: 900;
 }
 
 #twikoo .tk-replies {
@@ -414,10 +487,220 @@
   padding: 0.85rem;
   background: color-mix(in srgb, var(--color-surface-secondary) 48%, transparent);
 }
-#twikoo .tk-admin-container {
-  margin-top: 1rem;
-  border-top: 1px dashed color-mix(in srgb, var(--color-border) 75%, transparent);
-  padding-top: 1rem;
+/* Dedicated, noindex moderation route. */
+[data-twikoo-admin-view] #twikoo {
+  min-height: 14rem;
+}
+
+[data-twikoo-admin-view] #twikoo .tk-submit,
+[data-twikoo-admin-view] #twikoo .tk-comments-container,
+[data-twikoo-admin-view] #twikoo .tk-footer,
+[data-twikoo-admin-view] #twikoo > .tk-comments {
+  display: none !important;
+}
+
+[data-twikoo-admin-view] #twikoo .tk-admin-container {
+  display: block !important;
+  position: static;
+  min-height: 24rem;
+  height: auto !important;
+  margin: 0;
+  padding: 0;
+  overflow: visible !important;
+}
+
+[data-twikoo-admin-view] #twikoo .tk-admin {
+  position: static;
+  inset: auto;
+  visibility: visible;
+  opacity: 1;
+  transform: none;
+  width: min(100%, 68rem);
+  min-height: 24rem;
+  height: auto !important;
+  margin: 0 auto;
+  border: 1px solid color-mix(in srgb, var(--color-border) 65%, transparent);
+  border-radius: calc(var(--radius-base) + 0.2rem);
+  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  box-shadow: none;
+  color: var(--color-text-body);
+  overflow: visible !important;
+}
+
+[data-twikoo-admin-view] #twikoo .tk-admin,
+[data-twikoo-admin-view] #twikoo .tk-admin * {
+  color: var(--color-text-body);
+}
+
+[data-twikoo-admin-view] #twikoo .tk-admin .tk-admin-title,
+[data-twikoo-admin-view] #twikoo .tk-admin .tk-admin-comment-nick {
+  color: var(--color-text);
+  font-weight: 900;
+}
+
+[data-twikoo-admin-view] #twikoo .tk-admin .el-button--primary,
+[data-twikoo-admin-view] #twikoo .tk-admin .el-button--primary *,
+[data-twikoo-admin-view] #twikoo .tk-admin .el-pagination .active,
+[data-twikoo-admin-view] #twikoo .tk-admin .el-pagination .active * {
+  color: var(--color-on-primary);
+}
+
+[data-twikoo-admin-view] #twikoo .tk-admin .el-button--primary {
+  background: var(--color-primary);
+  box-shadow: 0 0.2rem 0 color-mix(in srgb, var(--color-primary-active) 72%, transparent);
+}
+
+[data-twikoo-admin-view] #twikoo .tk-admin .el-button--default {
+  border-color: color-mix(in srgb, var(--color-border) 72%, transparent);
+  background: color-mix(in srgb, var(--color-surface-secondary) 78%, transparent);
+}
+
+[data-twikoo-admin-view] #twikoo .tk-admin-close {
+  display: none;
+}
+
+/* Twikoo leaves its bootstrap mask mounted after the public login form is ready. */
+[data-twikoo-admin-view] #twikoo .tk-admin > .el-loading-mask {
+  display: none !important;
+}
+
+[data-twikoo-admin-view] #twikoo .tk-login,
+[data-twikoo-admin-view] #twikoo .tk-admin > div {
+  padding: clamp(1.15rem, 4vw, 2rem);
+}
+
+[data-twikoo-admin-view] #twikoo .tk-login {
+  max-width: 32rem;
+  margin: 0 auto;
+}
+
+[data-twikoo-admin-view] #twikoo .tk-login-title {
+  margin-bottom: 1rem;
+  color: var(--color-text);
+  font-size: 1.15rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+[data-twikoo-admin-view] #twikoo .tk-password {
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  border: 1.5px solid color-mix(in srgb, var(--color-border) 72%, transparent);
+  border-radius: 0.95rem;
+  background: var(--color-surface);
+}
+
+[data-twikoo-admin-view] #twikoo .tk-password:focus-within {
+  border-color: var(--color-primary-active);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-focus) 34%, transparent);
+}
+
+[data-twikoo-admin-view] #twikoo .tk-password .el-input-group__prepend,
+[data-twikoo-admin-view] #twikoo .tk-password .el-input-group__append {
+  display: grid;
+  border: 0;
+  border-radius: 0;
+  background: color-mix(in srgb, var(--color-accent) 18%, var(--color-surface));
+}
+
+[data-twikoo-admin-view] #twikoo .tk-password .el-input-group__prepend {
+  place-items: center;
+  border-right: 1px dashed color-mix(in srgb, var(--color-border) 70%, transparent);
+  padding: 0 0.85rem;
+  color: var(--color-text);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+[data-twikoo-admin-view] #twikoo .tk-password .el-input__inner {
+  min-width: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+[data-twikoo-admin-view] #twikoo .tk-password .el-input-group__append {
+  border-left: 1px dashed color-mix(in srgb, var(--color-border) 70%, transparent);
+}
+
+[data-twikoo-admin-view] #twikoo .tk-password .el-button {
+  min-height: 100%;
+  border: 0;
+  border-radius: 0;
+  background: var(--color-primary);
+  box-shadow: none;
+  color: var(--color-on-primary);
+}
+
+[data-twikoo-admin-view] #twikoo .tk-password .el-button:hover {
+  background: var(--color-primary-hover);
+  color: var(--color-on-primary);
+  transform: none;
+}
+
+[data-twikoo-admin-view] #twikoo .el-tabs__nav-wrap::after {
+  height: 1px;
+  background: color-mix(in srgb, var(--color-border) 72%, transparent);
+}
+
+[data-twikoo-admin-view] #twikoo .el-tabs__item {
+  height: 3rem;
+  color: var(--color-text-muted);
+  font: inherit;
+  font-weight: 800;
+  line-height: 3rem;
+}
+
+[data-twikoo-admin-view] #twikoo .el-tabs__item.is-active {
+  color: var(--color-primary-active);
+}
+
+[data-twikoo-admin-view] #twikoo .el-tabs__active-bar {
+  height: 3px;
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+}
+
+[data-twikoo-admin-view] #twikoo .el-table,
+[data-twikoo-admin-view] #twikoo .el-table tr,
+[data-twikoo-admin-view] #twikoo .el-table th,
+[data-twikoo-admin-view] #twikoo .el-table td {
+  background: transparent;
+  color: var(--color-text-body);
+}
+
+[data-twikoo-admin-view] #twikoo .el-table::before {
+  background: color-mix(in srgb, var(--color-border) 65%, transparent);
+}
+
+[data-twikoo-admin-view] #twikoo .el-pagination button,
+[data-twikoo-admin-view] #twikoo .el-pager li {
+  min-width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 0.65rem;
+  background: color-mix(in srgb, var(--color-surface-secondary) 75%, transparent);
+  font: inherit;
+  line-height: 2.2rem;
+}
+
+[data-twikoo-admin-view] #twikoo .el-pager li.active {
+  background: var(--color-primary);
+}
+
+#twikoo .twikoo-admin-loading {
+  margin: 0;
+  border: 1px dashed color-mix(in srgb, var(--color-border) 75%, transparent);
+  border-radius: var(--radius-base);
+  padding: 1rem;
+  color: var(--color-text-muted);
+  font-weight: 800;
+  text-align: center;
+}
+
+#twikoo .twikoo-admin-loading.is-error {
+  color: #9e4f2c;
 }
 
 @media (max-width: 42rem) {
@@ -429,6 +712,10 @@
   }
   #twikoo .tk-row.actions {
     flex-wrap: wrap;
+  }
+  [data-twikoo-admin-view] #twikoo .el-tabs__item {
+    padding: 0 0.65rem;
+    font-size: 0.86rem;
   }
   #twikoo .tk-comment {
     gap: 0.6rem;

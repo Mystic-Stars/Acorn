@@ -11,6 +11,8 @@ export interface TwikooCommentsConfig {
    */
   envId: string;
   path: 'pathname';
+  /** Unlinked, noindex route used by the site owner to open moderation. */
+  adminPath: string;
   lang: 'zh-CN';
   client: {
     version: string;
@@ -28,6 +30,7 @@ export const commentsConfig = {
     import.meta.env.PUBLIC_TWIKOO_ENV_ID ??
     'https://acorn-twikoo.netlify.app/.netlify/functions/twikoo',
   path: 'pathname',
+  adminPath: '/manage-comments/',
   lang: 'zh-CN',
   client: {
     version: twikooVersion,

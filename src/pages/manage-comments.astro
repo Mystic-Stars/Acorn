@@ -1,0 +1,59 @@
+---
+import { Card, Divider, Title } from '@components/animal';
+import TwikooAdmin from '@components/island/TwikooAdmin.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="岛屿管理台" description="Mystic Stars 评论管理" noindex>
+  <section class="container comment-admin-page" aria-labelledby="comment-admin-heading">
+    <Card className="comment-admin-card" pattern="default">
+      <header class="comment-admin-header">
+        <p>ISLAND KEEPER</p>
+        <Title size="small" color="app-teal">
+          <span id="comment-admin-heading">岛屿管理台</span>
+        </Title>
+        <span>使用评论管理员密码进入，只在此页面管理留言。</span>
+      </header>
+      <Divider type="dashed-brown" />
+      <TwikooAdmin />
+    </Card>
+  </section>
+</BaseLayout>
+
+<style>
+  .comment-admin-page {
+    padding-top: clamp(2rem, 7vw, 5rem);
+    padding-bottom: clamp(3rem, 8vw, 6rem);
+  }
+  .comment-admin-page :global(.comment-admin-card) {
+    overflow: hidden;
+    border: 1.5px solid rgb(159 146 125 / 30%);
+    border-radius: calc(var(--radius-large) + 0.35rem);
+    padding: clamp(1.1rem, 4vw, 2.25rem);
+    background:
+      radial-gradient(circle at 92% 7%, rgb(25 200 185 / 17%), transparent 22%),
+      radial-gradient(circle at 5% 100%, rgb(247 205 103 / 23%), transparent 28%),
+      var(--color-surface-content);
+  }
+  .comment-admin-header {
+    display: grid;
+    justify-items: center;
+    gap: 0.55rem;
+    text-align: center;
+  }
+  .comment-admin-header p {
+    margin: 0;
+    color: var(--color-primary-active);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+  }
+  .comment-admin-header :global(.animal-title) {
+    margin: 0;
+  }
+  .comment-admin-header span:last-child {
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+</style>

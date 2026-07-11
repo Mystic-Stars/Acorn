@@ -1,0 +1,65 @@
+---
+import { commentsConfig } from '@config/comments';
+
+const config = JSON.stringify(commentsConfig);
+---
+
+<div data-twikoo-admin-view data-twikoo-admin-config={config} aria-live="polite" aria-busy="true">
+  <div id="twikoo" class="twikoo-admin-mount">
+    <p class="twikoo-admin-loading">正在打开岛屿管理台…</p>
+  </div>
+</div>
+
+<script>
+  interface TwikooClient {
+    init: (options: { envId: string; el: string; path: string; lang: string }) => Promise<unknown> | unknown;
+  }
+
+  declare global {
+    interface Window {
+      twikoo?: TwikooClient;
+    }
+  }
+
+  const adminView = document.querySelector<HTMLElement>('[data-twikoo-admin-config]');
+  const mount = adminView?.querySelector<HTMLElement>('#twikoo');
+
+  if (mount) {
+    const configText = adminView?.dataset.twikooAdminConfig;
+    const fail = () => {
+      adminView?.setAttribute('aria-busy', 'false');
+      mount.innerHTML = '<p class="twikoo-admin-loading is-error">管理台暂时无法打开，请稍后再试。</p>';
+    };
+
+    if (!configText) {
+      fail();
+    } else {
+      const config = JSON.parse(configText) as {
+        envId: string;
+        lang: string;
+        client: { src: string; version: string };
+      };
+      const script = document.createElement('script');
+      script.src = config.client.src;
+      script.async = true;
+      script.dataset.twikooVersion = config.client.version;
+      script.addEventListener('error', fail);
+      script.addEventListener('load', async () => {
+        if (!window.twikoo) return fail();
+        try {
+          await window.twikoo.init({
+            envId: config.envId,
+            el: '#twikoo',
+            path: '/manage-comments/',
+            lang: config.lang,
+          });
+          mount.querySelector('.twikoo-admin-loading')?.remove();
+          adminView?.setAttribute('aria-busy', 'false');
+        } catch {
+          fail();
+        }
+      });
+      document.head.append(script);
+    }
+  }
+</script>
