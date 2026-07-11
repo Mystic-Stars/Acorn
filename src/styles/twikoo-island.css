@@ -1,6 +1,6 @@
 /*
- * Twikoo is deliberately loaded with twikoo.nocss.js. Keep every selector
- * under #twikoo so its Element UI markup cannot leak into the Astro site.
+ * Twikoo's full bundle provides the structural rules required by Element UI.
+ * Keep every visual override under #twikoo so the skin cannot leak outward.
  */
 #twikoo {
   --twikoo-paper: color-mix(in srgb, var(--color-surface-content) 88%, transparent);
@@ -67,6 +67,53 @@
   flex: 1;
 }
 
+#twikoo .tk-meta-input .el-input-group {
+  display: flex;
+  align-items: stretch;
+  overflow: hidden;
+  border: 1.5px solid color-mix(in srgb, var(--color-border) 80%, transparent);
+  border-radius: 0.85rem;
+  background: color-mix(in srgb, var(--color-surface) 80%, transparent);
+  transition:
+    border-color var(--motion-duration) var(--motion-easing),
+    box-shadow var(--motion-duration) var(--motion-easing),
+    background var(--motion-duration) var(--motion-easing);
+}
+
+#twikoo .tk-meta-input .el-input-group:focus-within {
+  border-color: var(--color-primary-active);
+  background: var(--color-surface);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-focus) 34%, transparent);
+}
+
+#twikoo .tk-meta-input .el-input-group__prepend {
+  display: grid;
+  min-width: 3.35rem;
+  place-items: center;
+  border: 0;
+  border-right: 1px dashed color-mix(in srgb, var(--color-border) 75%, transparent);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--color-accent) 20%, var(--color-surface));
+  padding: 0.65rem 0.65rem;
+  color: var(--color-text);
+  font-size: 0.78rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+#twikoo .tk-meta-input .el-input__inner {
+  min-width: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+#twikoo .tk-meta-input .el-input__inner:focus {
+  background: transparent;
+  box-shadow: none;
+}
+
 #twikoo input,
 #twikoo textarea,
 #twikoo .el-input__inner,
@@ -105,10 +152,6 @@
   border-color: var(--color-primary-active);
   background: var(--color-surface);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-focus) 34%, transparent);
-}
-
-#twikoo .el-input-group__prepend {
-  display: none;
 }
 
 #twikoo .tk-row.actions {
@@ -341,6 +384,22 @@
   font-weight: 900;
 }
 
+#twikoo .tk-comments-no,
+#twikoo .tk-comments-title {
+  color: var(--color-text-muted);
+  font-weight: 800;
+}
+
+#twikoo .tk-comments-no {
+  padding: 1.5rem 0 0.75rem;
+  text-align: center;
+}
+
+#twikoo .tk-footer {
+  opacity: 0.72;
+  font-size: 0.74rem;
+}
+
 #twikoo .tk-error-message,
 #twikoo .el-form-item__error {
   margin-top: 0.35rem;
@@ -364,6 +423,9 @@
 @media (max-width: 42rem) {
   #twikoo .tk-meta-input {
     flex-direction: column;
+  }
+  #twikoo .tk-meta-input .el-input-group__prepend {
+    min-width: 3.75rem;
   }
   #twikoo .tk-row.actions {
     flex-wrap: wrap;

@@ -32,6 +32,9 @@ export const commentsConfig = {
   client: {
     version: twikooVersion,
     // npm mirror is Twikoo's documented mainland-friendly CDN mirror.
-    src: `https://registry.npmmirror.com/twikoo/${twikooVersion}/files/dist/twikoo.nocss.js`,
+    // The full bundle supplies Twikoo/Element's structural CSS (popovers,
+    // dialogs, emoji picker and upload controls). Our isolated stylesheet
+    // below it only changes the visual skin.
+    src: `https://registry.npmmirror.com/twikoo/${twikooVersion}/files/dist/twikoo.all.min.js`,
   },
 } as const satisfies TwikooCommentsConfig;
