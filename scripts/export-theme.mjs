@@ -28,6 +28,7 @@ const excluded = new Set([
   'scripts/import-legacy-posts.py',
   'scripts/export-theme.mjs',
   'docs/legacy-post-metadata.json',
+  'docs/THEME_PUBLISHING.md',
   'docs/export2doc_20260710153018 (2)',
   'src/content/blog',
   'src/content/friends',
