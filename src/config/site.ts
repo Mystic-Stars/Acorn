@@ -32,7 +32,10 @@ export const siteConfig = {
   footer: {
     copyrightStartYear: 2024,
     message: 'Discover Infinity',
-    themeCredit: '基于 Acorn 主题',
+    themeCredit: {
+      label: '基于 Acorn 主题',
+      href: 'https://github.com/Mystic-Stars/acorn-theme',
+    },
     uiCredit: {
       label: '使用 animal-island-ui',
       href: 'https://github.com/guokaigdg/animal-island-ui',

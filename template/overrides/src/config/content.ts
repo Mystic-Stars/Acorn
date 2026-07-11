@@ -17,7 +17,7 @@ export const aboutConfig = {
     personality: { type: 'INFP', name: '调停者', features: ['热爱创造', '保持好奇', '乐于分享'] },
     minecraft: { id: 'YourMinecraftId', description: '写下你的游戏故事。' },
     bilibili: { title: 'Bilibili', description: '分享视频与生活。', url: 'https://www.bilibili.com' },
-    github: { title: 'GitHub', description: '参与开源，持续创造。', url: 'https://github.com/your-name' },
+    github: { title: 'GitHub', description: '参与开源，持续创造。', url: 'https://github.com/Mystic-Stars' },
     acornTheme: { title: '关于 Acorn 主题', description: '一个由 Astro 驱动、受到动物岛屿启发的可爱简约博客主题。' },
     skills: { title: '技能栈', items: [{ name: 'Writing', desc: '持续写作', icon: 'web' }, { name: 'Git', desc: '版本控制', icon: 'git' }] },
     covenant: { title: '长期写作', description: '让写作成为一场漫长而温暖的旅程。', durationYears: 10 },

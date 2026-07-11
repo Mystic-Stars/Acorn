@@ -60,7 +60,9 @@ const getIcon = (iconName?: string) => {
         )
       }
       <span class="credits">
-        <span>{siteConfig.footer.themeCredit}</span>
+        <a href={siteConfig.footer.themeCredit.href} target="_blank" rel="noreferrer">
+          {siteConfig.footer.themeCredit.label}
+        </a>
         <span aria-hidden="true">·</span>
         <a href={siteConfig.footer.uiCredit.href} target="_blank" rel="noreferrer">
           {siteConfig.footer.uiCredit.label}

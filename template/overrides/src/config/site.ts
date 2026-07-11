@@ -24,16 +24,19 @@ export const siteConfig = {
   footer: {
     copyrightStartYear: 2026,
     message: 'Plant ideas, grow stories',
-    themeCredit: '基于 Acorn 主题',
+    themeCredit: {
+      label: '基于 Acorn 主题',
+      href: 'https://github.com/Mystic-Stars/acorn-theme',
+    },
     uiCredit: { label: '使用 animal-island-ui', href: 'https://github.com/guokaigdg/animal-island-ui' },
     icp: '',
   },
   socialLinks: [
     {
       label: 'GitHub',
-      href: 'https://github.com/your-name',
+      href: 'https://github.com/Mystic-Stars',
       external: true,
-      ariaLabel: '访问 GitHub 主页',
+      ariaLabel: '访问 Mystic-Stars 的 GitHub 主页',
       icon: 'github',
     },
   ] satisfies SocialLink[],
