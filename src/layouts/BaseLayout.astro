@@ -5,6 +5,7 @@ import Header from '@components/Header.astro';
 import { siteConfig, themeInlineStyle } from '@config/index';
 import type { ImageMetadata } from 'astro';
 import 'animal-island-ui/style';
+import '@styles/twikoo-island.css';
 
 interface Props {
   title?: string | undefined;
@@ -23,13 +24,38 @@ interface Props {
   nextUrl?: string | URL | undefined;
 }
 
-const { title, description, image, type, noindex, headerOverlay = false, pubDate, updatedDate, author, tags, prevUrl, nextUrl } = Astro.props;
+const {
+  title,
+  description,
+  image,
+  type,
+  noindex,
+  headerOverlay = false,
+  pubDate,
+  updatedDate,
+  author,
+  tags,
+  prevUrl,
+  nextUrl,
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang={siteConfig.language} style={themeInlineStyle}>
   <head>
-    <BaseHead {title} {description} {image} {type} {noindex} {pubDate} {updatedDate} {author} {tags} {prevUrl} {nextUrl} />
+    <BaseHead
+      {title}
+      {description}
+      {image}
+      {type}
+      {noindex}
+      {pubDate}
+      {updatedDate}
+      {author}
+      {tags}
+      {prevUrl}
+      {nextUrl}
+    />
   </head>
   <body data-header-overlay={headerOverlay || undefined}>
     <a class="skip-link" href="#main-content">跳到正文</a>

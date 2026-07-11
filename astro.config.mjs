@@ -30,8 +30,7 @@ export default defineConfig({
   },
   vite: {
     server: {
-      // giscus loads the site-hosted theme from inside https://giscus.app.
-      // Enable CORS during local Astro development to mirror the EdgeOne header.
+      // Keep local development permissive for external development tools.
       cors: true,
     },
     ssr: {

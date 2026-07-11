@@ -4,7 +4,7 @@ import PostCover from '@components/PostCover.astro';
 import TagList from '@components/TagList.astro';
 import { Card, Divider, Title } from '@components/animal';
 import AuthorProfileCard from '@components/island/AuthorProfileCard.astro';
-import GiscusComments from '@components/island/GiscusComments.astro';
+import TwikooComments from '@components/island/TwikooComments.astro';
 import IslandStatusCard from '@components/island/IslandStatusCard.astro';
 import IslandTimeCard from '@components/island/IslandTimeCard.astro';
 import TagExplorerCard from '@components/island/TagExplorerCard.astro';
@@ -131,7 +131,7 @@ const hasMarkdownTable =
           {hasMarkdownTable && <MarkdownTableEnhancer client:load />}
           <ArticleReaderEnhancements />
         </Card>
-        <GiscusComments path={getPostHref(post)} />
+        <TwikooComments path={getPostHref(post)} />
       </section>
 
       <aside class="sidebar" aria-label="博客小组件">

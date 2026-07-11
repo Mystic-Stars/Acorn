@@ -1,0 +1,262 @@
+---
+import { commentsConfig } from '@config/comments';
+import { Card, Divider, Title } from '@components/animal';
+
+interface Props {
+  path: string;
+}
+
+const { path } = Astro.props;
+const config = JSON.stringify(commentsConfig);
+const isConfigured = Boolean(commentsConfig.envId);
+---
+
+{
+  commentsConfig.enabled && (
+    <section
+      class="comments"
+      aria-labelledby="comments-heading"
+      data-twikoo-comments
+      data-twikoo-config={config}
+      data-comment-path={path}
+    >
+      <Card className="comments-card" pattern="default">
+        <header class="comments-header">
+          <p class="eyebrow">COMMUNITY NOTES</p>
+          <Title size="small" color="app-yellow">
+            <span id="comments-heading">{commentsConfig.heading}</span>
+          </Title>
+          <p class="description">{commentsConfig.description}</p>
+        </header>
+
+        <Divider type="dashed-brown" className="comment-divider" />
+
+        <div
+          id="twikoo"
+          class="twikoo-mount"
+          data-twikoo-mount
+          aria-live="polite"
+          aria-busy={isConfigured ? 'true' : undefined}
+        >
+          {isConfigured ? (
+            <div class="loading-message" data-comment-status>
+              <span class="loading-leaf" aria-hidden="true">
+                ✦
+              </span>
+              <span>留言簿将在滚动到这里时打开。</span>
+            </div>
+          ) : (
+            <div class="setup-message" role="status">
+              <strong>留言簿正在准备中</strong>
+              <span>站长尚未配置评论服务地址。</span>
+            </div>
+          )}
+        </div>
+      </Card>
+    </section>
+  )
+}
+
+<script>
+  interface TwikooClient {
+    init: (options: {
+      envId: string;
+      el: string;
+      path: string;
+      lang: string;
+    }) => Promise<unknown> | unknown;
+  }
+
+  declare global {
+    interface Window {
+      twikoo?: TwikooClient;
+    }
+  }
+
+  const commentsRoot = document.querySelector<HTMLElement>('[data-twikoo-comments]');
+
+  if (commentsRoot) {
+    const mount = commentsRoot.querySelector<HTMLElement>('[data-twikoo-mount]');
+    const configText = commentsRoot.dataset.twikooConfig;
+    const path = commentsRoot.dataset.commentPath;
+    let hasLoaded = false;
+
+    const setStatus = (message: string, isError = false) => {
+      const status = mount?.querySelector<HTMLElement>('[data-comment-status]');
+      if (!status) return;
+      status.classList.toggle('comment-error', isError);
+      status.innerHTML = `<span class="loading-leaf" aria-hidden="true">${isError ? '!' : '✦'}</span><span>${message}</span>`;
+    };
+
+    const loadTwikoo = async () => {
+      if (hasLoaded || !mount || !configText || !path) return;
+
+      const config = JSON.parse(configText) as {
+        envId: string;
+        lang: string;
+        client: { src: string; version: string };
+      };
+      if (!config.envId) return;
+
+      hasLoaded = true;
+      const script = document.createElement('script');
+      script.src = config.client.src;
+      script.async = true;
+      script.dataset.twikooVersion = config.client.version;
+
+      script.addEventListener('error', () => {
+        mount.setAttribute('aria-busy', 'false');
+        setStatus('留言簿暂时无法打开，请稍后再试。', true);
+      });
+
+      script.addEventListener('load', async () => {
+        if (!window.twikoo) {
+          mount.setAttribute('aria-busy', 'false');
+          setStatus('留言簿加载失败，请稍后再试。', true);
+          return;
+        }
+
+        try {
+          await window.twikoo.init({
+            envId: config.envId,
+            el: '#twikoo',
+            path,
+            lang: config.lang,
+          });
+          mount.querySelector('[data-comment-status]')?.remove();
+        } catch {
+          setStatus('留言簿暂时无法连接，请稍后再试。', true);
+        } finally {
+          mount.setAttribute('aria-busy', 'false');
+        }
+      });
+
+      document.head.append(script);
+    };
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((entry) => entry.isIntersecting)) return;
+          observer.disconnect();
+          void loadTwikoo();
+        },
+        { rootMargin: '240px 0px' },
+      );
+
+      observer.observe(commentsRoot);
+    } else {
+      void loadTwikoo();
+    }
+  }
+</script>
+
+<style>
+  .comments {
+    margin-top: clamp(2.25rem, 6vw, 4rem);
+  }
+  .comments :global(.comments-card) {
+    position: relative;
+    overflow: hidden;
+    border: 1.5px solid rgb(159 146 125 / 28%);
+    border-radius: calc(var(--radius-large) + 0.4rem);
+    padding: clamp(1.25rem, 4vw, 2.25rem);
+    background:
+      radial-gradient(circle at 93% 8%, rgb(247 205 103 / 31%), transparent 21%),
+      radial-gradient(circle at 4% 94%, rgb(25 200 185 / 13%), transparent 25%),
+      var(--color-surface-content);
+  }
+  .comments :global(.comments-card::before) {
+    position: absolute;
+    top: -1.8rem;
+    right: clamp(0.8rem, 4vw, 2.5rem);
+    width: 4.75rem;
+    aspect-ratio: 1;
+    border-radius: 42% 58% 54% 46%;
+    background: rgb(255 253 246 / 42%);
+    content: '';
+    transform: rotate(18deg);
+  }
+  .comments-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+    max-width: 42rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .eyebrow {
+    margin: 0;
+    color: var(--color-primary-active);
+    font-size: 0.68rem;
+    font-weight: 900;
+    letter-spacing: 0.14em;
+  }
+  .comments :global(.animal-title) {
+    margin: 0.2rem 0;
+  }
+  .description {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: 0.94rem;
+    font-weight: 700;
+    line-height: 1.7;
+  }
+  .comments :global(.comment-divider) {
+    margin: 1.5rem 0 1.15rem;
+  }
+  .twikoo-mount {
+    min-height: 4rem;
+  }
+  .loading-message,
+  .setup-message {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    border: 1px dashed rgb(159 146 125 / 46%);
+    border-radius: var(--radius-base);
+    padding: 1rem 1.15rem;
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  .setup-message {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+    background: rgb(255 253 246 / 36%);
+  }
+  .setup-message strong {
+    color: var(--color-text);
+  }
+  .loading-leaf {
+    display: grid;
+    width: 1.9rem;
+    height: 1.9rem;
+    flex: none;
+    place-items: center;
+    border-radius: 0.7rem 0.9rem 0.7rem 0.9rem;
+    background: rgb(25 200 185 / 17%);
+    color: var(--color-primary-active);
+    animation: leaf-bob 1.8s ease-in-out infinite;
+  }
+  .comment-error .loading-leaf {
+    background: rgb(229 146 102 / 23%);
+    color: #9e4f2c;
+    animation: none;
+  }
+  @keyframes leaf-bob {
+    50% {
+      transform: translateY(-0.18rem) rotate(12deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .loading-leaf {
+      animation: none;
+    }
+  }
+</style>
