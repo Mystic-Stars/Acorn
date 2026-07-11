@@ -173,9 +173,9 @@ const submittedLabel = latestSubmission
             <button class="copy-code-btn" type="button" aria-label="复制代码" data-copy-site-info>复制</button>
             <CodeBlock
               code={`name: "${siteConfig.name}"
-url: "https://www.mysticstars.cn/"
-description: "Discover Infinity"
-avatar: "https://www.mysticstars.cn${siteConfig.branding.avatarSrc}"`}
+url: "${Astro.site ?? Astro.url.origin}/"
+description: "${siteConfig.description}"
+avatar: "${new URL(siteConfig.branding.avatarSrc, Astro.site ?? Astro.url.origin).href}"`}
             />
           </div>
         </div>
@@ -212,7 +212,7 @@ avatar: "https://www.mysticstars.cn${siteConfig.branding.avatarSrc}"`}
         </div>
         <label class="agreement">
           <input name="agreement" type="checkbox" required />
-          <span>我已阅读申请要求，并确认本站已添加 <a href="/" target="_blank">Mystic Stars</a> 的友链。</span>
+          <span>我已阅读申请要求，并确认本站已添加 <a href="/" target="_blank">{siteConfig.name}</a> 的友链。</span>
         </label>
         <div class="form-actions">
           <button class="button button-primary" type="submit">
@@ -237,7 +237,7 @@ avatar: "https://www.mysticstars.cn${siteConfig.branding.avatarSrc}"`}
         <span class="guide-icon" aria-hidden="true">✉</span>
         <div>
           <h3>不会使用 Github？</h3>
-          <p>如果你不熟悉上述的自动提交操作，也可以直接将你的站点资料（名称、链接、简介、头像、分类等）发送邮件至 <a href="mailto:mystic_stars@outlook.com">mystic_stars@outlook.com</a>，我会手动为你添加。</p>
+          <p>如果你不熟悉上述的自动提交操作，也可以直接将你的站点资料（名称、链接、简介、头像、分类等）发送邮件至 <a href={`mailto:${friendLinksConfig.contactEmail}`}>{friendLinksConfig.contactEmail}</a>，我会手动为你添加。</p>
         </div>
       </aside>
     </section>

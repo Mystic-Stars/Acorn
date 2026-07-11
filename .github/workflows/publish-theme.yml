@@ -1,0 +1,46 @@
+name: Publish Acorn theme
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run verify:theme
+      - name: Configure theme deploy key
+        env:
+          THEME_DEPLOY_KEY: ${{ secrets.ACORN_THEME_DEPLOY_KEY }}
+        run: |
+          test -n "$THEME_DEPLOY_KEY" || (echo "Missing ACORN_THEME_DEPLOY_KEY" && exit 1)
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$THEME_DEPLOY_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+      - name: Publish generated template repository
+        env:
+          THEME_REPOSITORY: Mystic-Stars/acorn-theme
+        run: |
+          cd .theme-dist
+          rm -rf node_modules dist .astro
+          git init -b main
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          git commit -m "chore: publish Acorn ${GITHUB_REF_NAME}"
+          git remote add origin "git@github.com:${THEME_REPOSITORY}.git"
+          git push --force origin main

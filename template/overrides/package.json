@@ -1,17 +1,13 @@
 {
-  "name": "acorn",
+  "name": "acorn-blog",
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": ">=22.12.0"
-  },
+  "engines": { "node": ">=22.12.0" },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "export:theme": "node scripts/export-theme.mjs",
-    "verify:theme": "node scripts/export-theme.mjs --verify",
     "preview": "astro preview",
     "postinstall": "node scripts/patch-animal-island-ui.mjs",
     "check": "astro check",

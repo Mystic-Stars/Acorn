@@ -1,10 +1,11 @@
 ---
 import { Divider, Title } from '@components/animal';
 import TwikooAdmin from '@components/island/TwikooAdmin.astro';
+import { siteConfig } from '@/config';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="岛屿管理台" description="Mystic Stars 评论管理" noindex>
+<BaseLayout title="岛屿管理台" description={`${siteConfig.name} 评论管理`} noindex>
   <section class="container comment-admin-page" aria-labelledby="comment-admin-heading">
     <header class="comment-admin-header">
       <p class="keeper-label">ISLAND KEEPER</p>
