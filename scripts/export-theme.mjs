@@ -102,7 +102,9 @@ async function assertNoPersonalData() {
     if (!textExtensions.has(extension)) continue;
     const content = (await readFile(file, 'utf8'))
       .replaceAll('Mystic-Stars/Acorn', 'SOURCE_REPOSITORY')
-      .replaceAll('Mystic-Stars/acorn-theme', 'THEME_REPOSITORY');
+      .replaceAll('Mystic-Stars/acorn-theme', 'THEME_REPOSITORY')
+      .replaceAll('https://github.com/Mystic-Stars', 'AUTHOR_GITHUB_PROFILE')
+      .replaceAll('Mystic-Stars', 'THEME_AUTHOR');
     if (forbidden.some((pattern) => pattern.test(content))) {
       violations.push(normalized(relative(output, file)));
     }
