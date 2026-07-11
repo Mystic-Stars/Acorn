@@ -19,7 +19,9 @@ interface Props {
   totalPages: number;
 }
 
-const { allPosts, pagePosts: posts, currentPage, totalPages } = Astro.props;
+const { allPosts, currentPage, totalPages } = Astro.props;
+const pageSize = homeConfig.pagination.pageSize;
+const visibleStart = (currentPage - 1) * pageSize;
 const tags = collectTags(allPosts);
 const blogStats = getBlogStats(allPosts, siteConfig.establishedAt);
 const featuredPosts = allPosts
@@ -35,7 +37,8 @@ const tabItems = [
   })),
 ];
 
-const prevUrl = currentPage > 1 ? (currentPage === 2 ? '/' : `/page/${currentPage - 1}/`) : undefined;
+const prevUrl =
+  currentPage > 1 ? (currentPage === 2 ? '/' : `/page/${currentPage - 1}/`) : undefined;
 const nextUrl = currentPage < totalPages ? `/page/${currentPage + 1}/` : undefined;
 ---
 
@@ -134,7 +137,12 @@ const nextUrl = currentPage < totalPages ? `/page/${currentPage + 1}/` : undefin
     }
   </section>
 
-  <section class="content-shell container">
+  <section
+    class="content-shell container"
+    data-home-feed
+    data-page-size={pageSize}
+    data-current-page={currentPage}
+  >
     <nav class="topic-tabs" aria-label="文章分类筛选" data-category-filter>
       <div class="tab-track" role="toolbar" aria-label="筛选文章分类">
         {
@@ -159,13 +167,19 @@ const nextUrl = currentPage < totalPages ? `/page/${currentPage + 1}/` : undefin
             <Title size="small" color="app-teal">FIELD JOURNAL</Title>
             <h1 id="article-feed-title">文章瀑布流</h1>
           </div>
-          <span>{posts.length} 篇记录</span>
+          <span data-feed-count>{allPosts.length} 篇记录</span>
         </header>
-        <PostGrid posts={posts} emptyMessage={archiveConfig.emptyState} layout="grid" />
+        <PostGrid
+          posts={allPosts}
+          emptyMessage={archiveConfig.emptyState}
+          layout="grid"
+          {visibleStart}
+          visibleEnd={visibleStart + pageSize}
+        />
         <p class="filter-empty" data-filter-empty hidden>这个标签下暂时还没有文章。</p>
         {
           totalPages > 1 && (
-            <nav class="pagination" aria-label="文章分页">
+            <nav class="pagination" aria-label="文章分页" data-pagination>
               {currentPage > 1 ? (
                 <a href={currentPage === 2 ? '/' : `/page/${currentPage - 1}/`} rel="prev">
                   上一页
@@ -213,6 +227,12 @@ const nextUrl = currentPage < totalPages ? `/page/${currentPage + 1}/` : undefin
   );
   const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-post-card]'));
   const emptyState = document.querySelector<HTMLElement>('[data-filter-empty]');
+  const pagination = document.querySelector<HTMLElement>('[data-pagination]');
+  const feedCount = document.querySelector<HTMLElement>('[data-feed-count]');
+  const homeFeed = document.querySelector<HTMLElement>('[data-home-feed]');
+  const pageSize = Number(homeFeed?.dataset.pageSize ?? 1);
+  let activeCategory = 'all';
+  let activePage = Number(homeFeed?.dataset.currentPage ?? 1);
   const noticeCarousel = document.querySelector<HTMLElement>('[data-notice-carousel]');
   const noticeNextButton = document.querySelector<HTMLButtonElement>('[data-notice-next]');
   const noticeMessages = Array.from(
@@ -230,26 +250,63 @@ const nextUrl = currentPage < totalPages ? `/page/${currentPage + 1}/` : undefin
     document.querySelectorAll<HTMLButtonElement>('[data-featured-index]'),
   );
 
-  const applyFilter = (category: string) => {
-    let visibleCount = 0;
+  const renderFeed = () => {
+    const filteredCards = cards.filter(
+      (card) => activeCategory === 'all' || card.dataset.category === activeCategory,
+    );
+    const pageCount = Math.max(1, Math.ceil(filteredCards.length / pageSize));
+    activePage = Math.min(Math.max(activePage, 1), pageCount);
+    const visibleCards = new Set(
+      filteredCards.slice((activePage - 1) * pageSize, activePage * pageSize),
+    );
 
-    for (const card of cards) {
-      const visible = category === 'all' || card.dataset.category === category;
-      card.hidden = !visible;
-      if (visible) visibleCount += 1;
-    }
+    for (const card of cards) card.hidden = !visibleCards.has(card);
 
     for (const button of filterButtons) {
-      button.setAttribute('aria-pressed', String(button.dataset.filterCategory === category));
+      button.setAttribute('aria-pressed', String(button.dataset.filterCategory === activeCategory));
     }
 
-    if (emptyState) emptyState.hidden = visibleCount > 0;
+    if (emptyState) emptyState.hidden = filteredCards.length > 0;
+    if (feedCount) {
+      feedCount.textContent = filteredCards.length
+        ? `${filteredCards.length} 篇记录 · 第 ${activePage}/${pageCount} 页`
+        : '0 篇记录';
+    }
+
+    if (pagination) {
+      pagination.hidden = pageCount <= 1;
+      pagination.innerHTML =
+        pageCount <= 1
+          ? ''
+          : `<button type="button" data-feed-page="${activePage - 1}" ${activePage === 1 ? 'disabled' : ''}>上一页</button>
+           <ol>${Array.from({ length: pageCount }, (_, index) => {
+             const page = index + 1;
+             return `<li><button type="button" data-feed-page="${page}" ${page === activePage ? 'aria-current="page"' : ''}>${page}</button></li>`;
+           }).join('')}</ol>
+           <button type="button" data-feed-page="${activePage + 1}" ${activePage === pageCount ? 'disabled' : ''}>下一页</button>`;
+    }
   };
 
   filterRoot?.addEventListener('click', (event) => {
     const button = (event.target as Element).closest<HTMLButtonElement>('[data-filter-category]');
-    if (button?.dataset.filterCategory) applyFilter(button.dataset.filterCategory);
+    if (button?.dataset.filterCategory) {
+      activeCategory = button.dataset.filterCategory;
+      activePage = 1;
+      renderFeed();
+    }
   });
+
+  pagination?.addEventListener('click', (event) => {
+    const button = (event.target as Element).closest<HTMLButtonElement>('[data-feed-page]');
+    if (!button || button.disabled) return;
+    activePage = Number(button.dataset.feedPage);
+    renderFeed();
+    document
+      .querySelector('#article-feed-title')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  renderFeed();
 
   const setNotice = (index: number) => {
     activeNotice = index;
@@ -684,7 +741,7 @@ const nextUrl = currentPage < totalPages ? `/page/${currentPage + 1}/` : undefin
     font-weight: 800;
   }
 
-  .pagination ol {
+  .pagination :global(ol) {
     display: flex;
     gap: 0.4rem;
     margin: 0;
@@ -692,8 +749,9 @@ const nextUrl = currentPage < totalPages ? `/page/${currentPage + 1}/` : undefin
     list-style: none;
   }
 
-  .pagination a,
-  .pagination span {
+  .pagination :global(a),
+  .pagination :global(button),
+  .pagination :global(span) {
     display: grid;
     min-width: 2.5rem;
     min-height: 2.5rem;
@@ -703,6 +761,7 @@ const nextUrl = currentPage < totalPages ? `/page/${currentPage + 1}/` : undefin
     background: var(--color-surface-content);
     padding-inline: 0.8rem;
     color: inherit;
+    font: inherit;
     text-decoration: none;
     transition:
       background var(--motion-duration) var(--motion-easing),
@@ -710,19 +769,33 @@ const nextUrl = currentPage < totalPages ? `/page/${currentPage + 1}/` : undefin
       transform var(--motion-duration) var(--motion-easing);
   }
 
-  .pagination a:hover {
+  .pagination :global(a:hover) {
     border-color: var(--color-primary);
     background: rgb(25 200 185 / 12%);
     transform: translateY(-1px);
   }
 
-  .pagination [aria-current='page'] {
+  .pagination :global(button:not(:disabled)) {
+    cursor: pointer;
+  }
+
+  .pagination :global(button:not(:disabled):hover) {
+    border-color: var(--color-primary);
+    background: rgb(25 200 185 / 12%);
+    transform: translateY(-1px);
+  }
+
+  .pagination :global([aria-current='page']) {
     border-color: var(--color-primary-active);
     background: var(--color-primary);
     color: var(--color-white);
   }
 
-  .pagination [aria-disabled='true'] {
+  .pagination :global([aria-disabled='true']) {
+    opacity: 0.48;
+  }
+
+  .pagination :global(button:disabled) {
     opacity: 0.48;
   }
 

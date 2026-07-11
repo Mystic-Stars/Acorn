@@ -8,12 +8,17 @@ import { Card } from './animal';
 
 interface Props {
   post: BlogPost;
+  hidden?: boolean;
 }
 
-const { post } = Astro.props;
+const { post, hidden = false } = Astro.props;
 ---
 
-<article data-post-card data-category={post.data.category ? slugifyTag(post.data.category) : ''}>
+<article
+  data-post-card
+  data-category={post.data.category ? slugifyTag(post.data.category) : ''}
+  {hidden}
+>
   <Card className="post-card" pattern="default">
     <a class="cover-link" href={getPostHref(post)} tabindex="-1" aria-hidden="true">
       <PostCover

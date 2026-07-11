@@ -6,16 +6,24 @@ interface Props {
   posts: BlogPost[];
   emptyMessage: string;
   layout?: 'grid' | 'masonry' | undefined;
+  visibleStart?: number;
+  visibleEnd?: number;
 }
 
-const { posts, emptyMessage, layout = 'grid' } = Astro.props;
+const {
+  posts,
+  emptyMessage,
+  layout = 'grid',
+  visibleStart = 0,
+  visibleEnd = posts.length,
+} = Astro.props;
 ---
 
 {
   posts.length > 0 ? (
     <div class:list={['posts', layout]}>
-      {posts.map((post) => (
-        <PostCard {post} />
+      {posts.map((post, index) => (
+        <PostCard {post} hidden={index < visibleStart || index >= visibleEnd} />
       ))}
     </div>
   ) : (
