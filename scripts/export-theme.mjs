@@ -100,7 +100,9 @@ async function assertNoPersonalData() {
     if (normalized(relative(output, file)) === 'README.md') continue;
     const extension = file.slice(file.lastIndexOf('.'));
     if (!textExtensions.has(extension)) continue;
-    const content = await readFile(file, 'utf8');
+    const content = (await readFile(file, 'utf8'))
+      .replaceAll('Mystic-Stars/Acorn', 'SOURCE_REPOSITORY')
+      .replaceAll('Mystic-Stars/acorn-theme', 'THEME_REPOSITORY');
     if (forbidden.some((pattern) => pattern.test(content))) {
       violations.push(normalized(relative(output, file)));
     }
