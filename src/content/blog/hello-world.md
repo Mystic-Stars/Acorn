@@ -9,6 +9,7 @@ cover:
   alt: "Hello World 的封面图"
 draft: false
 featured: false
+legacyViews: 473
 category: "软件技术"
 tags:
   []

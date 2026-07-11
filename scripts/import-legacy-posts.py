@@ -193,6 +193,7 @@ def frontmatter(post: dict, description: str) -> str:
         f"  alt: {yaml_string(post['title'] + ' 的封面图')}",
         "draft: false",
         f"featured: {'true' if post.get('pinned') else 'false'}",
+        f"legacyViews: {int(post.get('views') or 0)}",
         f"category: {yaml_string(category)}" if category else "",
         "tags:",
         tag_lines or "  []",

@@ -9,6 +9,7 @@ cover:
   alt: '我搭建了我的个人主页网站 的封面图'
 draft: false
 featured: false
+legacyViews: 447
 category: '软件技术'
 tags:
   - '网站'

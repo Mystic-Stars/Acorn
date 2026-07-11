@@ -9,6 +9,7 @@ cover:
   alt: 'Minecraft披风没有同步？快快来看如何申诉吧！ 的封面图'
 draft: false
 featured: false
+legacyViews: 3817
 category: '日常生活'
 tags:
   - '游戏'

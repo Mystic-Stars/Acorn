@@ -1,0 +1,23 @@
+---
+import { analyticsConfig } from '@config/index';
+
+const { checkKey, enabled, scriptUrl, siteId } = analyticsConfig;
+const shouldLoad = enabled && import.meta.env.PROD && siteId && checkKey;
+const shouldLoadPublicCounter = analyticsConfig.publicCounter.enabled && import.meta.env.PROD;
+---
+
+{
+  shouldLoad && (
+    <>
+      <script is:inline charset="UTF-8" id="LA_COLLECT" src={scriptUrl} />
+      <script is:inline define:vars={{ checkKey, siteId }}>
+        globalThis.LA.init(Object.fromEntries([['id', siteId], ['ck', checkKey]]));
+      </script>
+    </>
+  )
+}
+{
+  shouldLoadPublicCounter && (
+    <script is:inline defer src={analyticsConfig.publicCounter.scriptUrl} />
+  )
+}

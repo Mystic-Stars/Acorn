@@ -9,6 +9,7 @@ cover:
   alt: '泰裤辣！宝塔面板企业版无限使用？ 的封面图'
 draft: false
 featured: false
+legacyViews: 276
 category: '软件技术'
 tags:
   - '软件分享'

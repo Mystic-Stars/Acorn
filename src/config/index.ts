@@ -1,4 +1,5 @@
 export { archiveConfig } from './archives';
+export { analyticsConfig } from './analytics';
 export { commentsConfig } from './comments';
 export { aboutConfig, articleReaderConfig, homeConfig } from './content';
 export { friendLinksConfig } from './friend-links';

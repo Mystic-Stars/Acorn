@@ -9,6 +9,7 @@ cover:
   alt: "Typora一键永久激活 的封面图"
 draft: false
 featured: false
+legacyViews: 1308
 category: "软件技术"
 tags:
   - "软件分享"

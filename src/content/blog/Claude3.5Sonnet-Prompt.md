@@ -9,6 +9,7 @@ cover:
   alt: '【Claude】v0.dev和Websim的Prompt分享 的封面图'
 draft: false
 featured: false
+legacyViews: 721
 category: '软件技术'
 tags:
   - '软件分享'

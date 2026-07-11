@@ -9,6 +9,7 @@ cover:
   alt: "TimeX——一款优雅的Typecho图片博客主题 的封面图"
 draft: false
 featured: false
+legacyViews: 669
 category: "软件技术"
 tags:
   - "软件分享"

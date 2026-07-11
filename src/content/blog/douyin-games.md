@@ -9,6 +9,7 @@ cover:
   alt: "【宝藏】N款抖音游戏无广告版，一次玩到爽！ 的封面图"
 draft: false
 featured: false
+legacyViews: 17981
 category: "资源荟萃"
 tags:
   - "网站"

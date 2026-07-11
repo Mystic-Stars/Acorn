@@ -1,5 +1,6 @@
 ---
 import BaseHead from '@components/BaseHead.astro';
+import Analytics from '@components/Analytics.astro';
 import Footer from '@components/Footer.astro';
 import Header from '@components/Header.astro';
 import { siteConfig, themeInlineStyle } from '@config/index';
@@ -56,6 +57,7 @@ const {
       {prevUrl}
       {nextUrl}
     />
+    <Analytics />
   </head>
   <body data-header-overlay={headerOverlay || undefined}>
     <a class="skip-link" href="#main-content">跳到正文</a>

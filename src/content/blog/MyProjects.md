@@ -9,6 +9,7 @@ cover:
   alt: 我的个人项目汇总 的封面图
 draft: false
 featured: true
+legacyViews: 787
 category: 软件技术
 tags:
   - 网站

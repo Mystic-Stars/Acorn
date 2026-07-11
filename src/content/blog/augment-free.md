@@ -9,6 +9,7 @@ cover:
   alt: 告别 Cursor 降智，更强 AI 插件 Augment 免费使用！ 的封面图
 draft: false
 featured: false
+legacyViews: 2435
 category: 软件技术
 tags:
   - 羊毛白嫖

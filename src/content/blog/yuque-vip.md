@@ -9,6 +9,7 @@ cover:
   alt: '【教育优惠】🎉 免费领取 14 个月语雀会员！🎁 助你高效知识管理 🚀 的封面图'
 draft: false
 featured: false
+legacyViews: 3615
 category: '资源荟萃'
 tags:
   - '羊毛白嫖'

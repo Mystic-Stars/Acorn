@@ -9,6 +9,7 @@ cover:
   alt: '【项目】GHS Color：开源色彩管理库 的封面图'
 draft: false
 featured: false
+legacyViews: 410
 category: '软件技术'
 tags:
   - '网站'

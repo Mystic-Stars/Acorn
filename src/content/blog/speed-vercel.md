@@ -9,6 +9,7 @@ cover:
   alt: 'Vercel 加速，快，不止更快 的封面图'
 draft: false
 featured: false
+legacyViews: 6276
 category: '软件技术'
 tags:
   - '网站'

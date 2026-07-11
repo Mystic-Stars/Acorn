@@ -6,6 +6,7 @@ Acorn 将频繁修改的站点内容集中在 `src/config/`，将框架构建选
 
 | 文件                         | 修改内容                                                 |
 | ---------------------------- | -------------------------------------------------------- |
+| `src/config/analytics.ts`    | 51LA 网站访问统计开关、站点 ID、校验键与脚本地址         |
 | `src/config/site.ts`         | 站点名称、创站日期、作者资料、语言、日期、页脚和社交链接 |
 | `src/config/navigation.ts`   | 主导航、全局搜索与页脚工具导航                           |
 | `src/config/archives.ts`     | 归档路由、开发环境草稿、文章元信息与归档筛选文案         |
@@ -17,6 +18,14 @@ Acorn 将频繁修改的站点内容集中在 `src/config/`，将框架构建选
 | `src/content.config.ts`      | 文章 frontmatter 的类型与校验规则                        |
 
 `siteConfig.branding` 统一管理站点 logo 与作者头像路径；默认两者均使用 `public/favicon.svg`。`siteConfig.footer` 中的主题与组件库署名会显示在页脚。
+
+## 访问统计（51LA）
+
+全站访问分析由 `src/config/analytics.ts` 管理。生产构建会在共享布局中加载一次 51LA SDK，开发服务器不会上报访问数据。将 `enabled` 改为 `false` 可关闭 51LA；迁移站点时同步更新 `siteId` 与 `checkKey`，其值以 51LA 后台生成的接入代码为准。
+
+51LA 的数据 API 需要服务端凭据，不应直接从静态页面调用。页脚公开显示的总访问量和总访客数、文章页公开显示的新阅读量因此使用独立的不蒜子计数器，并由 `analyticsConfig.publicCounter` 控制；将其中的 `enabled` 改为 `false` 可隐藏页脚计数、停止加载该脚本，文章页则只显示导入的历史阅读量。51LA 继续用于后台详细分析，两套数据的去重规则不同，数值不保证完全一致。
+
+文章的 `legacyViews` frontmatter 保存旧博客迁移时的阅读量。页面显示值为 `legacyViews + 不蒜子当前文章路径的新增阅读量`；新文章可以省略该字段并从 0 开始。`scripts/import-legacy-posts.py` 会从 `docs/legacy-post-metadata.json` 的 `views` 字段写入它。
 
 ## 友链
 
@@ -120,6 +129,7 @@ cover:
   # alt: 封面图片的替代文本
 draft: false
 featured: false
+legacyViews: 0
 category: 开发笔记
 tags:
   - Astro

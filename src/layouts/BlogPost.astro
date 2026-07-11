@@ -10,6 +10,7 @@ import IslandTimeCard from '@components/island/IslandTimeCard.astro';
 import TagExplorerCard from '@components/island/TagExplorerCard.astro';
 import ArticleTableOfContents from '@components/island/ArticleTableOfContents.astro';
 import ArticleReaderEnhancements from '@components/island/ArticleReaderEnhancements.astro';
+import ArticleViewCount from '@components/island/ArticleViewCount.astro';
 import MarkdownTableEnhancer from '@components/react/MarkdownTableEnhancer';
 import { archiveConfig, siteConfig } from '@config/index';
 import { getBlogStats } from '@lib/blog-stats';
@@ -88,6 +89,10 @@ const hasMarkdownTable =
             <div>
               <dt>作者</dt>
               <dd>{author ?? siteConfig.author.name}</dd>
+            </div>
+            <div>
+              <dt>阅读</dt>
+              <dd><ArticleViewCount legacyViews={post.data.legacyViews} /></dd>
             </div>
             {
               archiveConfig.showUpdatedDate && updatedDate && (

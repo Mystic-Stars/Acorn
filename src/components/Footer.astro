@@ -1,5 +1,5 @@
 ---
-import { navigationConfig, siteConfig } from '@config/index';
+import { analyticsConfig, navigationConfig, siteConfig } from '@config/index';
 import { Divider, Footer as AnimalFooter } from './animal';
 import { SiBilibili, SiGithub } from 'react-icons/si';
 
@@ -50,6 +50,15 @@ const getIcon = (iconName?: string) => {
   <div class="container copyright">
     <div class="copyright-left">
       <span>© {yearLabel} {siteConfig.author.name}</span>
+      {
+        analyticsConfig.publicCounter.enabled && (
+          <span class="visit-count" aria-live="polite" title="公开计数由不蒜子提供">
+            总访问 <strong id="busuanzi_site_pv">统计中…</strong> 次
+            <span aria-hidden="true">·</span>
+            总访客 <strong id="busuanzi_site_uv">统计中…</strong> 人
+          </span>
+        )
+      }
       <span class="credits">
         <span>{siteConfig.footer.themeCredit}</span>
         <span aria-hidden="true">·</span>
@@ -143,12 +152,27 @@ const getIcon = (iconName?: string) => {
     gap: 0.35rem;
   }
 
-  .credits a, .icp-link {
+  .visit-count {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    align-items: baseline;
+  }
+
+  .visit-count strong {
+    color: var(--color-text);
+    font-size: inherit;
+    font-weight: 900;
+  }
+
+  .credits a,
+  .icp-link {
     color: inherit;
     text-underline-offset: 0.16em;
   }
 
-  .credits a:hover, .icp-link:hover {
+  .credits a:hover,
+  .icp-link:hover {
     color: var(--color-text);
   }
 

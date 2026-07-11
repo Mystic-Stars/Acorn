@@ -24,6 +24,8 @@ const blog = defineCollection({
       }),
       draft: z.boolean().default(false),
       featured: z.boolean().default(false),
+      /** Page views carried over from the previous blog platform. */
+      legacyViews: z.number().int().nonnegative().default(0),
       category: z.string().optional(),
       tags: z.array(z.string()).default([]),
       author: z.string().optional(),

@@ -9,6 +9,7 @@ cover:
   alt: "“特殊版”剪映，一站式满足你的需求 的封面图"
 draft: false
 featured: false
+legacyViews: 697
 category: "资源荟萃"
 tags:
   - "软件分享"

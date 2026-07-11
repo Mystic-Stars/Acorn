@@ -9,6 +9,7 @@ cover:
   alt: "阿里云企业邮箱免费注册教程 的封面图"
 draft: false
 featured: false
+legacyViews: 919
 category: "软件技术"
 tags:
   - "软件分享"

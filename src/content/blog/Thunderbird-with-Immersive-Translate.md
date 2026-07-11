@@ -9,6 +9,7 @@ cover:
   alt: '【APIKey福利】🔥 Thunderbird 邮件翻译最强攻略！沉浸式翻译移植 + 硅基流动AI翻译！ 的封面图'
 draft: false
 featured: false
+legacyViews: 2386
 category: '软件技术'
 tags:
   - '软件分享'

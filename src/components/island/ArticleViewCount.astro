@@ -1,0 +1,58 @@
+---
+import { analyticsConfig } from '@config/index';
+
+interface Props {
+  legacyViews?: number | undefined;
+}
+
+const { legacyViews = 0 } = Astro.props;
+const publicCounterEnabled = analyticsConfig.publicCounter.enabled;
+---
+
+<span class="article-view-count" title="历史阅读量与本站新阅读量之和">
+  <span data-view-count data-legacy-views={legacyViews}>{legacyViews.toLocaleString('zh-CN')}</span> 次
+</span>
+
+{
+  publicCounterEnabled && (
+    <span id="busuanzi_page_pv" class="counter-source" aria-hidden="true">
+      统计中…
+    </span>
+  )
+}
+
+<script>
+  const source = document.getElementById('busuanzi_page_pv');
+  const output = document.querySelector<HTMLElement>('[data-view-count]');
+
+  if (source && output) {
+    const legacyViews = Number(output.dataset.legacyViews || 0);
+    const update = () => {
+      const currentViews = Number(source.textContent?.replace(/[^0-9]/g, ''));
+      if (!Number.isFinite(currentViews)) return false;
+      output.textContent = (legacyViews + currentViews).toLocaleString('zh-CN');
+      return true;
+    };
+
+    if (!update()) {
+      const observer = new MutationObserver(() => {
+        if (update()) observer.disconnect();
+      });
+      observer.observe(source, { childList: true, characterData: true, subtree: true });
+    }
+  }
+</script>
+
+<style>
+  .article-view-count {
+    font-variant-numeric: tabular-nums;
+  }
+
+  [data-view-count] {
+    font-weight: 900;
+  }
+
+  .counter-source {
+    display: none;
+  }
+</style>

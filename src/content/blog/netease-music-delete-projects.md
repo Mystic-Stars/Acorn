@@ -9,6 +9,7 @@ cover:
   alt: "网易音乐人删除作品保姆级喂饭教程 的封面图"
 draft: false
 featured: false
+legacyViews: 3402
 category: "软件技术"
 tags:
   - "网站"

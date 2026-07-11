@@ -9,6 +9,7 @@ cover:
   alt: "欢迎 Lafcadia 加入 GHS！ 的封面图"
 draft: false
 featured: false
+legacyViews: 426
 category: "日常生活"
 tags:
   - "新闻"

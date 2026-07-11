@@ -9,6 +9,7 @@ cover:
   alt: "《To the Moon》原声音轨下载 的封面图"
 draft: false
 featured: false
+legacyViews: 1093
 category: "资源荟萃"
 tags:
   - "羊毛白嫖"
