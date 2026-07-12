@@ -1,21 +1,21 @@
 ---
-title: "Acorn：全新 Astro 博客主题"
-description: "介绍一下我的新博客主题 Acorn：一套由 Astro 驱动、带着一点动森气息的温暖博客主题。"
-pubDate: 2026-07-11T19:40:00+08:00
+title: Acorn：全新 Astro 博客主题
+description: 介绍一下我的新博客主题 Acorn：一套由 Astro 驱动、带着一点动森气息的温暖博客主题。
+pubDate: 2026-07-12T21:40:00Z
 cover:
   tone: forest
-  label: "软件技术"
+  label: 软件技术
+  url: /images/posts/acorn.webp
 draft: false
 featured: true
-category: "软件技术"
+category: 软件技术
 tags:
-  - "Astro"
-  - "博客"
-  - "开源"
-  - "项目"
-author: "Mystic Stars"
+  - Astro
+  - 博客
+  - 开源
+  - 项目
+author: Mystic Stars
 ---
-
 ## 写在前面
 
 折腾博客这件事，大概永远不会有真正的结束。最初我选择了 Halo，但由于 Halo 对于服务器的需要，以及后期维护成本高，导致我考虑出将其弃用。于是我（和AI）创建了 Acorn 主题——以“安静写作，优雅博客”为宗旨。采取 Astro ，可以完全实现 serverless。慢慢加上归档、友链、评论、搜索、统计……功能越来越多，也越来越想把它做成真正属于自己的样子。
@@ -23,6 +23,7 @@ author: "Mystic Stars"
 所以，Acorn 就这样诞生啦 🌰
 
 这套主题。整体参考了动森那种温暖、轻松的小岛氛围，但没有把内容藏在花里胡哨的效果后面——我还是希望打开网站的人，能舒服地阅读文章、找到内容，也能看到这个博客一点一点长大。
+![blog-overview](/images/posts/blog-overview.png)
 
 ## Acorn 有什么？
 
