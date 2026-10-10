@@ -24,6 +24,7 @@ export const siteConfig = {
   date: {
     locale: 'zh-CN',
     options: {
+      timeZone: 'Asia/Shanghai',
       year: 'numeric',
       month: 'long',
       day: 'numeric',

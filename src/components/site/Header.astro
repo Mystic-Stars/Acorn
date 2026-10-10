@@ -1,6 +1,6 @@
 ---
 import { navigationConfig, siteConfig } from '@config/index';
-import GlobalSearch from '@components/react/GlobalSearch';
+import GlobalSearch from '@components/react/search/GlobalSearch';
 
 const pathname = Astro.url.pathname;
 const isActive = (href: string) =>
@@ -57,7 +57,11 @@ const isActive = (href: string) =>
           ><path d="M20.4 15.5A8.5 8.5 0 0 1 8.5 3.6 8.5 8.5 0 1 0 20.4 15.5Z"></path></svg
         >
         <svg class="theme-icon theme-icon-system" viewBox="0 0 24 24" aria-hidden="true"
-          ><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg
+          ><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line
+            x1="8"
+            y1="21"
+            x2="16"
+            y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg
         >
         <span class="theme-toggle-label">主题</span>
       </button>
@@ -105,7 +109,7 @@ const isActive = (href: string) =>
   themeToggle?.addEventListener('click', () => {
     const currentSetting = document.documentElement.dataset.themeSetting || 'system';
     const currentTheme = document.documentElement.dataset.theme; // actual visual theme ('light' or 'dark')
-    
+
     let nextSetting = 'system';
     if (currentSetting === 'system') {
       // If currently following system, clicking should switch to the OPPOSITE of what's currently shown
@@ -115,13 +119,13 @@ const isActive = (href: string) =>
     } else {
       nextSetting = 'system';
     }
-    
+
     if (nextSetting === 'system') {
       localStorage.setItem('theme', 'system');
     } else {
       localStorage.setItem('theme', nextSetting);
     }
-    
+
     // Call the applyTheme function exposed by BaseHead.astro
     if (window.applyTheme) {
       window.applyTheme();
@@ -339,7 +343,7 @@ const isActive = (href: string) =>
   .theme-icon-system {
     display: none;
   }
-  
+
   :global(:root[data-theme-setting='light']) .theme-icon-sun {
     display: block;
   }

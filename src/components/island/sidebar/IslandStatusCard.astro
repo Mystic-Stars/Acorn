@@ -1,6 +1,6 @@
 ---
 import { Card } from '@components/animal';
-import { homeConfig } from '@config/index';
+import { homeConfig, siteConfig } from '@config/index';
 import type { BlogStats } from '@lib/blog-stats';
 
 interface Props {
@@ -27,6 +27,7 @@ const items = [
     value: formatter.format(stats.siteDays),
     unit: '天',
     icon: '☀',
+    siteAge: true,
   },
 ];
 ---
@@ -47,7 +48,15 @@ const items = [
               {item.label}
             </dt>
             <dd>
-              <strong>{item.value}</strong>
+              <strong
+                data-site-age={item.siteAge ? siteConfig.establishedAt : undefined}
+                data-site-age-time-zone={
+                  item.siteAge ? siteConfig.date.options.timeZone : undefined
+                }
+                data-site-age-locale={item.siteAge ? siteConfig.date.locale : undefined}
+              >
+                {item.value}
+              </strong>
               <small>{item.unit}</small>
             </dd>
           </div>
@@ -56,6 +65,30 @@ const items = [
     </dl>
   </section>
 </Card>
+
+<script>
+  import { getSiteAgeInDays } from '@lib/dates';
+
+  const counters = document.querySelectorAll<HTMLElement>('[data-site-age]');
+  const updateSiteAge = () => {
+    for (const counter of counters) {
+      const days = getSiteAgeInDays(
+        counter.dataset.siteAge ?? '',
+        new Date(),
+        counter.dataset.siteAgeTimeZone,
+      );
+      counter.textContent = days.toLocaleString(counter.dataset.siteAgeLocale);
+    }
+  };
+
+  updateSiteAge();
+  window.setInterval(updateSiteAge, 60_000);
+  const onVisibilityChange = () => {
+    if (!document.hidden) updateSiteAge();
+  };
+  document.addEventListener('visibilitychange', onVisibilityChange);
+  window.addEventListener('pageshow', updateSiteAge);
+</script>
 
 <style>
   :global(.island-status-card) {

@@ -4,21 +4,16 @@ import { getPostHref, slugifyTag, type BlogPost } from '@lib/posts';
 import FormattedDate from './FormattedDate.astro';
 import PostCover from './PostCover.astro';
 import TagList from './TagList.astro';
-import { Card } from './animal';
+import { Card } from '@components/animal';
 
 interface Props {
   post: BlogPost;
-  hidden?: boolean;
 }
 
-const { post, hidden = false } = Astro.props;
+const { post } = Astro.props;
 ---
 
-<article
-  data-post-card
-  data-category={post.data.category ? slugifyTag(post.data.category) : ''}
-  {hidden}
->
+<article data-post-card data-category={post.data.category ? slugifyTag(post.data.category) : ''}>
   <Card className="post-card" pattern="default">
     <a class="cover-link" href={getPostHref(post)} tabindex="-1" aria-hidden="true">
       <PostCover

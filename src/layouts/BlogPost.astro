@@ -1,17 +1,17 @@
 ---
-import FormattedDate from '@components/FormattedDate.astro';
-import PostCover from '@components/PostCover.astro';
-import TagList from '@components/TagList.astro';
+import FormattedDate from '@components/blog/FormattedDate.astro';
+import PostCover from '@components/blog/PostCover.astro';
+import TagList from '@components/blog/TagList.astro';
 import { Card, Divider, Title } from '@components/animal';
-import AuthorProfileCard from '@components/island/AuthorProfileCard.astro';
-import TwikooComments from '@components/island/TwikooComments.astro';
-import IslandStatusCard from '@components/island/IslandStatusCard.astro';
-import IslandTimeCard from '@components/island/IslandTimeCard.astro';
-import TagExplorerCard from '@components/island/TagExplorerCard.astro';
-import ArticleTableOfContents from '@components/island/ArticleTableOfContents.astro';
-import ArticleReaderEnhancements from '@components/island/ArticleReaderEnhancements.astro';
-import ArticleViewCount from '@components/island/ArticleViewCount.astro';
-import MarkdownTableEnhancer from '@components/react/MarkdownTableEnhancer';
+import AuthorProfileCard from '@components/island/sidebar/AuthorProfileCard.astro';
+import TwikooComments from '@components/island/comments/TwikooComments.astro';
+import IslandStatusCard from '@components/island/sidebar/IslandStatusCard.astro';
+import IslandTimeCard from '@components/island/sidebar/IslandTimeCard.astro';
+import TagExplorerCard from '@components/island/sidebar/TagExplorerCard.astro';
+import ArticleTableOfContents from '@components/island/article/ArticleTableOfContents.astro';
+import ArticleReaderEnhancements from '@components/island/article/ArticleReaderEnhancements.astro';
+import ArticleViewCount from '@components/island/article/ArticleViewCount.astro';
+import MarkdownTableEnhancer from '@components/react/markdown/MarkdownTableEnhancer';
 import { archiveConfig, siteConfig } from '@config/index';
 import { getBlogStats } from '@lib/blog-stats';
 import type { BlogPost } from '@lib/posts';
@@ -27,7 +27,12 @@ const { post, headings } = Astro.props;
 const { title, description, pubDate, updatedDate, cover, tags, author, category } = post.data;
 const posts = await getPublishedPosts();
 const allTags = collectTags(posts);
-const blogStats = getBlogStats(posts, siteConfig.establishedAt);
+const blogStats = getBlogStats(
+  posts,
+  siteConfig.establishedAt,
+  new Date(),
+  siteConfig.date.options.timeZone,
+);
 const hasMarkdownTable =
   /^[^\n]*\|[^\n]*\n\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/m.test(post.body ?? '');
 ---

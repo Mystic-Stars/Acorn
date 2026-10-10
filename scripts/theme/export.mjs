@@ -2,17 +2,14 @@ import { cp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
+import { isPrivateThemePath, resolveThemeOutput } from './safety.mjs';
 
-const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const args = process.argv.slice(2);
 const verify = args.includes('--verify');
 const outputArg = args.find((arg) => arg.startsWith('--output='))?.slice('--output='.length);
-const output = resolve(root, outputArg || '.theme-dist');
+const output = await resolveThemeOutput(root, outputArg);
 const template = join(root, 'template');
-
-if (output === root || !relative(root, output) || relative(root, output).startsWith(`..${sep}`)) {
-  throw new Error('导出目录必须位于仓库内部，且不能是仓库根目录。');
-}
 
 const excluded = new Set([
   '.git',
@@ -24,7 +21,9 @@ const excluded = new Set([
   'node_modules',
   'template',
   '.env',
-  'scripts/export-theme.mjs',
+  'scripts/theme',
+  'tests/integration/theme-export.test.mjs',
+  'tests/helpers/temp-workspace.mjs',
   'docs/THEME_PUBLISHING.md',
   'src/content/blog',
   'src/content/friends',
@@ -45,14 +44,20 @@ function shouldCopy(source) {
   const path = normalized(relative(root, source));
   if (!path) return true;
   if (isAbsolute(path) || path.startsWith('../')) return false;
+  if (isPrivateThemePath(path)) return false;
   return ![...excluded].some((entry) => path === entry || path.startsWith(`${entry}/`));
 }
 
 async function copyRepository() {
+  await resolveThemeOutput(root, output);
   await rm(output, { recursive: true, force: true });
   await mkdir(output, { recursive: true });
   await copyDirectory(root, output);
-  await cp(join(template, 'overrides'), output, { recursive: true, force: true });
+  await cp(join(template, 'overrides'), output, {
+    recursive: true,
+    force: true,
+    filter: (source) => !isPrivateThemePath(normalized(relative(root, source))),
+  });
 }
 
 async function copyDirectory(sourceDirectory, targetDirectory) {
@@ -89,7 +94,20 @@ async function assertNoPersonalData() {
     /acorn-twikoo\.netlify\.app/i,
     /蜀ICP备2024060713号/,
   ];
-  const textExtensions = new Set(['.astro', '.css', '.html', '.js', '.json', '.md', '.mjs', '.ts', '.tsx', '.txt', '.yml', '.yaml']);
+  const textExtensions = new Set([
+    '.astro',
+    '.css',
+    '.html',
+    '.js',
+    '.json',
+    '.md',
+    '.mjs',
+    '.ts',
+    '.tsx',
+    '.txt',
+    '.yml',
+    '.yaml',
+  ]);
   const violations = [];
 
   for (const file of await listFiles(output)) {
@@ -115,8 +133,17 @@ function run(command, commandArgs, cwd) {
   return new Promise((resolvePromise, reject) => {
     const windows = process.platform === 'win32';
     const executable = windows ? [command, ...commandArgs].join(' ') : command;
-    const child = spawn(executable, windows ? [] : commandArgs, { cwd, stdio: 'inherit', shell: windows });
-    child.on('exit', (code) => (code === 0 ? resolvePromise() : reject(new Error(`${command} ${commandArgs.join(' ')} 执行失败（${code}）`))));
+    const child = spawn(executable, windows ? [] : commandArgs, {
+      cwd,
+      stdio: 'inherit',
+      shell: windows,
+    });
+    child.on('error', reject);
+    child.on('exit', (code) =>
+      code === 0
+        ? resolvePromise()
+        : reject(new Error(`${command} ${commandArgs.join(' ')} 执行失败（${code}）`)),
+    );
   });
 }
 
@@ -132,8 +159,10 @@ await writeFile(join(output, '.acorn-template.json'), `${JSON.stringify(metadata
 
 if (verify) {
   await run('npm', ['ci'], output);
+  await run('npm', ['test'], output);
   await run('npm', ['run', 'check'], output);
   await run('npm', ['run', 'build'], output);
+  await run('npm', ['run', 'test:build'], output);
 }
 
 console.log(`\nAcorn 主题已导出到 ${output}${verify ? '，并通过检查与构建。' : '。'}`);

@@ -1,9 +1,9 @@
 ---
-import ArchivePostList from '@components/ArchivePostList.astro';
-import AuthorProfileCard from '@components/island/AuthorProfileCard.astro';
-import IslandStatusCard from '@components/island/IslandStatusCard.astro';
-import IslandTimeCard from '@components/island/IslandTimeCard.astro';
-import TagExplorerCard from '@components/island/TagExplorerCard.astro';
+import ArchivePostList from '@components/blog/ArchivePostList.astro';
+import AuthorProfileCard from '@components/island/sidebar/AuthorProfileCard.astro';
+import IslandStatusCard from '@components/island/sidebar/IslandStatusCard.astro';
+import IslandTimeCard from '@components/island/sidebar/IslandTimeCard.astro';
+import TagExplorerCard from '@components/island/sidebar/TagExplorerCard.astro';
 import { Card, Title } from '@components/animal';
 import { archiveConfig, siteConfig } from '@config/index';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -13,7 +13,12 @@ import { collectCategories, collectTags, getPublishedPosts } from '@lib/posts';
 const posts = await getPublishedPosts();
 const categories = [...collectCategories(posts).entries()];
 const tags = collectTags(posts);
-const blogStats = getBlogStats(posts, siteConfig.establishedAt);
+const blogStats = getBlogStats(
+  posts,
+  siteConfig.establishedAt,
+  new Date(),
+  siteConfig.date.options.timeZone,
+);
 const categoryTabs = [
   { key: 'all', label: archiveConfig.filters.allCategoriesLabel, count: posts.length },
   ...categories.map(([key, category]) => ({

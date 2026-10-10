@@ -1,6 +1,6 @@
 ---
 import { analyticsConfig, navigationConfig, siteConfig } from '@config/index';
-import { Divider, Footer as AnimalFooter } from './animal';
+import { Divider, Footer as AnimalFooter } from '@components/animal';
 import { SiBilibili, SiGithub } from 'react-icons/si';
 
 const year = new Date().getFullYear();
@@ -18,7 +18,7 @@ const getIcon = (iconName?: string) => {
 
 <footer>
   <div class="island-decoration" aria-hidden="true">
-    <AnimalFooter type="tree" seamless/>
+    <AnimalFooter type="tree" seamless />
   </div>
   <div class="container footer-inner">
     <div>
@@ -51,8 +51,15 @@ const getIcon = (iconName?: string) => {
     <div class="copyright-left">
       <span>© {yearLabel} {siteConfig.author.name}</span>
       {
-        analyticsConfig.publicCounter.enabled && (
-          <span class="visit-count" aria-live="polite" title="公开计数由不蒜子提供">
+        analyticsConfig.publicCounter.enabled && import.meta.env.PROD && (
+          <span
+            class="visit-count"
+            aria-live="polite"
+            title="公开计数由不蒜子提供"
+            data-site-counters
+            data-counter-timeout={analyticsConfig.publicCounter.timeoutMs}
+            data-counter-unavailable={analyticsConfig.publicCounter.unavailableLabel}
+          >
             总访问 <strong id="busuanzi_site_pv">统计中…</strong> 次
             <span aria-hidden="true">·</span>
             总访客 <strong id="busuanzi_site_uv">统计中…</strong> 人
@@ -80,6 +87,25 @@ const getIcon = (iconName?: string) => {
     }
   </div>
 </footer>
+
+<script>
+  import { observeCounter } from '@lib/counters';
+
+  const container = document.querySelector<HTMLElement>('[data-site-counters]');
+  for (const id of ['busuanzi_site_pv', 'busuanzi_site_uv']) {
+    const source = document.getElementById(id);
+    if (container && source) {
+      observeCounter(
+        source,
+        () => {},
+        () => {
+          source.textContent = container.dataset.counterUnavailable ?? '';
+        },
+        Number(container.dataset.counterTimeout),
+      );
+    }
+  }
+</script>
 
 <style>
   footer {

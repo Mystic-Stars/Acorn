@@ -1,49 +1,31 @@
-# 访问量统计方案
+# 访问量统计
 
-当前站点使用 Astro 静态输出，文章在构建时生成 HTML，因此不应把访问计数直接写入站点仓库或构建产物。统计应由一个独立、可失败的服务承担：统计服务故障时，文章仍可正常打开。
+Acorn 保持 Astro 静态输出。统计由独立第三方服务承担，不写入仓库，也不阻塞文章阅读。
 
-## 推荐的两层方案
+## 当前实现
 
-### 第一层：站点分析仪表盘
+- **51LA**：用于站长查看来源、设备和全站趋势。仅生产环境加载，由 `analyticsConfig.enabled`、`siteId` 与 `checkKey` 控制。
+- **不蒜子**：提供页脚公开访问量、访客数及文章新增阅读量。由 `analyticsConfig.publicCounter.enabled` 独立控制，也只在生产环境加载。
+- **历史阅读量**：文章 frontmatter 的 `legacyViews` 保存迁移数据。文章显示历史阅读量与当前路径新增阅读量的和。
 
-部署到 Vercel 时启用 **Vercel Web Analytics**；如果部署到 Cloudflare Pages，则启用 **Cloudflare Web Analytics**。这层用于查看全站趋势、来源页、设备和热门页面，不在文章页面展示数字，也不需要改动静态构建方式。
+所有公开配置集中在 `src/config/analytics.ts`。开发服务器不会加载上述统计脚本，也不会显示等待第三方数据的页脚计数。
 
-### 第二层：文章页访问量（后续实现）
+## 加载与故障降级
 
-当需要在文章卡片或文章页显示“阅读量”时，使用 **Cloudflare Worker + D1** 作为轻量计数服务：
+文章先显示历史阅读量，随后等待不蒜子写入有效数字。空字符串、“统计中…”及错误文本不会被解析成 0；有效的 `0` 仍可正常处理。
 
-```mermaid
-flowchart LR
-  A["Astro 文章页"] -->|"POST /v1/views"| B["Cloudflare Worker"]
-  B --> C["频率限制与机器人过滤"]
-  C --> D[("Cloudflare D1")]
-  A -->|"GET /v1/posts/:slug/views"| B
-  B -->|"缓存 10 分钟"| A
-```
+等待超过 `publicCounter.timeoutMs`（默认 12 秒）后：
 
-Worker 负责校验 `Origin`、过滤常见机器人 UA、按 IP 前缀做短期频率限制，并只保存按天轮换盐值计算出的访客摘要；不要保存原始 IP。D1 只维护文章别名和日期维度的计数，可用原子 UPSERT 增加阅读量。
+- 页脚用 `publicCounter.unavailableLabel` 替换等待状态。
+- 文章保留历史阅读量，提示当前未包含新增阅读量。
+- 观察器和计时器停止工作，不进行无限重试。
 
-建议表结构：
+第三方服务可能因网络、浏览器拦截或服务故障不可用。不能把请求失败解释为真实的零访问量。51LA 与不蒜子的去重口径不同，两套数据不保证一致。
 
-```sql
-CREATE TABLE post_view_daily (
-  slug TEXT NOT NULL,
-  viewed_on TEXT NOT NULL,
-  views INTEGER NOT NULL DEFAULT 0,
-  unique_visitors INTEGER NOT NULL DEFAULT 0,
-  PRIMARY KEY (slug, viewed_on)
-);
-```
+## 迁移和安全
 
-## 将来接入步骤
+迁移博客时更新 51LA 公开站点 ID，并保留已发布文章的永久路径；不蒜子新增计数与页面路径关联。不要把历史阅读量重复导入。
 
-1. 注册 Cloudflare，创建 D1 数据库和 Worker；将正式博客域名加入 Worker 的允许来源。
-2. 创建 `POST /v1/views` 与 `GET /v1/posts/:slug/views` 两个端点，并在 Worker 内使用 KV 缓存查询结果。
-3. 为 Astro 创建一个最小的 `PostViewTracker` 客户端 island：页面加载后只发送一次 `POST`；请求失败静默忽略。
-4. 首次渲染显示“阅读量加载中”或不显示数字；取得数据后再更新，避免让统计服务阻塞首屏。
-5. 使用环境变量保存统计服务 URL、公开站点 ID 和管理令牌；管理令牌仅存在 Worker 端，绝不发送到浏览器。
-6. 在隐私政策中说明匿名化访问统计；若面向需要同意管理的地区，再接入同意弹窗后才启动 tracker。
+公开站点 ID 和客户端脚本地址不是服务端密钥。数据库、SMTP、统计管理令牌及其他私密凭据不得写入前端配置或 `PUBLIC_` 环境变量。
 
-## 为什么暂不在当前项目实现
-
-该能力需要选定部署平台、创建数据库与 Worker、配置域名和隐私策略。当前仓库保持 `output: 'static'`，因此先保留这份可执行的接入设计，而不引入未配置的客户端追踪代码或伪造阅读量。
+若以后需要替换计数服务，应维持“静态页面 + 可失败的独立服务”边界，并先确定隐私策略、去重规则、限流与历史数据迁移方案。本仓库目前没有自建计数数据库或 API。

@@ -1,0 +1,64 @@
+---
+import { analyticsConfig } from '@config/index';
+
+interface Props {
+  legacyViews?: number | undefined;
+}
+
+const { legacyViews = 0 } = Astro.props;
+const counterConfig = analyticsConfig.publicCounter;
+const publicCounterEnabled = counterConfig.enabled && import.meta.env.PROD;
+---
+
+<span
+  class="article-view-count"
+  title={publicCounterEnabled ? counterConfig.articleLoadingTitle : '历史阅读量'}
+  data-counter-timeout={counterConfig.timeoutMs}
+  data-counter-ready-title={counterConfig.articleReadyTitle}
+  data-counter-fallback-title={counterConfig.articleFallbackTitle}
+>
+  <span data-view-count data-legacy-views={legacyViews}>{legacyViews.toLocaleString('zh-CN')}</span> 次
+</span>
+
+{
+  publicCounterEnabled && (
+    <span id="busuanzi_page_pv" class="counter-source" aria-hidden="true">
+      统计中…
+    </span>
+  )
+}
+
+<script>
+  import { observeCounter } from '@lib/counters';
+
+  const source = document.getElementById('busuanzi_page_pv');
+  const output = document.querySelector<HTMLElement>('[data-view-count]');
+
+  if (source && output) {
+    const legacyViews = Number(output.dataset.legacyViews || 0);
+    const container = output.parentElement;
+    observeCounter(
+      source,
+      (currentViews) => {
+        output.textContent = (legacyViews + currentViews).toLocaleString('zh-CN');
+        container?.setAttribute('title', container.dataset.counterReadyTitle ?? '');
+      },
+      () => container?.setAttribute('title', container.dataset.counterFallbackTitle ?? ''),
+      Number(container?.dataset.counterTimeout),
+    );
+  }
+</script>
+
+<style>
+  .article-view-count {
+    font-variant-numeric: tabular-nums;
+  }
+
+  [data-view-count] {
+    font-weight: 900;
+  }
+
+  .counter-source {
+    display: none;
+  }
+</style>

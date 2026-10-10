@@ -20,3 +20,11 @@ Acorn is intended to become a long-running Astro blog.
 - Avoid broad client-side hydration; choose the narrowest `client:*` directive.
 - Add tests and documentation alongside durable features.
 - Do not commit generated build output, dependency directories, secrets, or local environment files.
+
+## Directory conventions
+
+- Follow `docs/PROJECT_STRUCTURE.md` when adding or moving files.
+- Group Astro components under `src/components/site/`, `blog/`, or the relevant `island/` subdirectory; group interactive React islands by feature under `src/components/react/`.
+- Keep build-time plugins in `src/plugins/` and repository maintenance commands in `scripts/`.
+- Put pure logic tests in `tests/unit/`, DOM/filesystem tests in `tests/integration/`, production output checks in `tests/build/`, and reusable test utilities in `tests/helpers/`.
+- Update imports, npm commands, and documentation whenever paths change. In the source repository, also update theme export exclusions and verify both the source site and exported theme after structural changes.

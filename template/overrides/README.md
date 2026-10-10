@@ -23,11 +23,15 @@ npm run dev
 
 ```bash
 npm run check
+npm test
 npm run build
+npm run test:build
 npm run preview
 ```
 
 完整配置说明见 [`docs/CONFIGURATION.md`](docs/CONFIGURATION.md)。
+
+目录职责与新增文件规则见 [`docs/PROJECT_STRUCTURE.md`](docs/PROJECT_STRUCTURE.md)，测试分类与单独运行命令见 [`tests/README.md`](tests/README.md)。
 
 ## 获取更新
 

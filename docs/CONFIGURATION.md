@@ -27,6 +27,8 @@ Acorn 将频繁修改的站点内容集中在 `src/config/`，将框架构建选
 
 文章的 `legacyViews` frontmatter 可保存历史阅读量。页面显示值为 `legacyViews + 不蒜子当前文章路径的新增阅读量`；新文章可以省略该字段并从 0 开始。
 
+计数器只在生产构建加载。客户端会等待有效数字，不把“统计中…”或空文本当成 0。`publicCounter.timeoutMs` 控制等待时间（默认 12 秒）；超时后页脚使用 `unavailableLabel`，文章保留历史阅读量并在提示中说明新增计数不可用。第三方计数失败不影响文章阅读。
+
 ## 友链
 
 `/friends/` 是静态友链名册，主导航由 `src/config/navigation.ts` 控制。页面文案、分类、收录要求以及用于创建 Pull Request 的仓库信息位于 `src/config/friend-links.ts`；迁移仓库或默认分支时请同步修改其中的 `repository` 与 `defaultBranch`。
@@ -74,11 +76,11 @@ PUBLIC_TWIKOO_ENV_ID=https://your-twikoo.netlify.app/.netlify/functions/twikoo
 
 `src/config/comments.ts` 固定了 Twikoo 客户端版本，并采用包含结构样式的国内 CDN 镜像；站点视觉样式会在此基础上覆盖。评论样式集中在 `src/styles/twikoo-island.css`，更新 Twikoo 时必须同时更新 Netlify 函数依赖、客户端版本并回归测试。评论按文章永久路径关联，例如 `/archives/hello-world/`；已发布文章不要重命名，否则会生成一个新的评论串。
 
-组件库的 npm ESM 构建包含 Node 无法直接执行的 CSS side-effect import。`npm install` 会通过 `scripts/patch-animal-island-ui.mjs` 去除重复的模块级样式导入；完整组件样式仍由共享布局中的 `animal-island-ui/style` 一次性载入。不要删除 `postinstall`，除非上游已原生支持 Astro 预渲染。
+组件库的 npm ESM 构建包含 Node 无法直接执行的 CSS side-effect import。`npm install` 会通过 `scripts/compat/patch-animal-island-ui.mjs` 去除重复的模块级样式导入；完整组件样式仍由共享布局中的 `animal-island-ui/style` 一次性载入。不要删除 `postinstall`，除非上游已原生支持 Astro 预渲染。
 
 ## 首页分类筛选与侧栏小组件
 
-首页开头的横向筛选栏不使用跳转链接；它会从文章 frontmatter 的 `category` 自动收集分类，并在当前页即时筛选文章卡片。
+首页开头的横向分类导航会从文章 frontmatter 的 `category` 自动收集分类，并链接到 `/archives/?category=...`。归档页会筛选该分类下的全部文章，可继续叠加年份与标签筛选；URL 可分享和收藏。
 
 右侧作者卡片从 `src/config/site.ts` 的 `author` 读取姓名、身份、简介、所在地、签名和关注方向，点击卡片顶部可平滑展开详细资料。标签卡片会自动汇总所有已发布文章的 `tags`，并链接到带有对应筛选条件的文章归档页。
 
@@ -88,7 +90,7 @@ PUBLIC_TWIKOO_ENV_ID=https://your-twikoo.netlify.app/.netlify/functions/twikoo
 establishedAt: '2026-07-10',
 ```
 
-创站当天计为第 1 天。侧栏标题、按钮和统计项标签统一在 `src/config/content.ts` 的 `homeConfig.sidebar` 修改。
+创站当天计为第 1 天。日期显示和建站天数统一使用 `siteConfig.date.options.timeZone`（默认 `Asia/Shanghai`），不依赖构建服务器或访客所在的时区。建站天数保留构建时的无 JavaScript 回退，浏览器打开页面后及每分钟会重新计算，切回页面时也会更新，无需每天重新部署。侧栏标题、按钮和统计项标签统一在 `src/config/content.ts` 的 `homeConfig.sidebar` 修改。
 
 `articleTocConfig` 同样位于 `src/config/content.ts`，用于控制文章页侧栏的“文章目录”。目录会从文章 Markdown 的二、三级标题自动生成锚点链接，并在阅读滚动时高亮当前章节；它不需要为每篇文章单独维护。
 
@@ -96,9 +98,9 @@ establishedAt: '2026-07-10',
 
 ## 首页文字公告与置顶文章
 
-`src/config/content.ts` 的 `homeConfig.notices` 是首页顶部的纯文字公告列表：默认自动轮播，点击整条公告或圆点都可手动切换。`homeConfig.featured` 控制置顶文章横条的文案和 `maxItems` 数量（最多 5）；横条会自动选择最新的 `featured: true` 文章，并在右侧列表中平滑切换。没有置顶文章时，该横条不会渲染。
+`src/config/content.ts` 的 `homeConfig.notices` 是首页顶部的纯文字公告列表：默认自动轮播，点击整条公告或圆点都可手动切换。页面不可见或系统开启减少动态效果时停止自动轮播。`homeConfig.featured` 控制置顶文章横条的文案和 `maxItems` 数量（最多 5）；横条会自动选择最新的 `featured: true` 文章，并在右侧列表中平滑切换。没有置顶文章时，该横条不会渲染。
 
-`homeConfig.pagination.pageSize` 控制首页每页显示的文章数量，默认是 6。第一页路径为 `/`，后续页使用 `/page/2/`、`/page/3/` 等静态路径。首页分类筛选仅筛选当前页的文章。
+`homeConfig.pagination.pageSize` 控制首页每页显示的文章数量，默认是 6。第一页路径为 `/`，后续页使用 `/page/2/`、`/page/3/` 等静态路径。每个 HTML 仅输出当前页文章，不再隐藏全站卡片。分页使用真实链接，因此刷新、前进后退、复制地址和禁用 JavaScript 均可正常使用。
 
 ## 域名
 
@@ -109,7 +111,9 @@ SITE_URL=https://your-domain.example
 PUBLIC_TWIKOO_ENV_ID=https://your-twikoo.netlify.app/.netlify/functions/twikoo
 ```
 
-该值用于 canonical URL、RSS 与 Sitemap。
+该值用于 canonical URL、RSS 与 Sitemap。`astro.config.mjs` 会加载本地 `.env` 及对应模式的环境文件，部署平台提供的同名环境变量优先。未配置时使用 `https://example.com`，正式发布前务必覆盖。
+
+评论管理页保留 `noindex`，并从 Sitemap 中排除；这不是访问控制，评论服务仍必须验证管理员身份。
 
 ## 新增文章
 

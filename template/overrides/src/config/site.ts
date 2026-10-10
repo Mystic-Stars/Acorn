@@ -19,7 +19,12 @@ export const siteConfig = {
   },
   date: {
     locale: 'zh-CN',
-    options: { year: 'numeric', month: 'long', day: 'numeric' } satisfies Intl.DateTimeFormatOptions,
+    options: {
+      timeZone: 'Asia/Shanghai',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    } satisfies Intl.DateTimeFormatOptions,
   },
   footer: {
     copyrightStartYear: 2026,
@@ -28,7 +33,10 @@ export const siteConfig = {
       label: '基于 Acorn 主题',
       href: 'https://github.com/Mystic-Stars/acorn-theme',
     },
-    uiCredit: { label: '使用 animal-island-ui', href: 'https://github.com/guokaigdg/animal-island-ui' },
+    uiCredit: {
+      label: '使用 animal-island-ui',
+      href: 'https://github.com/guokaigdg/animal-island-ui',
+    },
     icp: '',
   },
   socialLinks: [

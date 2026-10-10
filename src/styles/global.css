@@ -134,6 +134,15 @@ pre.astro-code span {
   margin-inline: auto;
 }
 
+.sidebar {
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.sidebar-card {
+  min-width: 0;
+}
+
 .skip-link {
   position: fixed;
   z-index: 100;
@@ -237,16 +246,12 @@ pre.astro-code span {
   background: var(--color-surface-raised);
 }
 
-:root[data-theme='dark']
-  .article-animal-table-mount
-  [class*='animal-row-'] {
+:root[data-theme='dark'] .article-animal-table-mount [class*='animal-row-'] {
   transition: background-color 0.15s ease-out;
   border-radius: var(--radius-small);
 }
 
-:root[data-theme='dark']
-  .article-animal-table-mount
-  [class*='animal-row-']:hover {
+:root[data-theme='dark'] .article-animal-table-mount [class*='animal-row-']:hover {
   background-image: none !important;
   background-color: rgb(84 211 192 / 12%); /* softer highlight than solid primary */
   clip-path: none !important;

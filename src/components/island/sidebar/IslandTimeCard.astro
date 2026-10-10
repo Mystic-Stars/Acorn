@@ -20,9 +20,33 @@ import { Card, Time } from '@components/animal';
   section {
     display: flex;
     justify-content: center;
+    container-type: inline-size;
   }
 
   section :global(.island-time) {
     max-width: 100%;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+  }
+
+  section :global([class*='animal-acDate-']) {
+    padding-right: 0.75rem;
+  }
+
+  section :global([class*='animal-acTime-']),
+  section :global([class*='animal-acColon-']) {
+    font-size: 2rem;
+  }
+
+  @container (max-width: 16rem) {
+    section :global(.island-time) {
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    section :global([class*='animal-acDate-']) {
+      padding-right: 0;
+      border-right: 0;
+    }
   }
 </style>

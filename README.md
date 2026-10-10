@@ -14,29 +14,44 @@ npm run dev
 
 ## 常用命令
 
-| 命令                   | 用途                     |
-| ---------------------- | ------------------------ |
-| `npm run dev`          | 启动本地开发服务器       |
-| `npm run check`        | 检查 Astro 与 TypeScript |
-| `npm run build`        | 生成静态生产文件         |
-| `npm run preview`      | 预览生产构建             |
-| `npm run format`       | 格式化项目文件           |
-| `npm run format:check` | 检查格式                 |
+| 命令                       | 用途                      |
+| -------------------------- | ------------------------- |
+| `npm run dev`              | 启动本地开发服务器        |
+| `npm run check`            | 检查 Astro 与 TypeScript  |
+| `npm test`                 | 运行逻辑与 DOM 回归测试   |
+| `npm run test:unit`        | 仅运行纯逻辑单元测试      |
+| `npm run test:integration` | 仅运行 DOM 与文件系统测试 |
+| `npm run build`            | 生成静态生产文件          |
+| `npm run test:build`       | 检查分页、SEO 和构建产物  |
+| `npm run preview`          | 预览生产构建              |
+| `npm run format`           | 格式化项目文件            |
+| `npm run format:check`     | 检查格式                  |
 
 ## 主要目录
 
 ```text
 src/
-  components/       可复用 Astro 组件
-  config/           站点、导航、归档、文案和主题配置
-  content/blog/     Markdown 文章
-  layouts/          页面及文章布局
-  lib/              文章查询、排序和标签逻辑
-  pages/            文件系统路由
-  styles/           全局样式与语义化 token
+  components/site/    页头、页脚、SEO 和统计接入
+  components/blog/    首页文章流、列表、卡片和封面
+  components/island/  按阅读、评论和侧栏分组的 Astro 组件
+  components/react/   按功能分组的 React 交互组件
+  components/animal/  组件库的共享 SSR 封装
+  config/             可编辑站点配置
+  content/            博客文章与友链资料
+  layouts/            页面及文章布局
+  lib/                查询与可复用逻辑
+  pages/              文件系统路由
+  plugins/            Markdown 构建插件
+  styles/             全局样式与语义化 token
+scripts/              兼容处理与主题导出工具
+tests/                单元、集成和构建产物测试
+docs/                 配置、结构与发布说明
+template/overrides/   公开主题默认配置和示例内容
 ```
 
-配置入口及新增文章说明见 [`docs/CONFIGURATION.md`](docs/CONFIGURATION.md)。
+配置入口及新增文章说明见 [`docs/CONFIGURATION.md`](docs/CONFIGURATION.md)。目录职责和新增文件规则见 [`docs/PROJECT_STRUCTURE.md`](docs/PROJECT_STRUCTURE.md)，测试分类见 [`tests/README.md`](tests/README.md)。
+
+提交前依次运行 `npm test`、`npm run check`、`npm run build` 和 `npm run test:build`。CI 会执行同样的回归检查；主题导出额外验证危险路径、环境文件隔离和生成模板。
 
 ## Pages CMS
 
