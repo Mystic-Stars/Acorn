@@ -109,6 +109,8 @@ const nextUrl = currentPage < totalPages ? `/page/${currentPage + 1}/` : undefin
                       image={post.data.cover.image}
                       imageUrl={post.data.cover.url}
                       alt={post.data.cover.alt}
+                      priority={index === 0}
+                      size="feature"
                     />
                   </a>
                   <div class="featured-copy">

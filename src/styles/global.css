@@ -1,5 +1,6 @@
 @import './tokens.css';
 @import './search.css';
+@import '@fontsource-variable/noto-sans-sc/wght.css';
 
 *,
 *::before,
@@ -7,12 +8,18 @@
   box-sizing: border-box;
 }
 
+:root {
+  --animal-font-family:
+    Nunito, 'Noto Sans SC Variable', 'Noto Sans SC', -apple-system, 'PingFang SC',
+    'Microsoft YaHei', sans-serif !important;
+}
+
 html {
   min-width: 20rem;
   scrollbar-gutter: stable;
   background: var(--color-surface);
   color: var(--color-text-body);
-  font-family: 'Nunito', 'Noto Sans SC', sans-serif;
+  font-family: Nunito, 'Noto Sans SC Variable', 'Noto Sans SC', sans-serif;
   font-synthesis: none;
   scroll-behavior: smooth;
 }
@@ -25,7 +32,6 @@ body {
     radial-gradient(ellipse 34rem 24rem at 92% 9rem, rgb(247 205 103 / 15%), transparent 76%),
     radial-gradient(ellipse 28rem 22rem at 54% 42rem, rgb(122 178 236 / 8%), transparent 78%),
     var(--color-surface);
-  background-attachment: fixed;
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.75;

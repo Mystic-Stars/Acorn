@@ -42,7 +42,7 @@ const isActive = (href: string) =>
             <GlobalSearch
               indexUrl={navigationConfig.search.indexUrl}
               config={navigationConfig.search}
-              client:load
+              client:idle
             />
           )
         }
@@ -95,7 +95,18 @@ const isActive = (href: string) =>
 
   header?.classList.toggle('is-compact', isCompact);
   updateHeader();
-  window.addEventListener('scroll', updateHeader, { passive: true });
+  let headerFrame: number | undefined;
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (headerFrame !== undefined) return;
+      headerFrame = window.requestAnimationFrame(() => {
+        headerFrame = undefined;
+        updateHeader();
+      });
+    },
+    { passive: true },
+  );
 
   const themeToggle = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
   const updateThemeToggle = () => {

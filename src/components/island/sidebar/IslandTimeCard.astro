@@ -1,12 +1,76 @@
 ---
-import { Card, Time } from '@components/animal';
+import { Card } from '@components/animal';
+
+const now = new Date();
+const dateParts = new Intl.DateTimeFormat('en-US', {
+  weekday: 'long',
+  month: 'short',
+  day: 'numeric',
+}).formatToParts(now);
+const getDatePart = (type: Intl.DateTimeFormatPartTypes) =>
+  dateParts.find((part) => part.type === type)?.value ?? '';
+const hours = now.getHours().toString().padStart(2, '0');
+const minutes = now.getMinutes().toString().padStart(2, '0');
 ---
 
 <Card className="sidebar-card island-time-card">
   <section aria-label="当前本地时间">
-    <Time client:only="react" className="island-time" />
+    <div
+      class="island-time"
+      data-island-time
+      aria-label={`${getDatePart('weekday')}, ${getDatePart('month')} ${getDatePart('day')}, ${hours}:${minutes}`}
+    >
+      <div class="island-time-date">
+        <span data-time-weekday>{getDatePart('weekday')}</span>
+        <span data-time-monthday>{getDatePart('month')} {getDatePart('day')}</span>
+      </div>
+      <div class="island-time-clock" aria-hidden="true">
+        <span data-time-hours>{hours}</span>
+        <span class="island-time-colon">:</span>
+        <span data-time-minutes>{minutes}</span>
+      </div>
+    </div>
   </section>
 </Card>
+
+<script>
+  const clocks = Array.from(document.querySelectorAll<HTMLElement>('[data-island-time]'));
+  let clockTimer: number | undefined;
+
+  const updateClocks = () => {
+    const now = new Date();
+    const dateParts = new Intl.DateTimeFormat('en-US', {
+      weekday: 'long',
+      month: 'short',
+      day: 'numeric',
+    }).formatToParts(now);
+    const getDatePart = (type: Intl.DateTimeFormatPartTypes) =>
+      dateParts.find((part) => part.type === type)?.value ?? '';
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const label = `${getDatePart('weekday')}, ${getDatePart('month')} ${getDatePart('day')}, ${hours}:${minutes}`;
+
+    for (const clock of clocks) {
+      clock.querySelector('[data-time-weekday]')!.textContent = getDatePart('weekday');
+      clock.querySelector('[data-time-monthday]')!.textContent =
+        `${getDatePart('month')} ${getDatePart('day')}`;
+      clock.querySelector('[data-time-hours]')!.textContent = hours;
+      clock.querySelector('[data-time-minutes]')!.textContent = minutes;
+      clock.setAttribute('aria-label', label);
+    }
+  };
+
+  const startClock = () => {
+    window.clearInterval(clockTimer);
+    updateClocks();
+    if (!document.hidden) clockTimer = window.setInterval(updateClocks, 1000);
+  };
+
+  startClock();
+  document.addEventListener('visibilitychange', startClock);
+  window.addEventListener('pageshow', startClock);
+  window.addEventListener('pagehide', () => window.clearInterval(clockTimer));
+</script>
 
 <style>
   :global(.island-time-card) {
@@ -23,28 +87,45 @@ import { Card, Time } from '@components/animal';
     container-type: inline-size;
   }
 
-  section :global(.island-time) {
+  .island-time {
+    display: flex;
+    align-items: center;
     max-width: 100%;
     gap: 0.75rem;
     padding: 0.75rem 1rem;
   }
 
-  section :global([class*='animal-acDate-']) {
+  .island-time-date {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
     padding-right: 0.75rem;
+    border-right: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: 0.72rem;
+    font-weight: 800;
+    line-height: 1.25;
   }
 
-  section :global([class*='animal-acTime-']),
-  section :global([class*='animal-acColon-']) {
+  .island-time-clock {
+    color: var(--color-text);
     font-size: 2rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .island-time-colon {
+    color: var(--color-primary-active);
   }
 
   @container (max-width: 16rem) {
-    section :global(.island-time) {
+    .island-time {
       flex-direction: column;
       gap: 0.35rem;
     }
 
-    section :global([class*='animal-acDate-']) {
+    .island-time-date {
       padding-right: 0;
       border-right: 0;
     }

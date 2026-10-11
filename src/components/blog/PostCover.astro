@@ -31,6 +31,15 @@ const {
   size = 'card',
   decorative = false,
 } = Astro.props;
+
+const imageWidths =
+  size === 'feature' ? [640, 960, 1200] : size === 'article' ? [480, 720, 1000] : [320, 480, 640];
+const imageSizes =
+  size === 'feature'
+    ? '(max-width: 44rem) calc(100vw - 2rem), 50vw'
+    : size === 'article'
+      ? '(max-width: 48rem) calc(100vw - 2rem), 28rem'
+      : '(max-width: 44rem) calc(100vw - 3rem), (max-width: 66rem) 42vw, 26rem';
 ---
 
 <div class:list={['post-cover', `size-${size}`]} data-tone={tone}>
@@ -41,10 +50,23 @@ const {
         alt={alt}
         width={1000}
         height={500}
+        widths={imageWidths}
+        sizes={imageSizes}
+        format="webp"
+        quality="high"
+        priority={priority}
         loading={priority ? 'eager' : 'lazy'}
       />
     ) : imageUrl ? (
-      <img src={imageUrl} alt={alt} loading={priority ? 'eager' : 'lazy'} />
+      <img
+        src={imageUrl}
+        alt={alt}
+        width="1000"
+        height="500"
+        loading={priority ? 'eager' : 'lazy'}
+        decoding="async"
+        fetchpriority={priority ? 'high' : 'auto'}
+      />
     ) : (
       <div class="generated-cover" role="img" aria-label={alt}>
         <div class="cover-sun" aria-hidden="true" />
