@@ -5,7 +5,7 @@ pubDate: 2024-06-09T20:00:00+08:00
 cover:
   tone: ocean
   label: "软件技术"
-  url: "https://bu.dusays.com/2024/06/13/666a67893e2f8.webp"
+  upload: "/images/posts/TimeX/cover-f4f2efa392d1.webp"
   alt: "TimeX——一款优雅的Typecho图片博客主题 的封面图"
 draft: false
 featured: false
@@ -27,7 +27,7 @@ author: "Mystic Stars"
 
 ## **¶**介绍
 
-### ![](https://bu.dusays.com/2024/06/13/666a5e0678e55.webp)
+### ![](/images/posts/TimeX/666a5e0678e55-19efd3166f76.webp)
 
 本图片博客遵循 简洁、高效、美观 的原则进行设计。
 
@@ -39,7 +39,7 @@ author: "Mystic Stars"
 
 点击[Releases](https://github.com/Mystic-Stars/TimeX/releases)，下载最新版本源代码即可！
 
-![](https://bu.dusays.com/2024/06/13/666a6067b4229.png)
+![](/images/posts/TimeX/666a6067b4229-ab27ea669ac0.png)
 
 ## **¶**使用说明
 

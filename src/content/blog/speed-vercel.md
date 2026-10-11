@@ -5,7 +5,7 @@ pubDate: 2024-05-24T18:00:00+08:00
 cover:
   tone: ocean
   label: '软件技术'
-  url: 'https://bu.dusays.com/2024/05/25/6651745259320.png'
+  upload: "/images/posts/speed-vercel/cover-d324f43920b0.png"
   alt: 'Vercel 加速，快，不止更快 的封面图'
 draft: false
 featured: false
@@ -41,7 +41,7 @@ Vercel 不仅可以部署 Hexo 博客，还能部署很多服务。
 
 > 我没有图床所以直接复制杜老师的，但是注意，两个CNAME速度有差距，这个CNAME对应[https://vercel-cyfan.yt-blog.top/](https://vercel-cyfan.yt-blog.top/)，这主要是由于104.199.217.228只有电信快，18.162.37.140相对不稳定，但联通和移动快，大部分Vercel节点都是联通和移动快。vercel.cdn.yt-blog.top使用了更多的IP确保在一台出现问题后不会有太面积影响，但灵感来自vercel.cdn.cyfan.top
 
-![图片](https://cdn.dusays.com/2024/01/669-1.jpg)图片
+![图片](/images/posts/speed-vercel/669-1-72711a8a469e.webp)图片
 
 可访问[Vercel CDN (vercel.cdn.yt-blog.top)](https://vercel.cdn.yt-blog.top/)查看
 
@@ -100,7 +100,7 @@ Vercel在部署时会自动刷新缓存，静态网站缓存可以拉到无限�
 
 测速工具（节点很多，非常推荐）：[https://zhale.me/http/](https://zhale.me/http/)
 
-![](https://bu.dusays.com/2024/05/24/66506514bb08c.png)测速图片（GHS官网 https://www.ghs.red）
+![](/images/posts/speed-vercel/66506514bb08c-0fa689db7e61.png)测速图片（GHS官网 https://www.ghs.red）
 
 ## **¶**问题反馈
 

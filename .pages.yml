@@ -1,16 +1,22 @@
 media:
-  name: images
-  label: 图片与正文附件
-  input: public/images
-  output: /images
-  rename: random
-  extensions: [jpg, jpeg, png, webp, gif, avif, svg]
-  commit:
-    templates:
-      create: 'media: add {path}'
-      update: 'media: update {path}'
-      delete: 'media: remove {path}'
-      rename: 'media: rename {oldPath} -> {newPath}'
+  - name: posts
+    label: 文章图片
+    input: public/images/posts
+    output: /images/posts
+    rename: random
+    extensions: [jpg, jpeg, png, webp, gif, avif, svg]
+  - name: friends
+    label: 友链头像
+    input: public/images/friends
+    output: /images/friends
+    rename: random
+    extensions: [jpg, jpeg, png, webp, gif, avif, svg, ico]
+  - name: site
+    label: 站点图片
+    input: public/images/site
+    output: /images/site
+    rename: random
+    extensions: [jpg, jpeg, png, webp, gif, avif, svg, ico]
 
 content:
   - name: blog
@@ -96,19 +102,19 @@ content:
             options:
               maxlength: 32
           - name: url
-            label: 已有封面地址
+            label: 兼容封面地址（通常留空）
             type: string
-            description: 保留远程 http/https 地址或站内公共路径；上传图片会优先于此地址显示。
+            description: 仅供历史内容兼容；新文章请使用下面的本地封面图片字段。
             pattern:
               regex: '^(https?://[^\s]+|/(?!/)[^\s]*)?$'
               message: 请填写 http/https 链接或以 / 开头的站内路径。
           - name: upload
-            label: 上传封面图片
+            label: 封面图片
             type: image
-            description: 上传或选择媒体库图片；建议使用 2:1 比例。清空后恢复原有封面或默认色调。
+            description: 上传或选择文章媒体库中的本地图片，建议 2:1；默认上传到 uploads，清空后使用默认色调或兼容封面。
             options:
-              media: images
-              path: public/images/posts
+              media: posts
+              path: public/images/posts/uploads
               extensions: [jpg, jpeg, png, webp, gif, avif, svg]
           - name: alt
             label: 封面替代文本
@@ -147,12 +153,12 @@ content:
         label: 正文
         type: rich-text
         required: true
-        description: 在 Editor 中粘贴、拖入图片，或输入 / 选择 Image 上传；图片自动保存到媒体库。复杂 Markdown 请使用侧栏的完整源码入口。
+        description: 粘贴、拖入图片或通过 / → Image 上传到文章媒体库；默认存入 uploads，也可选择文章同名目录。复杂 Markdown 使用完整源码入口。
         options:
           format: markdown
           switcher: true
-          media: images
-          path: public/images/posts
+          media: posts
+          path: public/images/posts/uploads
           extensions: [jpg, jpeg, png, webp, gif, avif, svg]
 
   - name: friends
@@ -198,13 +204,14 @@ content:
           minlength: 1
           maxlength: 80
       - name: avatar
-        label: 头像地址
-        type: string
+        label: 头像图片
+        type: image
         required: true
-        description: 填写 http/https 地址，或从图片媒体库上传后复制 /images/... 路径。
-        pattern:
-          regex: '^(https?://[^\s]+|/(?!/)[^\s]+)$'
-          message: 请填写 http/https 链接或以 / 开头的站内路径。
+        description: 直接上传或选择友链头像媒体库中的本地图片；外部申请头像在合并前先下载到本地。
+        options:
+          media: friends
+          path: public/images/friends
+          extensions: [jpg, jpeg, png, webp, gif, avif, svg, ico]
       - name: category
         label: 分类
         type: select

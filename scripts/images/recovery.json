@@ -1,0 +1,70 @@
+{
+  "https://cdn.dusays.com/2024/01/669-1.jpg": {
+    "source": "https://cdn.dusays.com/2024/01/669-1.webp",
+    "note": "Recovered from the source article."
+  },
+  "https://blog.xingchencloud.top/img/favicon.ico": {
+    "source": "https://blog.xingchencloud.top/favicon.ico",
+    "note": "Recovered from the current homepage favicon."
+  },
+  "https://www.lihouse.xyz/ico.php?mode=1": {
+    "source": "https://www.lihouse.xyz/ico.php?mode=1",
+    "allowExpiredCertificate": true,
+    "note": "Downloaded with explicit certificate bypass because the host certificate is expired."
+  },
+  "https://camo.githubusercontent.com/c54f80444aff8dea387f15a6cb08b7f1ea94d245ac040878e368451e7367021b/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f302e77656270": {
+    "source": "/images/site/image-unavailable.svg",
+    "placeholder": true,
+    "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+  },
+  "https://camo.githubusercontent.com/038a6b9cc2763be6722c97970d2e9eb25095b685712e897378fdbae1f4ad76ce/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f322e77656270": {
+    "source": "/images/site/image-unavailable.svg",
+    "placeholder": true,
+    "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+  },
+  "https://camo.githubusercontent.com/2b815eb93fc8d03a7350019b52ad3a07615b7af88275dae24b9e3e92ae4e7f42/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f332e77656270": {
+    "source": "/images/site/image-unavailable.svg",
+    "placeholder": true,
+    "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+  },
+  "https://camo.githubusercontent.com/ceb5b349bef5fd59955fa30832b6039df341521db0910e6b9c8b6d4dfa7abdb8/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f312e77656270": {
+    "source": "/images/site/image-unavailable.svg",
+    "placeholder": true,
+    "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+  },
+  "https://camo.githubusercontent.com/8a229cb5e754beae610b2cb70d0325105a7d613bedf50f215e92d8750d629c43/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f342e77656270": {
+    "source": "/images/site/image-unavailable.svg",
+    "placeholder": true,
+    "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+  },
+  "https://camo.githubusercontent.com/c9b642bcdda8f79f175ca4d53282991b24da8b703bffb36211bf662fe53c164b/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f352e77656270": {
+    "source": "/images/site/image-unavailable.svg",
+    "placeholder": true,
+    "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+  },
+  "https://camo.githubusercontent.com/62f375e073622a6ea3194cf96e283539ae61608acb2c84e3274bf8eb380c5f99/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f362e77656270": {
+    "source": "/images/site/image-unavailable.svg",
+    "placeholder": true,
+    "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+  },
+  "https://camo.githubusercontent.com/01c92a6227648be6f139c3527a90aa8ba1eb02dc6e0ca49a8243b0030e172ead/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f372e77656270": {
+    "source": "/images/site/image-unavailable.svg",
+    "placeholder": true,
+    "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+  },
+  "https://camo.githubusercontent.com/46de6ced890a6cbdfa91db8070b7f55216cdb5173085a616b83adfa4ae055c2b/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f382e77656270": {
+    "source": "/images/site/image-unavailable.svg",
+    "placeholder": true,
+    "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+  },
+  "https://camo.githubusercontent.com/4f3bf448cb3fbd73f64471043654c8cfab068e7d28ea5def52f97ad22f8787b3/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f392e77656270": {
+    "source": "/images/site/image-unavailable.svg",
+    "placeholder": true,
+    "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+  },
+  "https://camo.githubusercontent.com/ee30f07984b3753a6e8539e89892f02d160eceeeff238d8042ed628995343bdb/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f31302e77656270": {
+    "source": "/images/site/image-unavailable.svg",
+    "placeholder": true,
+    "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+  }
+}

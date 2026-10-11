@@ -5,7 +5,7 @@ pubDate: 2024-05-25T21:00:00+08:00
 cover:
   tone: ocean
   label: '软件技术'
-  url: 'https://bu.dusays.com/2024/05/25/6651eb8b263e7.png'
+  upload: "/images/posts/bt-plus/cover-4dc24a14bd13.png"
   alt: '泰裤辣！宝塔面板企业版无限使用？ 的封面图'
 draft: false
 featured: false
@@ -23,7 +23,7 @@ author: 'Mystic Stars'
 
 但是随着发展，现在的宝塔早已不是多年前的样子，到处充斥着收费，甚至不登录就无法使用，但今天，我找到了一个企业版的宝塔，分享出来给大家使用。
 
-![](https://bu.dusays.com/2024/05/25/6651ecbe12d22.png)
+![](/images/posts/bt-plus/6651ecbe12d22-52409479d100.png)
 
 ## **¶**食用方法
 

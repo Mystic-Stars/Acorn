@@ -5,7 +5,7 @@ pubDate: 2024-12-14T12:00:00+08:00
 cover:
   tone: ocean
   label: '软件技术'
-  url: 'https://bu.dusays.com/2024/12/14/675d151ee196e.webp'
+  upload: "/images/posts/Thunderbird-with-Immersive-Translate/cover-fdbbd532ef4c.webp"
   alt: '【APIKey福利】🔥 Thunderbird 邮件翻译最强攻略！沉浸式翻译移植 + 硅基流动AI翻译！ 的封面图'
 draft: false
 featured: false
@@ -34,7 +34,7 @@ author: 'Mystic Stars'
 
 Thunderbird哪里都好，但是它的`邮件翻译`功能一直不尽人意
 
-![](https://bu.dusays.com/2024/12/13/675c4592be6ee.png)
+![](/images/posts/Thunderbird-with-Immersive-Translate/675c4592be6ee-52924d61af84.png)
 
 可以看到，在官方的附加组件中没有一个好用的翻译插件，这也成了很多人宁愿承受广告而也要更换为`网易邮箱大师`等客户端的原因。
 
@@ -105,25 +105,25 @@ async function registerMsgDisplayScript() {
 
 打开雷鸟的`拓展与主题`界面，安装插件
 
-![](https://bu.dusays.com/2024/12/14/675d1aa1e020a.png)
+![](/images/posts/Thunderbird-with-Immersive-Translate/675d1aa1e020a-f3c40b96e46f.png)
 
-![](https://bu.dusays.com/2024/12/14/675d1ae07b07e.png)
+![](/images/posts/Thunderbird-with-Immersive-Translate/675d1ae07b07e-897ee11e4c28.png)
 
 ### 第二步：完成插件引导和基础设置
 
-![](https://bu.dusays.com/2024/12/14/675d1b0d9c78f.png)
+![](/images/posts/Thunderbird-with-Immersive-Translate/675d1b0d9c78f-1880eec950dc.png)
 
 根据沉浸式翻译的内置提示完成初次使用的引导
 
-![](https://bu.dusays.com/2024/12/14/675d1b56baa8f.png)
+![](/images/posts/Thunderbird-with-Immersive-Translate/675d1b56baa8f-d9be55b3a7ae.png)
 
 Tips：在此处由于 Thunderbird 置顶的扩展图标在除邮件页外的第三方页面中`不可见`，所以可以点击页面右侧的`悬浮窗`或使用默认快捷键`Alt+A`翻译，进而完成引导。
 
-![](https://bu.dusays.com/2024/12/14/675d1bf19482c.png)
+![](/images/posts/Thunderbird-with-Immersive-Translate/675d1bf19482c-4acbaf7b16a6.png)
 
 登录你的沉浸式翻译账号，至此，大功告成！🎉🎉🎉
 
-![](https://bu.dusays.com/2024/12/14/675d1c2476f41.png)
+![](/images/posts/Thunderbird-with-Immersive-Translate/675d1c2476f41-701089929784.png)
 
 ## 进阶配置
 
@@ -131,23 +131,23 @@ Tips：在此处由于 Thunderbird 置顶的扩展图标在除邮件页外的第
 
 沉浸式翻译内置了很多翻译引擎，而真正吸引我的是其高度的自定义性，其适配很多`大模型翻译`的接口，在这里我给大伙安利[硅基流动（SiliconFlow）](https://cloud.siliconflow.cn/i/PGnHdyG0)这一服务。
 
-![](https://bu.dusays.com/2024/12/14/675d1db0a7692.png)
+![](/images/posts/Thunderbird-with-Immersive-Translate/675d1db0a7692-d2b9ba7e2dc4.png)
 
 [硅基流动（SiliconFlow）](https://cloud.siliconflow.cn/i/PGnHdyG0)是一家专注于GenAI（生成式人工智能）技术的公司，其`免费`提供了一些开源大模型，如Qwen2.5-Coder-7B-Instruct等模型。
 
 沉浸式翻译和[SiliconCloud](https://siliconflow.cn/)合作提供的免费大模型翻译
 
-![](https://bu.dusays.com/2024/12/14/675d1df8dc447.png)
+![](/images/posts/Thunderbird-with-Immersive-Translate/675d1df8dc447-0547af6f470e.png)
 
 但是为了更好的翻译体验，我们可以自己注册硅基流动账号，获得`14元`人民币的赠金，使用更高级的模型进行翻译操作。
 
 注册链接（带AFF）：[https://cloud.siliconflow.cn/i/PGnHdyG0](https://cloud.siliconflow.cn/i/PGnHdyG0)
 
-![](https://bu.dusays.com/2024/12/14/675d1f22283e3.png)
+![](/images/posts/Thunderbird-with-Immersive-Translate/675d1f22283e3-c9a3ad68f106.png)
 
 接下来在控制台中`获取API 密钥`即可
 
-![](https://bu.dusays.com/2024/12/14/675d200f2b1d8.png)
+![](/images/posts/Thunderbird-with-Immersive-Translate/675d200f2b1d8-fb4f3c2220e8.png)
 
 接下来填入沉浸式翻译中即可
 
@@ -159,7 +159,7 @@ Tips：在此处由于 Thunderbird 置顶的扩展图标在除邮件页外的第
 
 关于模型方面，我推荐使用阿里推出的开源模型`Qwen/Qwen2.5-72B-Instruct`，将其填写至沉浸式翻译的配置中。
 
-![](https://bu.dusays.com/2024/12/14/675d213a91edd.png)
+![](/images/posts/Thunderbird-with-Immersive-Translate/675d213a91edd-3fb1734359e6.png)
 
 沉浸式翻译中自带的AI提示词并不好用，不能够完全发挥出AI的实力。所以这里我顺便分享一份自用的沉浸式翻译`AI提示词`（以下内容为转载，来源：[https://linux.do/t/topic/229713](https://linux.do/t/topic/229713)）
 
@@ -245,7 +245,7 @@ Your Output:
 Please return the translated YAML directly without any additional information.
 ````
 
-![](https://bu.dusays.com/2024/12/14/675d22adb6a91.png)
+![](/images/posts/Thunderbird-with-Immersive-Translate/675d22adb6a91-28b50b471576.png)
 
 配置示例图片
 

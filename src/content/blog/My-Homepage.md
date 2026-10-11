@@ -5,7 +5,7 @@ pubDate: 2024-05-18T21:08:00+08:00
 cover:
   tone: ocean
   label: '软件技术'
-  url: 'https://bu.dusays.com/2024/05/18/6648b0f15d0d8.png'
+  upload: "/images/posts/My-Homepage/cover-0aa48b078b6f.png"
   alt: '我搭建了我的个人主页网站 的封面图'
 draft: false
 featured: false
@@ -19,9 +19,9 @@ author: 'Mystic Stars'
 今天（2024年5月18日），我搭建了我的个人主页网站，你可以点击[这里](https://me.mysticstars.cn)访问。
 
 永久网址：https://me.mysticstars.cn  
-![](https://bu.dusays.com/2024/05/18/6648a81668fa2.png)
+![](/images/posts/My-Homepage/6648a81668fa2-cb9cf34922a9.png)
 
-![](https://bu.dusays.com/2024/05/18/6648a84e1671a.png)
+![](/images/posts/My-Homepage/6648a84e1671a-f67d18e66dcd.png)
 
 以下是有关此项目的简短介绍。（来源，[Github仓库](https://github.com/Mystic-stars/HomePage)README.md文件概述）
 

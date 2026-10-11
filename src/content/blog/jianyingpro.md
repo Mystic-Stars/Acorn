@@ -5,7 +5,7 @@ pubDate: 2024-04-04T19:59:00+08:00
 cover:
   tone: sunset
   label: "资源荟萃"
-  url: "https://bu.dusays.com/2024/04/04/660e943abfd27.png"
+  upload: "/images/posts/jianyingpro/cover-295e0159057e.png"
   alt: "“特殊版”剪映，一站式满足你的需求 的封面图"
 draft: false
 featured: false

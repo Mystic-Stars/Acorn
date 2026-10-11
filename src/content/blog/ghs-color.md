@@ -5,7 +5,7 @@ pubDate: 2024-08-05T14:30:00+08:00
 cover:
   tone: ocean
   label: '软件技术'
-  url: 'https://bu.dusays.com/2024/07/31/66a9948463ed9.webp'
+  upload: "/images/posts/ghs-color/cover-9946df7eb833.webp"
   alt: '【项目】GHS Color：开源色彩管理库 的封面图'
 draft: false
 featured: false
@@ -23,7 +23,7 @@ author: 'Mystic Stars'
 
 那么，我的新项目，[GHS Color](https://github.com/Mystic-Stars/GHS-Color)或许能解决你的问题！
 
-![](https://bu.dusays.com/2024/08/05/66b06fc6ec7b2.png)
+![](/images/posts/ghs-color/66b06fc6ec7b2-7037b5b04ba3.png)
 
 ## ¶项目介绍
 

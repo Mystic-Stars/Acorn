@@ -15,6 +15,8 @@
     "preview": "astro preview",
     "postinstall": "node scripts/compat/patch-animal-island-ui.mjs",
     "check": "astro check",
+    "images:check": "node scripts/images/check.mjs",
+    "images:localize": "node scripts/images/localize.mjs",
     "test": "node --import tsx --test tests/unit/*.test.mjs tests/integration/*.test.mjs",
     "test:unit": "node --import tsx --test tests/unit/*.test.mjs",
     "test:integration": "node --import tsx --test tests/integration/*.test.mjs",

@@ -5,7 +5,7 @@ pubDate: 2025-06-30T21:30:00+08:00
 cover:
   tone: sunset
   label: "资源荟萃"
-  url: "https://bu.dusays.com/2025/06/30/686290c4cf3e1.webp"
+  upload: "/images/posts/douyin-games/cover-cceb8e2ff521.webp"
   alt: "【宝藏】N款抖音游戏无广告版，一次玩到爽！ 的封面图"
 draft: false
 featured: false

@@ -139,17 +139,27 @@ test('body uploads and cover uploads share a valid public media mapping', () => 
   assert.equal(body.options.switcher, true);
   assert.equal(coverField('url').type, 'string', 'remote URLs cannot use a CMS image field');
   assert.equal(coverField('upload').type, 'image');
-  for (const item of [body, coverField('upload')]) {
-    assert.equal(item.options.media, cms.media.name);
-    assert.ok(item.options.path.startsWith(`${cms.media.input}/`));
-    assert.equal(item.options.path.replace(cms.media.input, cms.media.output), '/images/posts');
-    assert.ok(
-      item.options.extensions.every((extension) => cms.media.extensions.includes(extension)),
-    );
+  assert.equal(field(friends, 'avatar').type, 'image');
+  assert.deepEqual(
+    cms.media.map((media) => media.name),
+    ['posts', 'friends', 'site'],
+  );
+  for (const [item, name, folder] of [
+    [body, 'posts', '/images/posts/uploads'],
+    [coverField('upload'), 'posts', '/images/posts/uploads'],
+    [field(friends, 'avatar'), 'friends', '/images/friends'],
+  ]) {
+    const media = cms.media.find((entry) => entry.name === name);
+    assert.equal(item.options.media, media.name);
+    assert.ok(item.options.path === media.input || item.options.path.startsWith(`${media.input}/`));
+    assert.equal(item.options.path.replace(media.input, media.output), folder);
+    assert.ok(item.options.extensions.every((extension) => media.extensions.includes(extension)));
   }
-  assert.equal(cms.media.input, 'public/images');
-  assert.equal(cms.media.output, '/images');
-  assert.equal(cms.media.rename, 'random');
+  for (const media of cms.media) {
+    assert.equal(media.input, `public/images/${media.name}`);
+    assert.equal(media.output, `/images/${media.name}`);
+    assert.equal(media.rename, 'random');
+  }
 });
 
 test('publishing and source editing protect permanent article URLs', () => {
@@ -171,6 +181,8 @@ test('publishing and source editing protect permanent article URLs', () => {
 });
 
 test('CMS paths exist and advanced entries cover all editable config modules', async () => {
+  for (const media of cms.media) await access(resolve(root, media.input));
+  await access(resolve(root, field(blog, 'body').options.path));
   assert.equal(new Set(entries.map((entry) => entry.name)).size, entries.length);
   for (const entry of entries) {
     const path = resolve(root, entry.path);

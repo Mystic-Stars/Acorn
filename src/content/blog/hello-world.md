@@ -5,7 +5,7 @@ pubDate: 2023-11-02T19:16:00+08:00
 cover:
   tone: ocean
   label: "软件技术"
-  url: "https://bu.dusays.com/2024/04/03/660d58e1eec9f.webp"
+  upload: "/images/posts/hello-world/cover-81e7ced7aeda.webp"
   alt: "Hello World 的封面图"
 draft: false
 featured: false

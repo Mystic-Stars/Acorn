@@ -5,7 +5,7 @@ pubDate: 2024-09-08T19:42:00+08:00
 cover:
   tone: forest
   label: '日常生活'
-  url: 'https://bu.dusays.com/2024/09/08/66dd8d71f36f3.webp'
+  upload: "/images/posts/minecraft-cape/cover-e9f63de1cd57.webp"
   alt: 'Minecraft披风没有同步？快快来看如何申诉吧！ 的封面图'
 draft: false
 featured: false
@@ -30,25 +30,25 @@ author: 'Mystic Stars'
 
 打开[Minecraft官网](https://www.minecraft.net/)，直接滑到最下面，点击`联系我们`
 
-![](https://bu.dusays.com/2024/09/08/66dd7326a989b.png)
+![](/images/posts/minecraft-cape/66dd7326a989b-66a385ec360f.png)
 
 ### 第二步：
 
 再次往下滑，找到`Contact Support`，点击进去。
 
-![](https://bu.dusays.com/2024/09/08/66dd738ec8333.png)
+![](/images/posts/minecraft-cape/66dd738ec8333-e54158b289ad.png)
 
 ### 第三步：
 
 像我图里一样填写`前五个选项`，后面的选项则结合你的实际情况进行修改即可，提交！
 
-![](https://bu.dusays.com/2024/09/08/66dd8932aab85.png)
+![](/images/posts/minecraft-cape/66dd8932aab85-c81ce6f6859e.png)
 
 ### 第四步：
 
 出现这个界面就成功啦~接下来耐心等待即可⌛️
 
-![](https://bu.dusays.com/2024/09/08/66dd89a6e1f60.png)
+![](/images/posts/minecraft-cape/66dd89a6e1f60-1e5d355a8662.png)
 
 ## ¶申诉文案
 

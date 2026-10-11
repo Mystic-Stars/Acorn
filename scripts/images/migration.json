@@ -1,0 +1,1109 @@
+{
+  "version": 1,
+  "images": [
+    {
+      "content": "src/content/blog/Acorn-Theme.md",
+      "source": "/images/posts/blog-overview.png",
+      "path": "/images/posts/Acorn-Theme/blog-overview-5bef74fb7aa7.png",
+      "sha256": "5bef74fb7aa7baa1ea7b91e8323397e66a561b361044c4dbe5b7d29e345c3caa",
+      "bytes": 693972,
+      "width": 1424,
+      "height": 736
+    },
+    {
+      "content": "src/content/blog/Acorn-Theme.md",
+      "source": "/images/posts/acorn.webp",
+      "path": "/images/posts/Acorn-Theme/cover-1635be69426d.webp",
+      "sha256": "1635be69426df41715f6eb8d4ec6c5fee78ed0875d9712c710cf9203f590ce78",
+      "bytes": 140584,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/alimail.md",
+      "source": "https://bu.dusays.com/2024/06/14/666be21f7a153.webp",
+      "path": "/images/posts/alimail/cover-410a5f18bc1c.webp",
+      "sha256": "410a5f18bc1c10e8b700db55f4223a34eb92d756d1049a0d50f84b1b504b2cb4",
+      "bytes": 7740,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/augment-free.md",
+      "source": "/images/augment.webp",
+      "path": "/images/posts/augment-free/cover-281df37b9dca.webp",
+      "sha256": "281df37b9dca1ef047b380a7bdce6927a797bf074d7f8d00ec4c6e6809ea8911",
+      "bytes": 5018,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/bt-plus.md",
+      "source": "https://bu.dusays.com/2024/05/25/6651ecbe12d22.png",
+      "path": "/images/posts/bt-plus/6651ecbe12d22-52409479d100.png",
+      "sha256": "52409479d100085a194e8b6ba0b22cc27a947bb0bb2c5a733e6774732fadc718",
+      "bytes": 10873,
+      "width": 1227,
+      "height": 66
+    },
+    {
+      "content": "src/content/blog/bt-plus.md",
+      "source": "https://bu.dusays.com/2024/05/25/6651eb8b263e7.png",
+      "path": "/images/posts/bt-plus/cover-4dc24a14bd13.png",
+      "sha256": "4dc24a14bd13a0eb93b907470ea8ba684d0cb375d8ca112025913da8aaa93639",
+      "bytes": 77532,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/Claude3.5Sonnet-Prompt.md",
+      "source": "https://bu.dusays.com/2024/08/31/66d2a6c605e22.png",
+      "path": "/images/posts/Claude3.5Sonnet-Prompt/66d2a6c605e22-e7a98dbe4ef2.png",
+      "sha256": "e7a98dbe4ef261f2885664fd3c4296f426db5f2e277e3a96e8f198446448f519",
+      "bytes": 366261,
+      "width": 1309,
+      "height": 645
+    },
+    {
+      "content": "src/content/blog/Claude3.5Sonnet-Prompt.md",
+      "source": "https://bu.dusays.com/2024/08/31/66d2a6f4b498e.png",
+      "path": "/images/posts/Claude3.5Sonnet-Prompt/66d2a6f4b498e-c2434651ad52.png",
+      "sha256": "c2434651ad525d9700d555908c72b11c432551ec2fbf358d9e6238686beebc45",
+      "bytes": 51481,
+      "width": 559,
+      "height": 529
+    },
+    {
+      "content": "src/content/blog/Claude3.5Sonnet-Prompt.md",
+      "source": "https://bu.dusays.com/2024/08/31/66d2bb1d6b0f6.webp",
+      "path": "/images/posts/Claude3.5Sonnet-Prompt/cover-d6aeb23c6041.webp",
+      "sha256": "d6aeb23c60415b94636189678dbc52a295df0538baef6ed86bf7a574bdf668f6",
+      "bytes": 5754,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/Coverly.md",
+      "source": "/images/posts/coverly.webp",
+      "path": "/images/posts/Coverly/cover-005b627731b7.webp",
+      "sha256": "005b627731b7abdcd540d27c0904e40803777a172b3319e1386be64a447cae26",
+      "bytes": 132834,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/Coverly.md",
+      "source": "/images/posts/download.png",
+      "path": "/images/posts/Coverly/download-3a4aa6776779.png",
+      "sha256": "3a4aa6776779b9c2a44b3986cfbccc0b8910c02761cfcf2656b6b3ea015f6c82",
+      "bytes": 346341,
+      "width": 1439,
+      "height": 735
+    },
+    {
+      "content": "src/content/blog/Coverly.md",
+      "source": "/images/posts/editor-overview.jpg",
+      "path": "/images/posts/Coverly/editor-overview-2922a6b08af5.jpg",
+      "sha256": "2922a6b08af534cdc0aa9423192802f8c5132d866f85a7ad7b01539cd28e933e",
+      "bytes": 149021,
+      "width": 1440,
+      "height": 737
+    },
+    {
+      "content": "src/content/blog/Coverly.md",
+      "source": "/images/posts/project-manager.png",
+      "path": "/images/posts/Coverly/project-manager-d65c229a77ff.png",
+      "sha256": "d65c229a77ffa47b83fc0180a736dcae7a1af0a55d50d91ce6fe5e12db69c165",
+      "bytes": 247418,
+      "width": 1439,
+      "height": 734
+    },
+    {
+      "content": "src/content/blog/douyin-games.md",
+      "source": "https://bu.dusays.com/2025/06/30/686290c4cf3e1.webp",
+      "path": "/images/posts/douyin-games/cover-cceb8e2ff521.webp",
+      "sha256": "cceb8e2ff5212b46792ceee15f8d32aa9c08ecb62700cc9bd02b5c9aab94938b",
+      "bytes": 6994,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/Filen.md",
+      "source": "https://bu.dusays.com/2024/11/01/6724abfe2ca9e.png",
+      "path": "/images/posts/Filen/6724abfe2ca9e-4da18d31486c.png",
+      "sha256": "4da18d31486cf64f0b591062681e44d8b394c525133d99e6b4647c24fe45da48",
+      "bytes": 67509,
+      "width": 1234,
+      "height": 719
+    },
+    {
+      "content": "src/content/blog/Filen.md",
+      "source": "https://bu.dusays.com/2024/11/01/6724acb22830c.png",
+      "path": "/images/posts/Filen/6724acb22830c-34c49631e598.png",
+      "sha256": "34c49631e598d0c94f603ba4bd8f36d9ab1d6748553135b45fa05f47f8b9bc8d",
+      "bytes": 19315,
+      "width": 375,
+      "height": 482
+    },
+    {
+      "content": "src/content/blog/Filen.md",
+      "source": "https://bu.dusays.com/2024/11/01/6724ae09ada33.png",
+      "path": "/images/posts/Filen/6724ae09ada33-fdd5357c09d1.png",
+      "sha256": "fdd5357c09d1bb570c9d46bf7d9d5c1b6879452ec14ae059bf00ee564ea257d0",
+      "bytes": 35163,
+      "width": 674,
+      "height": 497
+    },
+    {
+      "content": "src/content/blog/Filen.md",
+      "source": "https://bu.dusays.com/2024/11/01/6724ae43ee58e.png",
+      "path": "/images/posts/Filen/6724ae43ee58e-be7534639167.png",
+      "sha256": "be7534639167562fa90c270972350414e13768950f4d4df7d17fc01a69d8da92",
+      "bytes": 19781,
+      "width": 496,
+      "height": 321
+    },
+    {
+      "content": "src/content/blog/Filen.md",
+      "source": "https://bu.dusays.com/2024/11/01/6724af86065e8.png",
+      "path": "/images/posts/Filen/6724af86065e8-836a1b1b50a0.png",
+      "sha256": "836a1b1b50a0422821a4ea783ce4b352ce32bebd850573608ee5c86ae34b43ae",
+      "bytes": 9240,
+      "width": 908,
+      "height": 118
+    },
+    {
+      "content": "src/content/blog/Filen.md",
+      "source": "https://bu.dusays.com/2024/11/01/6724b21026795.png",
+      "path": "/images/posts/Filen/6724b21026795-4b9908a62797.png",
+      "sha256": "4b9908a62797bbba8f5380305feb89bd6737690014bdd7f2c3cdf5641a98d1fc",
+      "bytes": 34027,
+      "width": 474,
+      "height": 375
+    },
+    {
+      "content": "src/content/blog/Filen.md",
+      "source": "https://bu.dusays.com/2024/11/01/6724b29e0c4bb.png",
+      "path": "/images/posts/Filen/6724b29e0c4bb-94c59eac0674.png",
+      "sha256": "94c59eac067468e721a1123b4a52d6d3555260425caffcbecb8aa29e8e1fd066",
+      "bytes": 58705,
+      "width": 1433,
+      "height": 746
+    },
+    {
+      "content": "src/content/blog/Filen.md",
+      "source": "https://bu.dusays.com/2024/11/01/6724ce5806843.png",
+      "path": "/images/posts/Filen/6724ce5806843-358aa7d0acab.png",
+      "sha256": "358aa7d0acab905278d52b81aad4bafcda28455986e86fe9975fe56995d89c05",
+      "bytes": 11829,
+      "width": 362,
+      "height": 73
+    },
+    {
+      "content": "src/content/blog/Filen.md",
+      "source": "https://bu.dusays.com/2024/11/01/6724cf6d1451e.png",
+      "path": "/images/posts/Filen/6724cf6d1451e-923d2604c79c.png",
+      "sha256": "923d2604c79c50f3bead8b6d4518c5eb902518aa3b6373da6d4ef0dd6b515725",
+      "bytes": 215061,
+      "width": 954,
+      "height": 605
+    },
+    {
+      "content": "src/content/blog/Filen.md",
+      "source": "https://bu.dusays.com/2024/11/01/6724d03e53b52.png",
+      "path": "/images/posts/Filen/6724d03e53b52-4e2021e331fc.png",
+      "sha256": "4e2021e331fcde7c0bec51ebc06dea799ecd06be33a3d7c83615390381c59620",
+      "bytes": 140676,
+      "width": 1239,
+      "height": 664
+    },
+    {
+      "content": "src/content/blog/Filen.md",
+      "source": "https://bu.dusays.com/2024/11/01/6724d66f33429.webp",
+      "path": "/images/posts/Filen/cover-3201f6063608.webp",
+      "sha256": "3201f6063608fc89dfec006db212efaaf484637f8ea93c732868f3fbb3bb41b3",
+      "bytes": 6478,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/ghs-color.md",
+      "source": "https://bu.dusays.com/2024/08/05/66b06fc6ec7b2.png",
+      "path": "/images/posts/ghs-color/66b06fc6ec7b2-7037b5b04ba3.png",
+      "sha256": "7037b5b04ba3dab436086ec74d046a3860c66dacabcdfa7f78bce5b74667b2d6",
+      "bytes": 211496,
+      "width": 1432,
+      "height": 923
+    },
+    {
+      "content": "src/content/blog/ghs-color.md",
+      "source": "https://bu.dusays.com/2024/07/31/66a9948463ed9.webp",
+      "path": "/images/posts/ghs-color/cover-9946df7eb833.webp",
+      "sha256": "9946df7eb833983d24574de6348ae8e8e749f978286d67a43ec59619f3023b39",
+      "bytes": 7806,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/hello-world.md",
+      "source": "https://bu.dusays.com/2024/04/03/660d58e1eec9f.webp",
+      "path": "/images/posts/hello-world/cover-81e7ced7aeda.webp",
+      "sha256": "81e7ced7aeda9fda77b80a6b0b8358f9fe7ea88290859640e8dfa6d15de0c105",
+      "bytes": 5632,
+      "width": 720,
+      "height": 383
+    },
+    {
+      "content": "src/content/blog/jianyingpro.md",
+      "source": "https://bu.dusays.com/2024/04/04/660e943abfd27.png",
+      "path": "/images/posts/jianyingpro/cover-295e0159057e.png",
+      "sha256": "295e0159057e211a4678fe1a62356c57cb69ead7dac805822fc2079f50767ea5",
+      "bytes": 116408,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "content": "src/content/blog/minecraft-cape.md",
+      "source": "https://bu.dusays.com/2024/09/08/66dd7326a989b.png",
+      "path": "/images/posts/minecraft-cape/66dd7326a989b-66a385ec360f.png",
+      "sha256": "66a385ec360f76598fd511dfda9e199cb88abf198bb48806f70ae3a4c7935383",
+      "bytes": 72932,
+      "width": 1405,
+      "height": 734
+    },
+    {
+      "content": "src/content/blog/minecraft-cape.md",
+      "source": "https://bu.dusays.com/2024/09/08/66dd738ec8333.png",
+      "path": "/images/posts/minecraft-cape/66dd738ec8333-e54158b289ad.png",
+      "sha256": "e54158b289ada51ab01cec6627d992d6510494a2da6f7434b00fd5f29514d279",
+      "bytes": 65381,
+      "width": 1405,
+      "height": 731
+    },
+    {
+      "content": "src/content/blog/minecraft-cape.md",
+      "source": "https://bu.dusays.com/2024/09/08/66dd8932aab85.png",
+      "path": "/images/posts/minecraft-cape/66dd8932aab85-c81ce6f6859e.png",
+      "sha256": "c81ce6f6859e64dd655dfc7b4ff3f56966dc8b4a7ccf55601217418ff0f8423b",
+      "bytes": 194405,
+      "width": 1410,
+      "height": 2026
+    },
+    {
+      "content": "src/content/blog/minecraft-cape.md",
+      "source": "https://bu.dusays.com/2024/09/08/66dd89a6e1f60.png",
+      "path": "/images/posts/minecraft-cape/66dd89a6e1f60-1e5d355a8662.png",
+      "sha256": "1e5d355a8662d176a71a119f8ce8590182a14f888d91044fb3d28d4fc8644f20",
+      "bytes": 102673,
+      "width": 1413,
+      "height": 728
+    },
+    {
+      "content": "src/content/blog/minecraft-cape.md",
+      "source": "https://bu.dusays.com/2024/09/08/66dd8d71f36f3.webp",
+      "path": "/images/posts/minecraft-cape/cover-e9f63de1cd57.webp",
+      "sha256": "e9f63de1cd57d738eeeb4e7f3a21af608262cc22a5ab73a3d641d35364db937a",
+      "bytes": 13454,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/My-Homepage.md",
+      "source": "https://bu.dusays.com/2024/05/18/6648a81668fa2.png",
+      "path": "/images/posts/My-Homepage/6648a81668fa2-cb9cf34922a9.png",
+      "sha256": "cb9cf34922a9b6560e6b57c173b0c09df589f8aa738411a9adc04214d6f4d098",
+      "bytes": 2547638,
+      "width": 3104,
+      "height": 1802
+    },
+    {
+      "content": "src/content/blog/My-Homepage.md",
+      "source": "https://bu.dusays.com/2024/05/18/6648a84e1671a.png",
+      "path": "/images/posts/My-Homepage/6648a84e1671a-f67d18e66dcd.png",
+      "sha256": "f67d18e66dcde0d77aa8bcc236c0dedf6109549974c4078536ed545b62cc50fe",
+      "bytes": 283224,
+      "width": 1280,
+      "height": 743
+    },
+    {
+      "content": "src/content/blog/My-Homepage.md",
+      "source": "https://bu.dusays.com/2024/05/18/6648b0f15d0d8.png",
+      "path": "/images/posts/My-Homepage/cover-0aa48b078b6f.png",
+      "sha256": "0aa48b078b6f5ef77f0981da5a8df8b011fa8a03041a44784433dd9efef8b004",
+      "bytes": 305995,
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "content": "src/content/blog/MyProjects.md",
+      "source": "/images/file.webp",
+      "path": "/images/posts/MyProjects/cover-a83cc35c9c0e.webp",
+      "sha256": "a83cc35c9c0e6740c6951671deaf24777b8e17a99e5ac982d90ca7d0307e43b6",
+      "bytes": 10216,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/netease-music-delete-projects.md",
+      "source": "https://bu.dusays.com/2024/09/04/66d7e47dd5de1.png",
+      "path": "/images/posts/netease-music-delete-projects/66d7e47dd5de1-cddfe1799b2e.png",
+      "sha256": "cddfe1799b2ed25e76398e0fc8f8d5bdc6fc9a10aedb6e58d1a1d14f692cdc80",
+      "bytes": 13479,
+      "width": 531,
+      "height": 138
+    },
+    {
+      "content": "src/content/blog/netease-music-delete-projects.md",
+      "source": "https://bu.dusays.com/2024/09/04/66d7e6143e6e2.png",
+      "path": "/images/posts/netease-music-delete-projects/66d7e6143e6e2-d6163128c305.png",
+      "sha256": "d6163128c305cdd56ccf995df1011f4d55d754272bc43bfab91d83b733c66fe4",
+      "bytes": 227232,
+      "width": 1438,
+      "height": 738
+    },
+    {
+      "content": "src/content/blog/netease-music-delete-projects.md",
+      "source": "https://bu.dusays.com/2024/09/04/66d7e6dadc01b.png",
+      "path": "/images/posts/netease-music-delete-projects/66d7e6dadc01b-1d496191bb30.png",
+      "sha256": "1d496191bb30fbfe57a1fb1c9c159ad5d7ef646f8f326a7c1e9730e238b8f397",
+      "bytes": 93894,
+      "width": 1436,
+      "height": 742
+    },
+    {
+      "content": "src/content/blog/netease-music-delete-projects.md",
+      "source": "https://bu.dusays.com/2024/09/04/66d7e7fc8d616.png",
+      "path": "/images/posts/netease-music-delete-projects/66d7e7fc8d616-8e29ce09d92a.png",
+      "sha256": "8e29ce09d92a82e5c501f7ea3f3d1af162e94e4a3fa98137d272c958b24a3a61",
+      "bytes": 159384,
+      "width": 1439,
+      "height": 743
+    },
+    {
+      "content": "src/content/blog/netease-music-delete-projects.md",
+      "source": "https://bu.dusays.com/2024/09/04/66d7e8d374e28.png",
+      "path": "/images/posts/netease-music-delete-projects/66d7e8d374e28-24e2029b56fd.png",
+      "sha256": "24e2029b56fd405cf5999c34ee9b8548bff858d162f6329a521cb8a3ba2824a4",
+      "bytes": 2591,
+      "width": 301,
+      "height": 60
+    },
+    {
+      "content": "src/content/blog/netease-music-delete-projects.md",
+      "source": "https://bu.dusays.com/2024/09/04/66d7e9aeeb571.png",
+      "path": "/images/posts/netease-music-delete-projects/66d7e9aeeb571-4c5caa1a0970.png",
+      "sha256": "4c5caa1a0970832a1103785f590a5d182bd4f18890c44a2fdfc563ca9d476088",
+      "bytes": 99245,
+      "width": 1439,
+      "height": 744
+    },
+    {
+      "content": "src/content/blog/netease-music-delete-projects.md",
+      "source": "https://bu.dusays.com/2024/09/04/66d7ea833ff82.png",
+      "path": "/images/posts/netease-music-delete-projects/66d7ea833ff82-f8dd31d1c0a4.png",
+      "sha256": "f8dd31d1c0a4108172c56961d16c9fa311b73044a6b86d754bfa9edbcce84bb3",
+      "bytes": 12836,
+      "width": 538,
+      "height": 134
+    },
+    {
+      "content": "src/content/blog/netease-music-delete-projects.md",
+      "source": "https://bu.dusays.com/2024/09/04/66d7f180313eb.webp",
+      "path": "/images/posts/netease-music-delete-projects/cover-684aa3b2b270.webp",
+      "sha256": "684aa3b2b2702c674b8a09b8d975c4fedf27aa2f647fcbdcc3591c93bd949db5",
+      "bytes": 6068,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/rainyun-autosignup.md",
+      "source": "https://bu.dusays.com/2024/08/27/66cd84e1d31d8.webp",
+      "path": "/images/posts/rainyun-autosignup/cover-981d75389e10.webp",
+      "sha256": "981d75389e10707a7762c4e4f67c9565d985540b899fc6471d520eb232709222",
+      "bytes": 5186,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/speed-vercel.md",
+      "source": "https://bu.dusays.com/2024/05/24/66506514bb08c.png",
+      "path": "/images/posts/speed-vercel/66506514bb08c-0fa689db7e61.png",
+      "sha256": "0fa689db7e612a86e1d59683eb69084a9a4176fd95c5cb3f7ab2a29dce8a06a3",
+      "bytes": 7019990,
+      "width": 2485,
+      "height": 9745
+    },
+    {
+      "content": "src/content/blog/speed-vercel.md",
+      "source": "https://cdn.dusays.com/2024/01/669-1.jpg",
+      "path": "/images/posts/speed-vercel/669-1-72711a8a469e.webp",
+      "sha256": "72711a8a469ecdd4d2cc8229b83f1bcd23d34b24ab1628469b2abe0a99dce7a2",
+      "bytes": 54958,
+      "width": 1920,
+      "height": 867,
+      "recovery": {
+        "source": "https://cdn.dusays.com/2024/01/669-1.webp",
+        "note": "Recovered from the source article."
+      }
+    },
+    {
+      "content": "src/content/blog/speed-vercel.md",
+      "source": "https://bu.dusays.com/2024/05/25/6651745259320.png",
+      "path": "/images/posts/speed-vercel/cover-d324f43920b0.png",
+      "sha256": "d324f43920b005a44330475218aaae28dd766bd6e9ca4531015107915c298b20",
+      "bytes": 29992,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/Thunderbird-with-Immersive-Translate.md",
+      "source": "https://bu.dusays.com/2024/12/13/675c4592be6ee.png",
+      "path": "/images/posts/Thunderbird-with-Immersive-Translate/675c4592be6ee-52924d61af84.png",
+      "sha256": "52924d61af849c8aae51930a65812fce19e7b1ff624d4813a7eff3558cc39c44",
+      "bytes": 143591,
+      "width": 1016,
+      "height": 646
+    },
+    {
+      "content": "src/content/blog/Thunderbird-with-Immersive-Translate.md",
+      "source": "https://bu.dusays.com/2024/12/14/675d1aa1e020a.png",
+      "path": "/images/posts/Thunderbird-with-Immersive-Translate/675d1aa1e020a-f3c40b96e46f.png",
+      "sha256": "f3c40b96e46fb808251b3333199b271582979d8d1e9088c9a4e4dafb99e3fc6c",
+      "bytes": 269438,
+      "width": 2880,
+      "height": 1594
+    },
+    {
+      "content": "src/content/blog/Thunderbird-with-Immersive-Translate.md",
+      "source": "https://bu.dusays.com/2024/12/14/675d1ae07b07e.png",
+      "path": "/images/posts/Thunderbird-with-Immersive-Translate/675d1ae07b07e-897ee11e4c28.png",
+      "sha256": "897ee11e4c2873270c861df97faaa811f49f3ac0318003c66bbd4877c74bf981",
+      "bytes": 64004,
+      "width": 902,
+      "height": 414
+    },
+    {
+      "content": "src/content/blog/Thunderbird-with-Immersive-Translate.md",
+      "source": "https://bu.dusays.com/2024/12/14/675d1b0d9c78f.png",
+      "path": "/images/posts/Thunderbird-with-Immersive-Translate/675d1b0d9c78f-1880eec950dc.png",
+      "sha256": "1880eec950dc93916f6cc271d7ba413dc256c8843fe48018923d60c209df61e4",
+      "bytes": 865035,
+      "width": 3104,
+      "height": 1818
+    },
+    {
+      "content": "src/content/blog/Thunderbird-with-Immersive-Translate.md",
+      "source": "https://bu.dusays.com/2024/12/14/675d1b56baa8f.png",
+      "path": "/images/posts/Thunderbird-with-Immersive-Translate/675d1b56baa8f-d9be55b3a7ae.png",
+      "sha256": "d9be55b3a7ae92b3cf3e5a6da7943813dd9b5c5a1a57af141615fa5e43ed355d",
+      "bytes": 1072897,
+      "width": 3104,
+      "height": 1818
+    },
+    {
+      "content": "src/content/blog/Thunderbird-with-Immersive-Translate.md",
+      "source": "https://bu.dusays.com/2024/12/14/675d1bf19482c.png",
+      "path": "/images/posts/Thunderbird-with-Immersive-Translate/675d1bf19482c-4acbaf7b16a6.png",
+      "sha256": "4acbaf7b16a67ab95d6cffc73eb4d5d34208e2313ed7757a74dcb9fe6bd17c38",
+      "bytes": 1219205,
+      "width": 3104,
+      "height": 1818
+    },
+    {
+      "content": "src/content/blog/Thunderbird-with-Immersive-Translate.md",
+      "source": "https://bu.dusays.com/2024/12/14/675d1c2476f41.png",
+      "path": "/images/posts/Thunderbird-with-Immersive-Translate/675d1c2476f41-701089929784.png",
+      "sha256": "7010899297846f11b9b2109c2cae272e45ef1015d06a907f81af861ee283cb5a",
+      "bytes": 967927,
+      "width": 3104,
+      "height": 1818
+    },
+    {
+      "content": "src/content/blog/Thunderbird-with-Immersive-Translate.md",
+      "source": "https://bu.dusays.com/2024/12/14/675d1db0a7692.png",
+      "path": "/images/posts/Thunderbird-with-Immersive-Translate/675d1db0a7692-d2b9ba7e2dc4.png",
+      "sha256": "d2b9ba7e2dc475884a25cd4d931cc0c75ba070f1130e7b1d521f4f0133686d63",
+      "bytes": 10587,
+      "width": 382,
+      "height": 208
+    },
+    {
+      "content": "src/content/blog/Thunderbird-with-Immersive-Translate.md",
+      "source": "https://bu.dusays.com/2024/12/14/675d1df8dc447.png",
+      "path": "/images/posts/Thunderbird-with-Immersive-Translate/675d1df8dc447-0547af6f470e.png",
+      "sha256": "0547af6f470e56fc177d2d027731382281dfeaedb81083f70f81f4e5e70b71ab",
+      "bytes": 10259,
+      "width": 300,
+      "height": 329
+    },
+    {
+      "content": "src/content/blog/Thunderbird-with-Immersive-Translate.md",
+      "source": "https://bu.dusays.com/2024/12/14/675d1f22283e3.png",
+      "path": "/images/posts/Thunderbird-with-Immersive-Translate/675d1f22283e3-c9a3ad68f106.png",
+      "sha256": "c9a3ad68f10611b697490929022009f719fc4bfbf3cf63e108ebd23b9d550da7",
+      "bytes": 134171,
+      "width": 1110,
+      "height": 474
+    },
+    {
+      "content": "src/content/blog/Thunderbird-with-Immersive-Translate.md",
+      "source": "https://bu.dusays.com/2024/12/14/675d200f2b1d8.png",
+      "path": "/images/posts/Thunderbird-with-Immersive-Translate/675d200f2b1d8-fb4f3c2220e8.png",
+      "sha256": "fb4f3c2220e80db6e1ca9f5115b6ca1b9f70af9cb47bcf5405a766757d78df58",
+      "bytes": 7568,
+      "width": 749,
+      "height": 199
+    },
+    {
+      "content": "src/content/blog/Thunderbird-with-Immersive-Translate.md",
+      "source": "https://bu.dusays.com/2024/12/14/675d213a91edd.png",
+      "path": "/images/posts/Thunderbird-with-Immersive-Translate/675d213a91edd-3fb1734359e6.png",
+      "sha256": "3fb1734359e61c2124ac30f4cf6f0290be4f5b0e204687afbb6019f648a38da0",
+      "bytes": 15424,
+      "width": 796,
+      "height": 240
+    },
+    {
+      "content": "src/content/blog/Thunderbird-with-Immersive-Translate.md",
+      "source": "https://bu.dusays.com/2024/12/14/675d22adb6a91.png",
+      "path": "/images/posts/Thunderbird-with-Immersive-Translate/675d22adb6a91-28b50b471576.png",
+      "sha256": "28b50b471576bdc4b40b9637232c6efb071c05979557acbf6a41fd930ee397a6",
+      "bytes": 1889899,
+      "width": 1554,
+      "height": 3924
+    },
+    {
+      "content": "src/content/blog/Thunderbird-with-Immersive-Translate.md",
+      "source": "https://bu.dusays.com/2024/12/14/675d151ee196e.webp",
+      "path": "/images/posts/Thunderbird-with-Immersive-Translate/cover-fdbbd532ef4c.webp",
+      "sha256": "fdbbd532ef4c54af5d84f4e471ceab0ab1e9aeed1217a28567df2e64f46a4746",
+      "bytes": 7958,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/TimeX.md",
+      "source": "https://bu.dusays.com/2024/06/13/666a5e0678e55.webp",
+      "path": "/images/posts/TimeX/666a5e0678e55-19efd3166f76.webp",
+      "sha256": "19efd3166f7682385de00ba776ad6422876ed889573f13437ee78adfef9feef9",
+      "bytes": 224494,
+      "width": 4536,
+      "height": 3402
+    },
+    {
+      "content": "src/content/blog/TimeX.md",
+      "source": "https://bu.dusays.com/2024/06/13/666a6067b4229.png",
+      "path": "/images/posts/TimeX/666a6067b4229-ab27ea669ac0.png",
+      "sha256": "ab27ea669ac0abba6b2c58c49a96b9db7840c547f6672d22756f264b7043cb4a",
+      "bytes": 29406,
+      "width": 1237,
+      "height": 509
+    },
+    {
+      "content": "src/content/blog/TimeX.md",
+      "source": "https://bu.dusays.com/2024/06/13/666a67893e2f8.webp",
+      "path": "/images/posts/TimeX/cover-f4f2efa392d1.webp",
+      "sha256": "f4f2efa392d1084a81b8a7f5394c0a5e801713dd65138e36925631c6640a874b",
+      "bytes": 11132,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/To-the-Moon-Soundtrack.md",
+      "source": "https://bu.dusays.com/2024/09/16/66e7e68aa17c6.png",
+      "path": "/images/posts/To-the-Moon-Soundtrack/66e7e68aa17c6-ab1fc8f314f1.png",
+      "sha256": "ab1fc8f314f15dadc5b1e1e8cc2e30abb90e705b79c4e224fb86079f1d98b536",
+      "bytes": 484131,
+      "width": 958,
+      "height": 488
+    },
+    {
+      "content": "src/content/blog/To-the-Moon-Soundtrack.md",
+      "source": "https://bu.dusays.com/2024/09/16/66e7ef892c8e7.png",
+      "path": "/images/posts/To-the-Moon-Soundtrack/66e7ef892c8e7-b66b11ae793c.png",
+      "sha256": "b66b11ae793cb0b849906ab89647d4b2d45f42dbaa86d6cc556643c3e5ebf688",
+      "bytes": 835663,
+      "width": 1280,
+      "height": 1516
+    },
+    {
+      "content": "src/content/blog/To-the-Moon-Soundtrack.md",
+      "source": "https://bu.dusays.com/2024/09/16/66e7fb4b16b64.webp",
+      "path": "/images/posts/To-the-Moon-Soundtrack/cover-0af43ab05fb1.webp",
+      "sha256": "0af43ab05fb1e394f2d9cca7d7f6641395a6d813d83d330d6e7e0635720135b5",
+      "bytes": 8790,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://bu.dusays.com/2024/06/13/666a8c1f86ce5.png",
+      "path": "/images/posts/typora/666a8c1f86ce5-aabf9474ede8.png",
+      "sha256": "aabf9474ede8b64b93ae62f40a22b9a5f3e58f8a2b648303de9758aa24823871",
+      "bytes": 15643,
+      "width": 519,
+      "height": 411
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://bu.dusays.com/2024/06/13/666a8c4e8aa64.png",
+      "path": "/images/posts/typora/666a8c4e8aa64-353ea3ea55cf.png",
+      "sha256": "353ea3ea55cfc7eb137683fdd4b4d0c7377413e391b27487078a93d5333a1276",
+      "bytes": 89038,
+      "width": 868,
+      "height": 554
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://bu.dusays.com/2024/06/13/666a8d4de3929.png",
+      "path": "/images/posts/typora/666a8d4de3929-2c6fcb5886cb.png",
+      "sha256": "2c6fcb5886cb3df7ce711d26e9be5af66784b07703ee6c02bc67800887431048",
+      "bytes": 629841,
+      "width": 2802,
+      "height": 1922
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://bu.dusays.com/2024/06/13/666a8768ead29.webp",
+      "path": "/images/posts/typora/cover-3ab8a3f0dde8.webp",
+      "sha256": "3ab8a3f0dde842d8b4405561af5a1dd7cf3bfccd1a41719b255fc407ab22b1da",
+      "bytes": 9176,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://camo.githubusercontent.com/c54f80444aff8dea387f15a6cb08b7f1ea94d245ac040878e368451e7367021b/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f302e77656270",
+      "path": "/images/site/image-unavailable.svg",
+      "sha256": "6e06962a772dd40211839bdb06de23493d737e3b63b4b17e6b78b4e72cbc3e31",
+      "bytes": 716,
+      "width": 1000,
+      "height": 500,
+      "recovery": {
+        "source": "/images/site/image-unavailable.svg",
+        "placeholder": true,
+        "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+      }
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://camo.githubusercontent.com/ceb5b349bef5fd59955fa30832b6039df341521db0910e6b9c8b6d4dfa7abdb8/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f312e77656270",
+      "path": "/images/site/image-unavailable.svg",
+      "sha256": "6e06962a772dd40211839bdb06de23493d737e3b63b4b17e6b78b4e72cbc3e31",
+      "bytes": 716,
+      "width": 1000,
+      "height": 500,
+      "recovery": {
+        "source": "/images/site/image-unavailable.svg",
+        "placeholder": true,
+        "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+      }
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://camo.githubusercontent.com/038a6b9cc2763be6722c97970d2e9eb25095b685712e897378fdbae1f4ad76ce/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f322e77656270",
+      "path": "/images/site/image-unavailable.svg",
+      "sha256": "6e06962a772dd40211839bdb06de23493d737e3b63b4b17e6b78b4e72cbc3e31",
+      "bytes": 716,
+      "width": 1000,
+      "height": 500,
+      "recovery": {
+        "source": "/images/site/image-unavailable.svg",
+        "placeholder": true,
+        "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+      }
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://camo.githubusercontent.com/2b815eb93fc8d03a7350019b52ad3a07615b7af88275dae24b9e3e92ae4e7f42/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f332e77656270",
+      "path": "/images/site/image-unavailable.svg",
+      "sha256": "6e06962a772dd40211839bdb06de23493d737e3b63b4b17e6b78b4e72cbc3e31",
+      "bytes": 716,
+      "width": 1000,
+      "height": 500,
+      "recovery": {
+        "source": "/images/site/image-unavailable.svg",
+        "placeholder": true,
+        "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+      }
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://camo.githubusercontent.com/8a229cb5e754beae610b2cb70d0325105a7d613bedf50f215e92d8750d629c43/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f342e77656270",
+      "path": "/images/site/image-unavailable.svg",
+      "sha256": "6e06962a772dd40211839bdb06de23493d737e3b63b4b17e6b78b4e72cbc3e31",
+      "bytes": 716,
+      "width": 1000,
+      "height": 500,
+      "recovery": {
+        "source": "/images/site/image-unavailable.svg",
+        "placeholder": true,
+        "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+      }
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://camo.githubusercontent.com/c9b642bcdda8f79f175ca4d53282991b24da8b703bffb36211bf662fe53c164b/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f352e77656270",
+      "path": "/images/site/image-unavailable.svg",
+      "sha256": "6e06962a772dd40211839bdb06de23493d737e3b63b4b17e6b78b4e72cbc3e31",
+      "bytes": 716,
+      "width": 1000,
+      "height": 500,
+      "recovery": {
+        "source": "/images/site/image-unavailable.svg",
+        "placeholder": true,
+        "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+      }
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://camo.githubusercontent.com/62f375e073622a6ea3194cf96e283539ae61608acb2c84e3274bf8eb380c5f99/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f362e77656270",
+      "path": "/images/site/image-unavailable.svg",
+      "sha256": "6e06962a772dd40211839bdb06de23493d737e3b63b4b17e6b78b4e72cbc3e31",
+      "bytes": 716,
+      "width": 1000,
+      "height": 500,
+      "recovery": {
+        "source": "/images/site/image-unavailable.svg",
+        "placeholder": true,
+        "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+      }
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://camo.githubusercontent.com/01c92a6227648be6f139c3527a90aa8ba1eb02dc6e0ca49a8243b0030e172ead/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f372e77656270",
+      "path": "/images/site/image-unavailable.svg",
+      "sha256": "6e06962a772dd40211839bdb06de23493d737e3b63b4b17e6b78b4e72cbc3e31",
+      "bytes": 716,
+      "width": 1000,
+      "height": 500,
+      "recovery": {
+        "source": "/images/site/image-unavailable.svg",
+        "placeholder": true,
+        "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+      }
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://camo.githubusercontent.com/46de6ced890a6cbdfa91db8070b7f55216cdb5173085a616b83adfa4ae055c2b/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f382e77656270",
+      "path": "/images/site/image-unavailable.svg",
+      "sha256": "6e06962a772dd40211839bdb06de23493d737e3b63b4b17e6b78b4e72cbc3e31",
+      "bytes": 716,
+      "width": 1000,
+      "height": 500,
+      "recovery": {
+        "source": "/images/site/image-unavailable.svg",
+        "placeholder": true,
+        "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+      }
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://camo.githubusercontent.com/4f3bf448cb3fbd73f64471043654c8cfab068e7d28ea5def52f97ad22f8787b3/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f392e77656270",
+      "path": "/images/site/image-unavailable.svg",
+      "sha256": "6e06962a772dd40211839bdb06de23493d737e3b63b4b17e6b78b4e72cbc3e31",
+      "bytes": 716,
+      "width": 1000,
+      "height": 500,
+      "recovery": {
+        "source": "/images/site/image-unavailable.svg",
+        "placeholder": true,
+        "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+      }
+    },
+    {
+      "content": "src/content/blog/typora.md",
+      "source": "https://camo.githubusercontent.com/ee30f07984b3753a6e8539e89892f02d160eceeeff238d8042ed628995343bdb/68747470733a2f2f7261772e6769746d6972726f722e636f6d2f3734333835393931302f5479706f72615f556e6c6f636b65722f6d61737465722f696d672f5479706f72615f31302e77656270",
+      "path": "/images/site/image-unavailable.svg",
+      "sha256": "6e06962a772dd40211839bdb06de23493d737e3b63b4b17e6b78b4e72cbc3e31",
+      "bytes": 716,
+      "width": 1000,
+      "height": 500,
+      "recovery": {
+        "source": "/images/site/image-unavailable.svg",
+        "placeholder": true,
+        "note": "The original repository is unavailable after a DMCA takedown; a local placeholder preserves the article layout."
+      }
+    },
+    {
+      "content": "src/content/blog/Welcome-Lafcadia.md",
+      "source": "https://bu.dusays.com/2024/05/19/6649bbe05a310.png",
+      "path": "/images/posts/Welcome-Lafcadia/6649bbe05a310-1406064e1f90.png",
+      "sha256": "1406064e1f90f743d86f770256895be353778e1d57827aded1e10dfa4b35d38e",
+      "bytes": 1750076,
+      "width": 5521,
+      "height": 2066
+    },
+    {
+      "content": "src/content/blog/Welcome-Lafcadia.md",
+      "source": "https://bu.dusays.com/2024/05/19/6649c048ef332.png",
+      "path": "/images/posts/Welcome-Lafcadia/cover-ef7a8d5c61b0.png",
+      "sha256": "ef7a8d5c61b00f6845eb7bec2df60dfeb37d7c45112467a5486810b70f349980",
+      "bytes": 113864,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/blog/yuque-vip.md",
+      "source": "https://bu.dusays.com/2024/10/25/671b6ae2f367b.png",
+      "path": "/images/posts/yuque-vip/671b6ae2f367b-dc523ad5cd16.png",
+      "sha256": "dc523ad5cd16b23f1fae4580ec34c1880237da4e38318ad1576e6a8b1dbbe545",
+      "bytes": 10448,
+      "width": 663,
+      "height": 152
+    },
+    {
+      "content": "src/content/blog/yuque-vip.md",
+      "source": "https://bu.dusays.com/2024/10/25/671b6cb87ff85.png",
+      "path": "/images/posts/yuque-vip/671b6cb87ff85-4931dc366b9d.png",
+      "sha256": "4931dc366b9de640c7bb10a96b56118c2ff7bdb496730c56b5590c048eff1df5",
+      "bytes": 34593,
+      "width": 697,
+      "height": 178
+    },
+    {
+      "content": "src/content/blog/yuque-vip.md",
+      "source": "https://bu.dusays.com/2024/10/25/671b6d4dd01e5.png",
+      "path": "/images/posts/yuque-vip/671b6d4dd01e5-6be85e7cd8db.png",
+      "sha256": "6be85e7cd8dbd71a37933ae61dee11e7413fd71df52908982b474ca9e7cd3fd7",
+      "bytes": 83675,
+      "width": 812,
+      "height": 690
+    },
+    {
+      "content": "src/content/blog/yuque-vip.md",
+      "source": "https://bu.dusays.com/2024/10/25/671b6dd9b20e6.png",
+      "path": "/images/posts/yuque-vip/671b6dd9b20e6-820b59d8f8a2.png",
+      "sha256": "820b59d8f8a243edb06ce406cd881cc7e9df494b1255bf4cc7c274def5f7f08a",
+      "bytes": 54567,
+      "width": 332,
+      "height": 616
+    },
+    {
+      "content": "src/content/blog/yuque-vip.md",
+      "source": "https://bu.dusays.com/2024/10/25/671b6e30d13e2.png",
+      "path": "/images/posts/yuque-vip/671b6e30d13e2-e12b88ea50e1.png",
+      "sha256": "e12b88ea50e18ed7e4c79680b68231a5d5f1c48b4714251cd56f8c413072cba3",
+      "bytes": 94240,
+      "width": 1138,
+      "height": 642
+    },
+    {
+      "content": "src/content/blog/yuque-vip.md",
+      "source": "https://bu.dusays.com/2024/10/25/671b710a92a5a.png",
+      "path": "/images/posts/yuque-vip/671b710a92a5a-0a6236844c6b.png",
+      "sha256": "0a6236844c6b6ee5f4134af57122fa25a39a32c975d3ce63e05ddcd14e820247",
+      "bytes": 324156,
+      "width": 1930,
+      "height": 1358
+    },
+    {
+      "content": "src/content/blog/yuque-vip.md",
+      "source": "https://bu.dusays.com/2024/10/25/671b788794038.webp",
+      "path": "/images/posts/yuque-vip/cover-892ed22191dc.webp",
+      "sha256": "892ed22191dcfc8d797ff1f79846959d1cad2eab89a41248b08dbda144de6d4c",
+      "bytes": 7436,
+      "width": 730,
+      "height": 310
+    },
+    {
+      "content": "src/content/friends/aizrf.md",
+      "source": "https://blog.zrf.me/img/logo.png",
+      "path": "/images/friends/aizrf/avatar-79d1628345cb.png",
+      "sha256": "79d1628345cb589b1720a47e06fae7fbb751adee20a6793c8cbbe54ea4e6eade",
+      "bytes": 247498,
+      "width": 500,
+      "height": 500
+    },
+    {
+      "content": "src/content/friends/bigezhiyang.md",
+      "source": "https://bu.dusays.com/2024/05/18/6648b3a2e5ff4.png",
+      "path": "/images/friends/bigezhiyang/avatar-f948792cf5e0.png",
+      "sha256": "f948792cf5e0cf9bf6a8c15da066f75ffb657349923e80a2988e9c0e0c27a8fe",
+      "bytes": 13953,
+      "width": 440,
+      "height": 240
+    },
+    {
+      "content": "src/content/friends/casears-tech-stack.md",
+      "source": "https://bu.dusays.com/2024/05/18/6648b3499a9d9.png",
+      "path": "/images/friends/casears-tech-stack/avatar-cc5639f8101a.png",
+      "sha256": "cc5639f8101a0883161da297f075ec7fbb296a7652882309096ebb4d4c0981f8",
+      "bytes": 439820,
+      "width": 640,
+      "height": 640
+    },
+    {
+      "content": "src/content/friends/china97.md",
+      "source": "https://pic.imgdb.cn/item/66496ec0d9c307b7e9b6476b.png",
+      "path": "/images/friends/china97/avatar-0afd96726e60.png",
+      "sha256": "0afd96726e604a0ad937d7b32f75280953de66d671750d0c22f04c4c8a08f121",
+      "bytes": 17234,
+      "width": 178,
+      "height": 247
+    },
+    {
+      "content": "src/content/friends/efu.md",
+      "source": "https://github.com/everfu.png",
+      "path": "/images/friends/efu/avatar-d0abfba99560.jpg",
+      "sha256": "d0abfba99560c6ed971217c1039a124c6a6ede33419108b9061c565e17eac9ee",
+      "bytes": 30210,
+      "width": 460,
+      "height": 460
+    },
+    {
+      "content": "src/content/friends/elykia.md",
+      "source": "https://bu.dusays.com/2024/10/25/671b2438203a6.gif",
+      "path": "/images/friends/elykia/avatar-7ba6081bf13f.gif",
+      "sha256": "7ba6081bf13f22fd85a1178f02bfd816ff8ea6a245983db3fe0bba11b984193b",
+      "bytes": 5800251,
+      "width": 1080,
+      "height": 1080
+    },
+    {
+      "content": "src/content/friends/fgaoxing.md",
+      "source": "https://img.yt-blog.top/webp/big_logo.webp",
+      "path": "/images/friends/fgaoxing/avatar-3de86242561c.webp",
+      "sha256": "3de86242561c97126f71af09de907641c173cce354c7653bdc2a513470e70279",
+      "bytes": 239488,
+      "width": 860,
+      "height": 860
+    },
+    {
+      "content": "src/content/friends/fly-and-not-down.md",
+      "source": "https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F56d05801-c861-431c-b559-559aada2f5a7%2F1c43c7d8-f6dd-49e9-86f9-08f0ce60115a%2Flogo.jpg?table=collection&id=ad3c068c-62c1-4570-91d5-aa0b19494b88&t=ad3c068c-62c1-4570-91d5-aa0b19494b88&width=800&cache=v2",
+      "path": "/images/friends/fly-and-not-down/avatar-f7891f18e081.jpg",
+      "sha256": "f7891f18e0814e779913fa65b74b701abb20c11866b5711e03bd6f40da5a443d",
+      "bytes": 10975,
+      "width": 1024,
+      "height": 1024
+    },
+    {
+      "content": "src/content/friends/frdlink.md",
+      "source": "https://www.frdlink.link/favicon.ico",
+      "path": "/images/friends/frdlink/avatar-136807dba012.png",
+      "sha256": "136807dba0126a5857d04b916977d6a122cefad2aeab87124e2a229f52b3ddfb",
+      "bytes": 9573,
+      "width": 192,
+      "height": 192
+    },
+    {
+      "content": "src/content/friends/lafcadias-blog.md",
+      "source": "https://bu.dusays.com/2024/06/13/666a8e4862697.png",
+      "path": "/images/friends/lafcadias-blog/avatar-2b164d95ca12.png",
+      "sha256": "2b164d95ca12d76324eeb7ad1da52a5f6e582f14e45ffb6d8f00e8fdd35ba53f",
+      "bytes": 538244,
+      "width": 500,
+      "height": 500
+    },
+    {
+      "content": "src/content/friends/lihouses-home.md",
+      "source": "https://www.lihouse.xyz/ico.php?mode=1",
+      "path": "/images/friends/lihouses-home/avatar-03eeb3d03c65.jpg",
+      "sha256": "03eeb3d03c65d28489acba793bb282464588cab85972f378421f605dcfc59af9",
+      "bytes": 18766,
+      "width": 240,
+      "height": 240,
+      "recovery": {
+        "source": "https://www.lihouse.xyz/ico.php?mode=1",
+        "allowExpiredCertificate": true,
+        "note": "Downloaded with explicit certificate bypass because the host certificate is expired."
+      }
+    },
+    {
+      "content": "src/content/friends/lijunyi.md",
+      "source": "https://lijunyi2.github.io/blog/logo.png",
+      "path": "/images/friends/lijunyi/avatar-48c51c34f26f.png",
+      "sha256": "48c51c34f26fa0b5ffe907f3c50edae4383fdc766a8ec9aed64b0918f926984d",
+      "bytes": 14200,
+      "width": 200,
+      "height": 200
+    },
+    {
+      "content": "src/content/friends/listeneres.md",
+      "source": "https://gp0.saobby.com/i/Lc5G0xpSovItSMOT.jpg",
+      "path": "/images/friends/listeneres/avatar-0092a21b144b.jpg",
+      "sha256": "0092a21b144b0a338a429982107e1bef6931dfa330c7361be58e92b58a19e9e4",
+      "bytes": 3105,
+      "width": 350,
+      "height": 350
+    },
+    {
+      "content": "src/content/friends/naokuo.md",
+      "source": "https://cdn.cbd.int/naokuo-blog/img/about/avatar-512x512.png",
+      "path": "/images/friends/naokuo/avatar-261d311d68aa.png",
+      "sha256": "261d311d68aabd0104133dd7de6892217b57dbaaebe2113819e8422a84f47181",
+      "bytes": 246159,
+      "width": 512,
+      "height": 512
+    },
+    {
+      "content": "src/content/friends/oyisos-blog.md",
+      "source": "https://oyiso.cn/logo.png",
+      "path": "/images/friends/oyisos-blog/avatar-c0df128a827e.jpg",
+      "sha256": "c0df128a827e4db49f3a5708d784d98ae11430ad6585333da32c727ead46000f",
+      "bytes": 21264,
+      "width": 440,
+      "height": 440
+    },
+    {
+      "content": "src/content/friends/qixinghai.md",
+      "source": "https://cdn-community.codemao.cn/47/community/d2ViXzMwMDFfMzUyMzQwMl8wXzE3MTY5OTYzMTgxMjFfNDFkMjE3ZGY.png",
+      "path": "/images/friends/qixinghai/avatar-5305282b5fb5.png",
+      "sha256": "5305282b5fb5443c488c2fd3503d8c938ad7a53ee39f078871b355ed84e02b8a",
+      "bytes": 196801,
+      "width": 344,
+      "height": 364
+    },
+    {
+      "content": "src/content/friends/tech-cloud.md",
+      "source": "https://q1.qlogo.cn/g?b=qq&nk=3260130869&s=640",
+      "path": "/images/friends/tech-cloud/avatar-350ac74aae76.jpg",
+      "sha256": "350ac74aae7695f58843967c23ddc72442d14737c03e6f14488c411502b32f23",
+      "bytes": 40522,
+      "width": 640,
+      "height": 640
+    },
+    {
+      "content": "src/content/friends/warhut.md",
+      "source": "https://thirdqq.qlogo.cn/g?b=sdk&k=ugoN12PjrMbhTUibJQYiatgg&kti=ZUrnmQAAAAA&s=100",
+      "path": "/images/friends/warhut/avatar-17e0d1da14d4.jpg",
+      "sha256": "17e0d1da14d412fa963047e2983855b2e73a521a606be4f1dcf23ea5933a8f2e",
+      "bytes": 4622,
+      "width": 100,
+      "height": 100
+    },
+    {
+      "content": "src/content/friends/xingchencloud.md",
+      "source": "https://blog.xingchencloud.top/img/favicon.ico",
+      "path": "/images/friends/xingchencloud/avatar-2e8a136e947b.ico",
+      "sha256": "2e8a136e947be51acd535de5cb51f6abe81db48d6cc7fb8f2805e495319a4e91",
+      "bytes": 1181,
+      "width": 128,
+      "height": 128,
+      "recovery": {
+        "source": "https://blog.xingchencloud.top/favicon.ico",
+        "note": "Recovered from the current homepage favicon."
+      }
+    },
+    {
+      "content": "src/content/friends/xinghechengye.md",
+      "source": "https://thirdqq.qlogo.cn/g?b=sdk&k=yqjbmdENrko19T7mjIc3vg&s=640&t=1655292317",
+      "path": "/images/friends/xinghechengye/avatar-16e6a396d0b6.jpg",
+      "sha256": "16e6a396d0b6eeda82c996a88a0b616cf299647b7857d07d023fc266052cbeac",
+      "bytes": 44029,
+      "width": 640,
+      "height": 640
+    },
+    {
+      "content": "src/content/friends/zhheo.md",
+      "source": "https://img.zhheo.com/i/67d8fa75943e4.webp",
+      "path": "/images/friends/zhheo/avatar-4a3306273519.png",
+      "sha256": "4a3306273519ab0f50a16149a18bb0cd8c9deeac976564364f893782f5580770",
+      "bytes": 11068,
+      "width": 200,
+      "height": 200
+    }
+  ],
+  "failures": []
+}

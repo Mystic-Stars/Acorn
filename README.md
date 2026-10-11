@@ -56,11 +56,11 @@ template/overrides/   公开主题默认配置和示例内容
 
 ## Pages CMS
 
-仓库根目录的 [`.pages.yml`](.pages.yml) 可管理文章、友链、图片和高级站点配置。正文 Editor 支持粘贴、拖入图片或通过 `/` → Image 上传，自动存入 `public/images/posts/` 并生成 Markdown 引用；复杂 Markdown 可通过完整源码入口编辑。新文章默认草稿，上传封面与已有远程地址分开维护。
+仓库根目录的 [`.pages.yml`](.pages.yml) 可管理文章、友链、图片和高级站点配置。正文 Editor 支持粘贴、拖入图片或通过 `/` → Image 上传，自动存入 `public/images/posts/uploads/` 并生成 Markdown 引用；历史文章图片按 `public/images/posts/<文章文件名>/` 分组，友链头像按 `public/images/friends/<友链文件名>/` 分组，站点级图片放在 `public/images/site/`。复杂 Markdown 可通过完整源码入口编辑。新文章默认草稿，封面和头像都使用本地图片字段。
 
-连接 [Pages CMS](https://pagescms.org/) 后选择对应仓库与分支即可读取配置。写作时等待图片上传完成再保存，发布前关闭草稿开关；未来发布时间不会自动延迟发布。上传封面写入 `cover.upload`，清空后恢复原有 `cover.image` / `cover.url` 或默认封面。
+连接 [Pages CMS](https://pagescms.org/) 后选择对应仓库与分支即可读取配置。写作时等待图片上传完成再保存，发布前关闭草稿开关；未来发布时间不会自动延迟发布。上传封面写入 `cover.upload`，清空后使用默认封面。
 
-“检查内容与构建”按钮运行当前分支的检查。真实接入后应验证图片粘贴、拖入、上传、远程封面保存、上传封面清空与复杂 Markdown 源码保存。站点设置仍使用 TypeScript 源码编辑器。
+“检查内容与构建”按钮运行当前分支的检查。真实接入后应验证图片粘贴、拖入、上传、封面上传、友链头像上传、上传图片清空与复杂 Markdown 源码保存。站点设置仍使用 TypeScript 源码编辑器。迁移与检查命令为 `npm run images:localize -- --write` 和 `npm run images:check`。
 
 ## 友链提交
 

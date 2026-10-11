@@ -13,7 +13,7 @@
 
 原有综合回归测试按模块拆分为 `search.test.mjs`、`dates.test.mjs`、`blog-stats.test.mjs`、`counters.test.mjs`。计数解析属于单元测试，DOM 观察与超时属于集成测试。
 
-`content-fields.test.mjs` 验证 CMS 清空可选字段、图片地址校验与封面覆盖/恢复。`pages-cms.test.mjs` 解析真实 `.pages.yml`，通过 TypeScript AST 对照 `src/content.config.ts` 的字段，检查媒体映射、配置入口、发布默认值和可手动运行的 CI；这两项测试也保留在导出的主题中。真实托管端上传与保存仍需按根目录 README 的 Pages CMS 说明验收。
+`content-fields.test.mjs` 验证 CMS 清空可选字段、图片地址校验与封面覆盖/恢复。`pages-cms.test.mjs` 解析真实 `.pages.yml`，通过 TypeScript AST 对照 `src/content.config.ts` 的字段，检查三组媒体映射、配置入口、发布默认值和可手动运行的 CI；`images.test.mjs` 检查内容引用、目录遍历和远程图片遗漏。这些测试也保留在导出的主题中。真实托管端上传与保存仍需按根目录 README 的 Pages CMS 说明验收。
 
 ## 命令
 
@@ -31,4 +31,4 @@ npm run test:build        # 检查生产输出
 
 文件系统测试使用 `helpers/temp-workspace.mjs` 创建隔离目录，结束时验证清理边界。不要对真实源码目录执行删除测试。
 
-源码仓库包含主题导出安全测试。公开主题会排除这项源码工具测试及其助手，其余应用和构建测试保持相同目录与命令。
+源码仓库包含主题导出安全测试。公开主题会排除这项源码工具测试；临时工作区助手保留给图片集成测试使用，其余应用和构建测试保持相同目录与命令。

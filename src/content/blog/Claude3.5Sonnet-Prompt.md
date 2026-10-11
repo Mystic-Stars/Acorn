@@ -5,7 +5,7 @@ pubDate: 2024-08-31T14:00:00+08:00
 cover:
   tone: ocean
   label: '软件技术'
-  url: 'https://bu.dusays.com/2024/08/31/66d2bb1d6b0f6.webp'
+  upload: "/images/posts/Claude3.5Sonnet-Prompt/cover-d6aeb23c6041.webp"
   alt: '【Claude】v0.dev和Websim的Prompt分享 的封面图'
 draft: false
 featured: false
@@ -20,9 +20,9 @@ author: 'Mystic Stars'
 
 [v0.dev](v0.dev)和[webim.ai](webim.ai)这两个网站，前者对于`react`的开发能力很强，后者则擅长于`html+css+js`的网页开发。但是如下图一样，这两款工具都有着不菲的定价。
 
-[![](https://bu.dusays.com/2024/08/31/66d2a6c605e22.png)](https://bu.dusays.com/2024/08/31/66d2a6c605e22.png)
+[![](/images/posts/Claude3.5Sonnet-Prompt/66d2a6c605e22-e7a98dbe4ef2.png)](/images/posts/Claude3.5Sonnet-Prompt/66d2a6c605e22-e7a98dbe4ef2.png)
 
-![](https://bu.dusays.com/2024/08/31/66d2a6f4b498e.png)
+![](/images/posts/Claude3.5Sonnet-Prompt/66d2a6f4b498e-c2434651ad52.png)
 
 不过好在，这两款工具的Prompt已经被大佬们套出来了，这篇文章我将分享给大家。
 

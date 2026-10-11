@@ -10,6 +10,8 @@
 
 `theme/` 只存在于主题源码仓库，公开博客模板保留 `compat/`。主题发布由 [`.github/workflows/publish-theme.yml`](../.github/workflows/publish-theme.yml) 管理，可手动运行或通过推送 `v*` 标签触发；发布前运行 `npm run verify:theme`，部署密钥通过仓库 secret `ACORN_THEME_DEPLOY_KEY` 提供。`docs/` 属于本地维护资料，不进入导出结果。
 
+图片维护脚本位于 `images/`：`npm run images:localize` 下载并按内容归档图片，确认后加 `--write` 才会修改文章；`npm run images:check` 检查所有内容引用是否为本地存在的图片。来源恢复覆盖和迁移清单保存在 `scripts/images/recovery.json` 与 `scripts/images/migration.json`，两者都不会导出到公开主题。
+
 新增维护脚本时按职责分组，通过 `package.json` 提供稳定入口。脚本移动后，应检查仓库根目录解析、npm 生命周期命令、主题导出排除项和测试 import。
 
 涉及删除或替换的脚本必须先验证解析后的绝对目标路径。兼容脚本操作当前项目的依赖目录；主题导出入口从自己的文件位置定位仓库根目录，输出只允许 `.theme-dist/` 范围内的生成目录。

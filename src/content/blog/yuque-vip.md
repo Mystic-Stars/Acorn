@@ -5,7 +5,7 @@ pubDate: 2024-10-25T19:00:00+08:00
 cover:
   tone: sunset
   label: '资源荟萃'
-  url: 'https://bu.dusays.com/2024/10/25/671b788794038.webp'
+  upload: "/images/posts/yuque-vip/cover-892ed22191dc.webp"
   alt: '【教育优惠】🎉 免费领取 14 个月语雀会员！🎁 助你高效知识管理 🚀 的封面图'
 draft: false
 featured: false
@@ -51,7 +51,7 @@ author: 'Mystic Stars'
 
 填写了邀请码你可以获得`30 天会员奖励`，同时我也会获得 15 天会员奖励。
 
-![](https://bu.dusays.com/2024/10/25/671b6ae2f367b.png)
+![](/images/posts/yuque-vip/671b6ae2f367b-dc523ad5cd16.png)
 
 ### 第二步
 
@@ -59,21 +59,21 @@ author: 'Mystic Stars'
 
 > 认证链接：[设置 · 语雀](https://www.yuque.com/settings/member)
 
-![](https://bu.dusays.com/2024/10/25/671b6cb87ff85.png)
+![](/images/posts/yuque-vip/671b6cb87ff85-4931dc366b9d.png)
 
 在输入框中填写你的edu.cn邮箱地址，`发送认证邮件`
 
-![](https://bu.dusays.com/2024/10/25/671b6d4dd01e5.png)
+![](/images/posts/yuque-vip/671b6d4dd01e5-6be85e7cd8db.png)
 
 ### 第三步
 
 在你的邮箱的邮件中进行认证，点击`立即认证`
 
-![](https://bu.dusays.com/2024/10/25/671b6dd9b20e6.png)
+![](/images/posts/yuque-vip/671b6dd9b20e6-820b59d8f8a2.png)
 
 出现以下界面便成功啦~🎉🎉🎉大功告成！
 
-![](https://bu.dusays.com/2024/10/25/671b6e30d13e2.png)
+![](/images/posts/yuque-vip/671b6e30d13e2-e12b88ea50e1.png)
 
 ## 权益对比
 
@@ -106,7 +106,7 @@ author: 'Mystic Stars'
 | 超级权益 | 特色功能优先体验       | ❌             | ❌                               | ✅       |
 | 超级权益 | 超级会员交流群         | ❌             | ❌                               | ✅       |
 
-![](https://bu.dusays.com/2024/10/25/671b710a92a5a.png)
+![](/images/posts/yuque-vip/671b710a92a5a-0a6236844c6b.png)
 
 ## 结束语
 

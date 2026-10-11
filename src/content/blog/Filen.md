@@ -5,7 +5,7 @@ pubDate: 2024-11-01T21:00:00+08:00
 cover:
   tone: ocean
   label: "软件技术"
-  url: "https://bu.dusays.com/2024/11/01/6724d66f33429.webp"
+  upload: "/images/posts/Filen/cover-3201f6063608.webp"
   alt: "Filen：免费💰、无限速🚀、无限制🔓德国网盘 的封面图"
 draft: false
 featured: false
@@ -27,7 +27,7 @@ author: "Mystic Stars"
 
 但是国内的众多网盘体验往往都不尽人意❤️‍🩹
 
-![](https://bu.dusays.com/2024/11/01/6724ce5806843.png)
+![](/images/posts/Filen/6724ce5806843-358aa7d0acab.png)
 
 即使是`123云盘`这样曾经的大善人良心网盘，如今也不得不走上了付费道路💰。
 
@@ -37,7 +37,7 @@ author: "Mystic Stars"
 
 为了解决上述种种问题，我在最近找到了一款德国的`免费`、`无内容限制`、`不限速`的网盘分享给大家
 
-![](https://bu.dusays.com/2024/11/01/6724cf6d1451e.png)
+![](/images/posts/Filen/6724cf6d1451e-923d2604c79c.png)
 
 ## 注册教程
 
@@ -47,19 +47,19 @@ author: "Mystic Stars"
 
 > Filen官网注册地址（带AFF）：[https://filen.io/r/ca10f9ed1b8a4e86fd185888dddc6ed4](https://filen.io/r/ca10f9ed1b8a4e86fd185888dddc6ed4)
 
-![](https://bu.dusays.com/2024/11/01/6724abfe2ca9e.png)
+![](/images/posts/Filen/6724abfe2ca9e-4da18d31486c.png)
 
 选择计划时会看到一堆付费计划，不过我们毕竟是秉持~~白嫖的原则~~。所以下拉网页，找到`Free Plan`，点击`Get started for free`
 
-![](https://bu.dusays.com/2024/11/01/6724acb22830c.png)
+![](/images/posts/Filen/6724acb22830c-34c49631e598.png)
 
 填写自己的邮箱信息，注册账号（请注意密码`不得少于10位`）
 
-![](https://bu.dusays.com/2024/11/01/6724ae09ada33.png)
+![](/images/posts/Filen/6724ae09ada33-fdd5357c09d1.png)
 
 随后在邮箱中确认注册
 
-![](https://bu.dusays.com/2024/11/01/6724ae43ee58e.png)
+![](/images/posts/Filen/6724ae43ee58e-be7534639167.png)
 
 ### 第二步
 
@@ -67,11 +67,11 @@ author: "Mystic Stars"
 
 通过我的[AFF链接](https://filen.io/r/ca10f9ed1b8a4e86fd185888dddc6ed4)注册的账户会获得`20GB`的额度
 
-![](https://bu.dusays.com/2024/11/01/6724af86065e8.png)
+![](/images/posts/Filen/6724af86065e8-836a1b1b50a0.png)
 
 不过`20GB`显然是不够的，我们接下来可以使用`邀请其他用户`的方式扩容至`50GB`
 
-![](https://bu.dusays.com/2024/11/01/6724b21026795.png)
+![](/images/posts/Filen/6724b21026795-4b9908a62797.png)
 
 可以找3个朋友帮忙，也可以自己使用`不同邮箱地址`进行扩容
 
@@ -81,7 +81,7 @@ author: "Mystic Stars"
 
 本网盘虽然`不支持 Webdav`，但是同时支持`Web端``桌面端``安卓端``IOS端`，拥有很强的跨设备能力💻
 
-![](https://bu.dusays.com/2024/11/01/6724b29e0c4bb.png)
+![](/images/posts/Filen/6724b29e0c4bb-94c59eac0674.png)
 
 可以通过这幅图看看UI，看起来还是挺不错的！
 
@@ -91,7 +91,7 @@ author: "Mystic Stars"
 
 不过虽说是德国的网盘，但其实国内访问的速度也并不慢，应该`大部分地区`都能`流畅访问`
 
-![](https://bu.dusays.com/2024/11/01/6724d03e53b52.png)
+![](/images/posts/Filen/6724d03e53b52-4e2021e331fc.png)
 
 总的来说，此网盘作为小范围或偶尔应急使用是完全够用的，大伙有兴趣可以注册试试~
 

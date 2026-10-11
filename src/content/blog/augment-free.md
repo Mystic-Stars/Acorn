@@ -5,7 +5,7 @@ pubDate: 2025-06-29T08:00:00Z
 cover:
   tone: ocean
   label: 软件技术
-  url: /images/augment.webp
+  upload: "/images/posts/augment-free/cover-281df37b9dca.webp"
   alt: 告别 Cursor 降智，更强 AI 插件 Augment 免费使用！ 的封面图
 draft: false
 featured: false

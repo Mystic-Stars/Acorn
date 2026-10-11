@@ -5,7 +5,7 @@ pubDate: 2026-07-12T20:00:00+08:00
 cover:
   tone: plum
   label: "软件技术"
-  url: "/images/posts/coverly.webp"
+  upload: "/images/posts/Coverly/cover-005b627731b7.webp"
   alt: "【开源】Coverly，让封面创作更简单 的封面图"
 draft: false
 featured: true
@@ -27,7 +27,7 @@ author: "Mystic Stars"
 
 它是一个可以直接在浏览器里制作横向封面的轻量编辑器。不需要登录，也不需要后端；打开网页，选一个模板，改改文字和素材，就可以导出一张封面图。
 
-![editor-overview](/images/posts/editor-overview.jpg)
+![editor-overview](/images/posts/Coverly/editor-overview-2922a6b08af5.jpg)
 
 ## Coverly 是什么？
 
@@ -60,7 +60,7 @@ Coverly 会自动把项目保存在当前浏览器里。下次再打开时，之
 
 当然，本地存储也意味着清除浏览器站点数据后内容会消失。所以如果有比较重要的作品，记得导出一份项目 JSON 备份一下。之后需要继续改的时候，再导入回来就行。
 
-![project-manager.png](/images/posts/project-manager.png)
+![project-manager.png](/images/posts/Coverly/project-manager-d65c229a77ff.png)
 
 ### 不只是导出图片
 
@@ -68,7 +68,7 @@ Coverly 会自动把项目保存在当前浏览器里。下次再打开时，之
 
 做完之后想直接发博客或者发社交平台，导出图片就行；如果还想留一份可以继续在其他软件里编辑的文件，也多了一个选择。
 
-![download](/images/posts/download.png)
+![download](/images/posts/Coverly/download-3a4aa6776779.png)
 
 ### 手机上也能临时改一改
 

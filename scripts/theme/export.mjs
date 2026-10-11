@@ -23,7 +23,6 @@ const excluded = new Set([
   '.env',
   'scripts/theme',
   'tests/integration/theme-export.test.mjs',
-  'tests/helpers/temp-workspace.mjs',
   'docs',
   'src/content/blog',
   'src/content/friends',
@@ -33,6 +32,8 @@ const excluded = new Set([
   'src/config/friend-links.ts',
   'src/config/site.ts',
   'public/images',
+  'scripts/images/migration.json',
+  'scripts/images/recovery.json',
   '.github/workflows/publish-theme.yml',
 ]);
 

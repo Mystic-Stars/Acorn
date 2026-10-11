@@ -5,7 +5,7 @@ pubDate: 2024-06-14T17:00:00+08:00
 cover:
   tone: ocean
   label: "软件技术"
-  url: "https://bu.dusays.com/2024/06/14/666be21f7a153.webp"
+  upload: "/images/posts/alimail/cover-410a5f18bc1c.webp"
   alt: "阿里云企业邮箱免费注册教程 的封面图"
 draft: false
 featured: false

@@ -17,7 +17,7 @@ npm run dev
 - `src/config/`：站点资料、导航、页面文案、评论与主题设置
 - `src/content/blog/`：Markdown 文章
 - `src/content/friends/`：友链资料
-- `public/`：头像、图片和其他静态资源
+- `public/`：头像、按文章分组的图片和其他静态资源
 
 ## 检查和构建
 
@@ -33,9 +33,9 @@ npm run preview
 
 ## Pages CMS
 
-将自己的仓库接入 Pages CMS，根目录 `.pages.yml` 会提供文章、友链、图片媒体库和高级配置入口。正文 Editor 可粘贴、拖入图片或通过 `/` → Image 上传，自动生成 Markdown 图片引用；新文章默认草稿。复杂 Markdown 使用“文章完整源码”入口。
+将自己的仓库接入 Pages CMS，根目录 `.pages.yml` 会提供文章、友链、分用途图片媒体库和高级配置入口。正文 Editor 可粘贴、拖入图片或通过 `/` → Image 上传到 `public/images/posts/uploads/`，自动生成 Markdown 图片引用；新文章默认草稿。复杂 Markdown 使用“文章完整源码”入口。
 
-写作时等待图片上传完成再保存，发布前关闭草稿开关。上传封面写入 `cover.upload`，清空后恢复原有封面；未来发布时间不会自动延迟发布。站点设置仍使用 TypeScript 源码编辑器，“检查内容与构建”按钮运行当前分支的检查。首次接入请验证正文图片上传、远程封面保存、清空字段及复杂 Markdown 源码保存。
+写作时等待图片上传完成再保存，发布前关闭草稿开关。上传封面写入 `cover.upload`，友链头像使用 `friends` 媒体库；未来发布时间不会自动延迟发布。站点设置仍使用 TypeScript 源码编辑器，“检查内容与构建”按钮运行当前分支的检查。首次接入请验证正文图片上传、封面上传、友链头像上传、清空字段及复杂 Markdown 源码保存。
 
 ## 友链提交
 

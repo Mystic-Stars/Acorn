@@ -5,7 +5,7 @@ pubDate: 2024-09-04T12:00:00Z
 cover:
   tone: ocean
   label: 软件技术
-  url: /images/file.webp
+  upload: "/images/posts/MyProjects/cover-a83cc35c9c0e.webp"
   alt: 我的个人项目汇总 的封面图
 draft: false
 featured: true

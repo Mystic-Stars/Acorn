@@ -5,7 +5,7 @@ pubDate: 2026-07-12T21:40:00Z
 cover:
   tone: forest
   label: 软件技术
-  url: /images/posts/acorn.webp
+  upload: "/images/posts/Acorn-Theme/cover-1635be69426d.webp"
 draft: false
 featured: true
 category: 软件技术
@@ -23,7 +23,7 @@ author: Mystic Stars
 所以，Acorn 就这样诞生啦 🌰
 
 这套主题。整体参考了动森那种温暖、轻松的小岛氛围，但没有把内容藏在花里胡哨的效果后面——我还是希望打开网站的人，能舒服地阅读文章、找到内容，也能看到这个博客一点一点长大。
-![blog-overview](/images/posts/blog-overview.png)
+![blog-overview](/images/posts/Acorn-Theme/blog-overview-5bef74fb7aa7.png)
 
 ## Acorn 有什么？
 

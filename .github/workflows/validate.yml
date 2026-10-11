@@ -32,6 +32,8 @@ jobs:
         run: npm ci
       - name: Validate types and content
         run: npm run check
+      - name: Validate local image references
+        run: npm run images:check
       - name: Run regression tests
         run: npm test
       - name: Build static site

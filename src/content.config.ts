@@ -24,11 +24,11 @@ const blog = defineCollection({
           label: optionalContentField(z.string().min(1).max(32)),
           image: image().optional(),
           /**
-           * A remote image URL or a public path uploaded through Pages CMS.
-           * The latter is written as `/images/...` and is served from `public/`.
+           * Legacy cover source. New and migrated covers use `upload` so the CMS
+           * can display the local image in its picker.
            */
           url: optionalContentField(imageLocation),
-          /** Kept separate because CMS image fields reject remote URLs. */
+          /** Canonical public image path, managed by the Pages CMS image picker. */
           upload: optionalContentField(uploadedImageLocation),
           alt: optionalContentField(z.string()),
         })

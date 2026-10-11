@@ -5,7 +5,7 @@ pubDate: 2024-08-27T14:27:00+08:00
 cover:
   tone: ocean
   label: '软件技术'
-  url: 'https://bu.dusays.com/2024/08/27/66cd84e1d31d8.webp'
+  upload: "/images/posts/rainyun-autosignup/cover-981d75389e10.webp"
   alt: '雨云自动签到&自动积分续期 脚本 的封面图'
 draft: false
 featured: false

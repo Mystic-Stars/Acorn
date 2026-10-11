@@ -5,7 +5,7 @@ pubDate: 2024-09-16T16:00:00+08:00
 cover:
   tone: sunset
   label: "资源荟萃"
-  url: "https://bu.dusays.com/2024/09/16/66e7fb4b16b64.webp"
+  upload: "/images/posts/To-the-Moon-Soundtrack/cover-0af43ab05fb1.webp"
   alt: "《To the Moon》原声音轨下载 的封面图"
 draft: false
 featured: false
@@ -27,13 +27,13 @@ author: "Mystic Stars"
 
 此游戏的配乐更可谓是一绝！无时无刻不牵动着玩家的心弦，所以今天我将分享To the Moon的全套`原声音轨`下载。
 
-![](https://bu.dusays.com/2024/09/16/66e7e68aa17c6.png)
+![](/images/posts/To-the-Moon-Soundtrack/66e7e68aa17c6-ab1fc8f314f1.png)
 
 ## ¶内容简介
 
 以下是本压缩包包含的内容，涵盖了《To the
  Moon》全部`33首`音乐，每首歌又涵盖了`FLAC`和`MP3`文件。  
-![](https://bu.dusays.com/2024/09/16/66e7ef892c8e7.png)
+![](/images/posts/To-the-Moon-Soundtrack/66e7ef892c8e7-b66b11ae793c.png)
 
 ## ¶下载链接
 
