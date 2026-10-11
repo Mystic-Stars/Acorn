@@ -5,7 +5,7 @@ export const friendLinksConfig = {
   repository: 'Mystic-Stars/Acorn',
   defaultBranch: 'main',
   contentDirectory: 'src/content/friends',
-  documentationUrl: 'https://github.com/Mystic-Stars/Acorn/blob/main/docs/FRIEND_LINKS.md',
+  documentationUrl: 'https://github.com/Mystic-Stars/Acorn#友链提交',
   contactEmail: 'mystic_stars@outlook.com',
   categories: ['技术', '生活', '创作', '游戏', '学习', '其他'],
   requirements: [

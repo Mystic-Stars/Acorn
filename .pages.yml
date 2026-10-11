@@ -1,19 +1,31 @@
 media:
+  name: images
+  label: 图片与正文附件
   input: public/images
   output: /images
-  rename: safe
+  rename: random
   extensions: [jpg, jpeg, png, webp, gif, avif, svg]
+  commit:
+    templates:
+      create: 'media: add {path}'
+      update: 'media: update {path}'
+      delete: 'media: remove {path}'
+      rename: 'media: rename {oldPath} -> {newPath}'
 
 content:
   - name: blog
     label: 博客文章
     type: collection
     path: src/content/blog
+    description: 新文章默认保存为草稿；发布前检查日期、图片与文件名，文件名决定永久地址。
     filename:
-      template: '{primary}.md'
+      # A date/time prefix also works when a Chinese title slugifies to nothing.
+      template: '{year}{month}{day}-{hour}{minute}{second}-{primary}.md'
       field: create
     format: yaml-frontmatter
     subfolders: false
+    operations:
+      rename: false
     view:
       primary: title
       fields: [title, pubDate, category, draft, featured]
@@ -42,6 +54,7 @@ content:
         label: 发布时间
         type: date
         required: true
+        description: 默认当前浏览器时间；未来日期不会自动延迟发布，请用草稿开关控制。
         options:
           time: true
           format: "yyyy-MM-dd'T'HH:mm:ssXXX"
@@ -83,11 +96,19 @@ content:
             options:
               maxlength: 32
           - name: url
-            label: 封面图片
+            label: 已有封面地址
+            type: string
+            description: 保留远程 http/https 地址或站内公共路径；上传图片会优先于此地址显示。
+            pattern:
+              regex: '^(https?://[^\s]+|/(?!/)[^\s]*)?$'
+              message: 请填写 http/https 链接或以 / 开头的站内路径。
+          - name: upload
+            label: 上传封面图片
             type: image
-            description: 可上传图片，也可保留已有的远程图片地址。
+            description: 上传或选择媒体库图片；建议使用 2:1 比例。清空后恢复原有封面或默认色调。
             options:
-              path: posts
+              media: images
+              path: public/images/posts
               extensions: [jpg, jpeg, png, webp, gif, avif, svg]
           - name: alt
             label: 封面替代文本
@@ -96,12 +117,19 @@ content:
       - name: draft
         label: 草稿
         type: boolean
-        default: false
+        default: true
         description: 生产构建不会发布草稿文章。
       - name: featured
         label: 置顶文章
         type: boolean
         default: false
+      - name: legacyViews
+        label: 历史阅读量
+        type: number
+        default: 0
+        description: 迁移前的历史阅读量，只能填写非负整数；新文章保持 0。
+        options:
+          min: 0
       - name: category
         label: 分类
         type: string
@@ -109,18 +137,129 @@ content:
         label: 标签
         type: string
         list: true
+        options:
+          minlength: 1
         description: 每个标签单独添加；文章归档支持按标签筛选。
       - name: author
         label: 作者
         type: string
       - name: body
-        label: 正文（Markdown）
-        type: code
+        label: 正文
+        type: rich-text
         required: true
-        description: 使用源码编辑器编辑文章正文。
+        description: 在 Editor 中粘贴、拖入图片，或输入 / 选择 Image 上传；图片自动保存到媒体库。复杂 Markdown 请使用侧栏的完整源码入口。
         options:
           format: markdown
+          switcher: true
+          media: images
+          path: public/images/posts
+          extensions: [jpg, jpeg, png, webp, gif, avif, svg]
 
+  - name: friends
+    label: 友链名册
+    type: collection
+    path: src/content/friends
+    description: 每个站点一份资料；访客通过 GitHub PR 申请，站长在这里维护收录结果。
+    filename:
+      template: '{year}{month}{day}-{hour}{minute}{second}-{primary}.md'
+      field: create
+    format: yaml-frontmatter
+    subfolders: false
+    operations:
+      rename: false
+    view:
+      primary: name
+      fields: [name, category, featured, hidden]
+      search: [name, description, url, category, tags]
+      sort: [name, submittedAt, updatedAt]
+      default:
+        sort: name
+        order: asc
+    fields:
+      - name: name
+        label: 站点名称
+        type: string
+        required: true
+        options:
+          minlength: 1
+          maxlength: 40
+      - name: url
+        label: 站点链接
+        type: string
+        required: true
+        pattern:
+          regex: '^https?://[^\s]+$'
+          message: 请填写完整的 http 或 https 链接。
+      - name: description
+        label: 站点简介
+        type: text
+        required: true
+        options:
+          minlength: 1
+          maxlength: 80
+      - name: avatar
+        label: 头像地址
+        type: string
+        required: true
+        description: 填写 http/https 地址，或从图片媒体库上传后复制 /images/... 路径。
+        pattern:
+          regex: '^(https?://[^\s]+|/(?!/)[^\s]+)$'
+          message: 请填写 http/https 链接或以 / 开头的站内路径。
+      - name: category
+        label: 分类
+        type: select
+        required: true
+        default: 其他
+        options:
+          values: [技术, 生活, 创作, 游戏, 学习, 其他]
+      - name: tags
+        label: 标签
+        type: string
+        list:
+          max: 4
+          collapsible: false
+        options:
+          minlength: 1
+          maxlength: 16
+      - name: submittedAt
+        label: 收录日期
+        type: date
+        options:
+          format: yyyy-MM-dd
+      - name: updatedAt
+        label: 更新日期
+        type: date
+        default: ''
+        options:
+          format: yyyy-MM-dd
+      - name: featured
+        label: 优先展示
+        type: boolean
+        default: false
+      - name: hidden
+        label: 隐藏
+        type: boolean
+        default: false
+        description: 隐藏时保留资料文件，但不在公开友链页展示。
+
+  - name: source
+    label: 源码维护（高级）
+    type: group
+    items:
+      - name: blog-source
+        label: 文章完整源码
+        type: collection
+        path: src/content/blog
+        description: 编辑完整 frontmatter 和 Markdown，适合原生 HTML、复杂表格、代码围栏元数据及历史日期格式；不经过富文本转换。
+        filename:
+          template: '{primary}.md'
+          field: false
+        format: code
+        subfolders: false
+        operations:
+          create: false
+          rename: false
+          delete: false
   - name: site-settings
     label: 站点配置（高级）
     type: group
@@ -160,6 +299,20 @@ content:
         format: code
         operations:
           delete: false
+      - name: analytics
+        label: 访问统计配置
+        type: file
+        path: src/config/analytics.ts
+        format: code
+        operations:
+          delete: false
+      - name: friend-links
+        label: 友链页面与申请配置
+        type: file
+        path: src/config/friend-links.ts
+        format: code
+        operations:
+          delete: false
       - name: theme
         label: 主题配置
         type: file
@@ -167,6 +320,13 @@ content:
         format: code
         operations:
           delete: false
+
+actions:
+  - name: validate-site
+    label: 检查内容与构建
+    workflow: validate.yml
+    ref: current
+    confirm: false
 
 settings:
   content:

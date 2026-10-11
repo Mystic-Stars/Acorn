@@ -5,6 +5,13 @@ on:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      payload:
+        description: Pages CMS action context (validation uses the selected branch)
+        required: false
+        default: '{}'
+        type: string
 
 permissions:
   contents: read

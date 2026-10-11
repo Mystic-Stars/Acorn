@@ -1,13 +1,13 @@
 ---
-title: "使用 Markdown 写文章"
-description: "了解 Acorn 的文章目录、Frontmatter、封面、草稿、置顶和图片写法。"
+title: '使用 Markdown 写文章'
+description: '了解 Acorn 的文章目录、Frontmatter、封面、草稿、置顶和图片写法。'
 pubDate: 2026-07-11T12:00:00+08:00
-cover: { tone: plum, label: "内容写作" }
+cover: { tone: plum, label: '内容写作' }
 draft: false
 featured: false
-category: "Acorn 指南"
-tags: ["Markdown", "写作"]
-author: "Acorn"
+category: 'Acorn 指南'
+tags: ['Markdown', '写作']
+author: 'Acorn'
 ---
 
 # 使用 Markdown 写文章
@@ -16,19 +16,19 @@ author: "Acorn"
 
 ```yaml
 ---
-title: "文章标题"
-description: "用于列表和搜索结果的摘要"
+title: '文章标题'
+description: '用于列表和搜索结果的摘要'
 pubDate: 2026-07-11T12:00:00+08:00
 cover:
   tone: mint
-  label: "随笔"
-  url: "/images/posts/cover.webp"
-  alt: "封面内容说明"
+  label: '随笔'
+  url: '/images/posts/cover.webp'
+  alt: '封面内容说明'
 draft: false
 featured: false
-category: "随笔"
-tags: ["生活", "记录"]
-author: "Your Name"
+category: '随笔'
+tags: ['生活', '记录']
+author: 'Your Name'
 ---
 ```
 
@@ -39,6 +39,16 @@ author: "Your Name"
 `tone` 支持 `mint`、`sunset`、`ocean`、`plum` 和 `forest`。没有图片时会显示主题色封面；使用图片时请同时填写 `alt`。
 
 图片可以放在 `public/images/posts/`，并使用 `/images/posts/example.webp` 引用。
+
+## 使用 Pages CMS 写作
+
+将仓库接入 Pages CMS 后，可在“博客文章”创建和编辑文章。新文章默认草稿，发布前关闭草稿开关；创建时建议填写稳定的英文文件名。
+
+正文使用 Markdown 富文本编辑器。在 **Editor** 中粘贴截图、拖入图片，或输入 `/` → **Image** 上传；图片自动保存到 `public/images/posts/` 并插入 Markdown 引用。**Source** 用于修改正文源码。需要保留原生 HTML、复杂表格或代码围栏元数据时，使用“源码维护（高级）→ 文章完整源码”。
+
+“上传封面图片”写入 `cover.upload`，优先于已有封面显示；`cover.url` 用于保留原有站内或远程地址。清空上传图片可恢复旧封面。`public/` 图片按原样发布，建议上传前裁切、压缩。
+
+首次接入请验证图片上传、远程封面保存、上传封面清空与复杂 Markdown 源码保存；“检查内容与构建”按钮可运行当前分支的检查。当前没有预约发布任务，未来发布时间不会自动延迟发布。
 
 ## 草稿与置顶
 

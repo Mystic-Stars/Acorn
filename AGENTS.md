@@ -16,14 +16,14 @@ Acorn is intended to become a long-running Astro blog.
 
 - Keep content, layouts, components, and design tokens separated.
 - Treat `src/config/` as the source of truth for editable site content and UI behavior; do not duplicate configurable values in page components.
-- Treat `src/content.config.ts` as the source of truth for blog frontmatter and keep `docs/CONFIGURATION.md` synchronized with schema changes.
+- Treat `src/content.config.ts` as the source of truth for blog frontmatter and keep the tracked README and CMS configuration synchronized with schema changes. Update local `docs/CONFIGURATION.md` as well when available.
 - Avoid broad client-side hydration; choose the narrowest `client:*` directive.
 - Add tests and documentation alongside durable features.
 - Do not commit generated build output, dependency directories, secrets, or local environment files.
 
 ## Directory conventions
 
-- Follow `docs/PROJECT_STRUCTURE.md` when adding or moving files.
+- Follow the directory map in the tracked README and module README files when adding or moving files; use local `docs/PROJECT_STRUCTURE.md` for additional guidance when available.
 - Group Astro components under `src/components/site/`, `blog/`, or the relevant `island/` subdirectory; group interactive React islands by feature under `src/components/react/`.
 - Keep build-time plugins in `src/plugins/` and repository maintenance commands in `scripts/`.
 - Put pure logic tests in `tests/unit/`, DOM/filesystem tests in `tests/integration/`, production output checks in `tests/build/`, and reusable test utilities in `tests/helpers/`.

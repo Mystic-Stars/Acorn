@@ -29,9 +29,30 @@ npm run test:build
 npm run preview
 ```
 
-完整配置说明见 [`docs/CONFIGURATION.md`](docs/CONFIGURATION.md)。
+配置与写作说明随主题提供在 `src/content/blog/` 的示例文章中，运行站点后可从首页阅读。测试分类与单独运行命令见 [`tests/README.md`](tests/README.md)，维护工具见 [`scripts/README.md`](scripts/README.md)。
 
-目录职责与新增文件规则见 [`docs/PROJECT_STRUCTURE.md`](docs/PROJECT_STRUCTURE.md)，测试分类与单独运行命令见 [`tests/README.md`](tests/README.md)。
+## Pages CMS
+
+将自己的仓库接入 Pages CMS，根目录 `.pages.yml` 会提供文章、友链、图片媒体库和高级配置入口。正文 Editor 可粘贴、拖入图片或通过 `/` → Image 上传，自动生成 Markdown 图片引用；新文章默认草稿。复杂 Markdown 使用“文章完整源码”入口。
+
+写作时等待图片上传完成再保存，发布前关闭草稿开关。上传封面写入 `cover.upload`，清空后恢复原有封面；未来发布时间不会自动延迟发布。站点设置仍使用 TypeScript 源码编辑器，“检查内容与构建”按钮运行当前分支的检查。首次接入请验证正文图片上传、远程封面保存、清空字段及复杂 Markdown 源码保存。
+
+## 友链提交
+
+先在 `src/config/friend-links.ts` 设置自己的仓库、默认分支、联系邮箱和提交说明地址。访客可在 `/friends/` 填写资料，通过 GitHub Fork 创建 Pull Request；每个站点在 `src/content/friends/` 下维护一份 Markdown 文件：
+
+```md
+---
+name: 小王的数字花园
+url: https://example.com
+description: 分享开发实验和阅读札记。
+avatar: https://example.com/avatar.png
+category: 技术
+tags: [Astro, 写作]
+---
+```
+
+名称为 1–40 字，简介为 1–80 字，标签最多 4 个、每项 1–16 字。分类支持技术、生活、创作、游戏、学习与其他；头像可使用 http/https 地址或 `/images/...` 站内路径。申请前请添加本站友链，每次 PR 只修改自己的资料。站长可在 CMS 维护 `featured` 优先展示和 `hidden` 隐藏状态。
 
 ## 获取更新
 

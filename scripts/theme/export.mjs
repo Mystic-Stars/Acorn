@@ -24,7 +24,7 @@ const excluded = new Set([
   'scripts/theme',
   'tests/integration/theme-export.test.mjs',
   'tests/helpers/temp-workspace.mjs',
-  'docs/THEME_PUBLISHING.md',
+  'docs',
   'src/content/blog',
   'src/content/friends',
   'src/config/analytics.ts',
