@@ -7,10 +7,15 @@ import { loadEnv } from 'vite';
 
 import react from '@astrojs/react';
 
-import remarkInferCodeLanguage from './src/plugins/remark-infer-code-language.mjs';
+import { articleMarkdownConfig, articleReaderConfig } from './src/config/content.ts';
+import { createArticleMarkdownOptions } from './src/plugins/markdown.mjs';
 
 const env = loadEnv(process.env.NODE_ENV ?? 'production', process.cwd(), '');
 const site = process.env.SITE_URL ?? env.SITE_URL ?? 'https://example.com';
+const { shikiConfig, ...processorOptions } = createArticleMarkdownOptions(
+  articleReaderConfig,
+  articleMarkdownConfig,
+);
 
 export default defineConfig({
   site,
@@ -26,15 +31,8 @@ export default defineConfig({
     react(),
   ],
   markdown: {
-    processor: unified({ remarkPlugins: [remarkInferCodeLanguage] }),
-    shikiConfig: {
-      themes: {
-        light: 'github-light',
-        dark: 'github-dark-dimmed',
-      },
-      defaultColor: false,
-      wrap: true,
-    },
+    processor: unified(processorOptions),
+    shikiConfig,
   },
   vite: {
     server: {

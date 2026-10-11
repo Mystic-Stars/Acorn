@@ -2,48 +2,46 @@ const shellCommandPattern =
   /^(?:#!\/bin\/(?:ba)?sh|(?:apt|brew|cd|curl|dnf|echo|export|git|if|npm|pip|sudo|wget|yum)\b)/m;
 const yamlPattern = /^[\w-]+:\s*.+$/m;
 
-function inferLanguage(source) {
+export function inferLanguage(source) {
   const code = source.trim();
   if (!code) return undefined;
 
-  if (/^(?:from\s+[\w.]+\s+import|import\s+[\w.]+|def\s+\w+\(|print\()/m.test(code)) {
+  // Bound heuristic work for large pasted blocks. Explicit languages always take precedence.
+  const sample = code.slice(0, 32768);
+  if (/^[{[]/.test(code) && code.length <= 65536) {
+    try {
+      JSON.parse(code);
+      return 'json';
+    } catch {
+      // Object literals and incomplete snippets can still be identified below.
+    }
+  }
+  if (
+    /^(?:from\s+[\w.]+\s+import|import\s+[\w., ]+(?:\s+as\s+\w+)?$|(?:async\s+)?def\s+\w+\(|print\()/m.test(
+      sample,
+    )
+  ) {
     return 'python';
   }
-  if (/^(?:const|let|var)\s+\w+|=>|console\.(?:log|error|warn)\(/m.test(code)) {
+  if (
+    /^(?:const|let|var)\s+\w+|=>|console\.(?:log|error|warn)\(|^import\s+.+\s+from\s+['"]/m.test(
+      sample,
+    )
+  ) {
     return 'javascript';
   }
-  if (/^\s*{\s*(?:\n\s*)?[\w$]+\s*:/m.test(code)) return 'javascript';
-  if (/^(?:SELECT|INSERT|UPDATE|DELETE|CREATE\s+TABLE)\b/im.test(code)) return 'sql';
-  if (shellCommandPattern.test(code)) return 'shell';
-  if (/^\s*<(?:!doctype|html|div|section|script|style)\b/i.test(code)) return 'html';
-  if (/^(?:graph|flowchart|sequenceDiagram|classDiagram)\b/m.test(code)) return 'mermaid';
-  if (/^\s*[.#][\w-]+\s*{|^[\w-]+\s*:\s*[^;{}]+;/m.test(code)) return 'css';
-  if (yamlPattern.test(code) && !/[{};]/.test(code)) return 'yaml';
-
-  try {
-    JSON.parse(code);
-    return 'json';
-  } catch {
-    return undefined;
-  }
-}
-
-function normalizeCodeIndent(source) {
-  const lines = source.split('\n');
-  const nonEmptyLines = lines.filter((line) => line.trim());
-  if (!nonEmptyLines.length) return source;
-
-  const sharedIndent = Math.min(
-    ...nonEmptyLines.map((line) => line.match(/^[\t ]*/)?.[0].length ?? 0),
-  );
-  if (!sharedIndent) return source;
-
-  return lines.map((line) => (line.trim() ? line.slice(sharedIndent) : '')).join('\n');
+  if (/^\s*{\s*(?:\n\s*)?[\w$]+\s*:/m.test(sample)) return 'javascript';
+  if (/^(?:SELECT|INSERT|UPDATE|DELETE|CREATE\s+TABLE)\b/im.test(sample)) return 'sql';
+  if (shellCommandPattern.test(sample)) return 'shell';
+  if (/^\s*<(?:!doctype|html|div|section|script|style)\b/i.test(sample)) return 'html';
+  if (/^(?:graph|flowchart|sequenceDiagram|classDiagram)\b/m.test(sample)) return 'mermaid';
+  if (/^\s*[.#][\w-]+\s*{|^[\w-]+\s*:\s*[^;{}]+;/m.test(sample)) return 'css';
+  if (yamlPattern.test(sample) && !/[{};]/.test(sample)) return 'yaml';
+  return undefined;
 }
 
 function walk(node) {
   if (node?.type === 'code') {
-    node.value = normalizeCodeIndent(node.value);
     if (!node.lang) node.lang = inferLanguage(node.value);
   }
 

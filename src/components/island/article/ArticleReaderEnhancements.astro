@@ -13,7 +13,6 @@ const { codeCopy, imagePreview } = articleReaderConfig;
   data-code-failed-label={codeCopy.failedLabel}
   data-code-copied-status={codeCopy.copiedStatus}
   data-code-failed-status={codeCopy.failedStatus}
-  data-code-language-fallback={codeCopy.languageFallback}
   data-image-preview-enabled={String(imagePreview.enabled)}
   data-image-open-label={imagePreview.openLabel}
 >
@@ -60,116 +59,11 @@ const { codeCopy, imagePreview } = articleReaderConfig;
 </div>
 
 <script>
+  import { enhanceCodeCopy } from '@lib/article-reader';
+
   type ReaderRoot = HTMLElement & { dataset: DOMStringMap };
 
   const getDatasetValue = (root: ReaderRoot, name: string) => root.dataset[name] ?? '';
-
-  const copyWithFallback = async (value: string): Promise<boolean> => {
-    try {
-      if (navigator.clipboard?.writeText) {
-        await navigator.clipboard.writeText(value);
-        return true;
-      }
-    } catch {
-      // Some browsers deny Clipboard API access outside a secure context. Try the legacy path.
-    }
-
-    const previousFocus =
-      document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    const textarea = document.createElement('textarea');
-    textarea.value = value;
-    textarea.setAttribute('readonly', '');
-    textarea.setAttribute('aria-hidden', 'true');
-    textarea.style.position = 'fixed';
-    textarea.style.opacity = '0';
-    textarea.style.pointerEvents = 'none';
-    document.body.append(textarea);
-    textarea.select();
-
-    let copied = false;
-    try {
-      const legacyClipboard = document as unknown as {
-        execCommand: (command: string) => boolean;
-      };
-      copied = legacyClipboard.execCommand('copy');
-    } catch {
-      copied = false;
-    }
-
-    textarea.remove();
-    previousFocus?.focus({ preventScroll: true });
-    return copied;
-  };
-
-  const formatCodeLanguage = (pre: HTMLElement, code: HTMLElement, fallback: string) => {
-    const declaredLanguage =
-      pre.dataset.language ??
-      Array.from(code.classList)
-        .find((className) => className.startsWith('language-'))
-        ?.replace('language-', '');
-    const labels: Record<string, string> = {
-      bash: 'Bash',
-      css: 'CSS',
-      html: 'HTML',
-      javascript: 'JavaScript',
-      js: 'JavaScript',
-      json: 'JSON',
-      markdown: 'Markdown',
-      md: 'Markdown',
-      mermaid: 'Mermaid',
-      python: 'Python',
-      py: 'Python',
-      shell: 'Shell',
-      sh: 'Shell',
-      sql: 'SQL',
-      ts: 'TypeScript',
-      tsx: 'TSX',
-      typescript: 'TypeScript',
-      yaml: 'YAML',
-      yml: 'YAML',
-    };
-
-    const source = code.textContent?.trim() ?? '';
-    const inferLanguage = () => {
-      if (/^(?:from\s+[\w.]+\s+import|import\s+[\w.]+|def\s+\w+\(|print\()/m.test(source)) {
-        return 'python';
-      }
-      if (/^(?:const|let|var)\s+\w+|=>|console\.(?:log|error|warn)\(/m.test(source)) {
-        return 'javascript';
-      }
-      if (/^(?:SELECT|INSERT|UPDATE|DELETE|CREATE\s+TABLE)\b/im.test(source)) return 'sql';
-      if (/^\s*{\s*(?:\n\s*)?[\w$]+\s*:/m.test(source)) return 'javascript';
-      if (/^(?:#!\/bin\/(?:ba)?sh|(?:apt|curl|echo|export|sudo|wget|yum)\b)/m.test(source)) {
-        return 'shell';
-      }
-      if (/^\s*<(?:!doctype|html|div|section|script|style)\b/i.test(source)) return 'html';
-      if (/^(?:graph|flowchart|sequenceDiagram|classDiagram)\b/m.test(source)) return 'mermaid';
-      if (/^\s*[.#][\w-]+\s*{|^[\w-]+\s*:\s*[^;{}]+;/m.test(source)) return 'css';
-      if (/^[\w-]+:\s*.+$/m.test(source) && !/[{};]/.test(source)) return 'yaml';
-
-      try {
-        JSON.parse(source);
-        return 'json';
-      } catch {
-        return undefined;
-      }
-    };
-
-    const declared = declaredLanguage?.toLowerCase().trim();
-    const language =
-      !declared || ['plaintext', 'text', 'txt', 'none'].includes(declared)
-        ? inferLanguage()
-        : declared;
-    if (!language) return fallback;
-
-    return (
-      labels[language] ??
-      language.replace(
-        /(^|[-_])([a-z])/g,
-        (_, prefix, letter) => `${prefix}${letter.toUpperCase()}`,
-      )
-    );
-  };
 
   document.querySelectorAll<ReaderRoot>('[data-article-reader]').forEach((reader) => {
     if (reader.dataset.enhanced === 'true') return;
@@ -182,57 +76,12 @@ const { codeCopy, imagePreview } = articleReaderConfig;
     const imagePreviewEnabled = getDatasetValue(reader, 'imagePreviewEnabled') === 'true';
 
     if (codeCopyEnabled) {
-      const copyLabel = getDatasetValue(reader, 'codeCopyLabel');
-      const copiedLabel = getDatasetValue(reader, 'codeCopiedLabel');
-      const failedLabel = getDatasetValue(reader, 'codeFailedLabel');
-      const copiedStatus = getDatasetValue(reader, 'codeCopiedStatus');
-      const failedStatus = getDatasetValue(reader, 'codeFailedStatus');
-      const languageFallback = getDatasetValue(reader, 'codeLanguageFallback');
-
-      prose.querySelectorAll<HTMLElement>('pre').forEach((pre) => {
-        const code = pre.querySelector<HTMLElement>(':scope > code');
-        if (!code || pre.dataset.codeCopyEnhanced === 'true') return;
-        pre.dataset.codeCopyEnhanced = 'true';
-
-        const button = document.createElement('button');
-        button.className = 'article-code-copy';
-        button.type = 'button';
-        button.textContent = copyLabel;
-
-        const toolbar = document.createElement('div');
-        toolbar.className = 'article-code-toolbar';
-
-        const trafficLights = document.createElement('span');
-        trafficLights.className = 'article-code-traffic-lights';
-        trafficLights.setAttribute('aria-hidden', 'true');
-        ['red', 'yellow', 'green'].forEach((color) => {
-          const light = document.createElement('span');
-          light.className = `article-code-traffic-light is-${color}`;
-          trafficLights.append(light);
-        });
-
-        const language = document.createElement('span');
-        language.className = 'article-code-language';
-        language.textContent = formatCodeLanguage(pre, code, languageFallback);
-
-        const status = document.createElement('span');
-        status.className = 'sr-only';
-        status.setAttribute('aria-live', 'polite');
-
-        button.addEventListener('click', async () => {
-          button.disabled = true;
-          const copied = await copyWithFallback(code.textContent ?? '');
-          button.textContent = copied ? copiedLabel : failedLabel;
-          status.textContent = copied ? copiedStatus : failedStatus;
-
-          window.setTimeout(() => {
-            button.textContent = copyLabel;
-            button.disabled = false;
-          }, 1800);
-        });
-
-        toolbar.append(trafficLights, language, button);
-        pre.append(toolbar, status);
+      enhanceCodeCopy(prose, {
+        buttonLabel: getDatasetValue(reader, 'codeCopyLabel'),
+        copiedLabel: getDatasetValue(reader, 'codeCopiedLabel'),
+        failedLabel: getDatasetValue(reader, 'codeFailedLabel'),
+        copiedStatus: getDatasetValue(reader, 'codeCopiedStatus'),
+        failedStatus: getDatasetValue(reader, 'codeFailedStatus'),
       });
     }
 
@@ -309,6 +158,8 @@ const { codeCopy, imagePreview } = articleReaderConfig;
       zoom = minimumZoom;
       panX = 0;
       panY = 0;
+      panPointer = undefined;
+      viewport.classList.remove('is-panning');
       renderTransform();
     };
 
@@ -429,6 +280,23 @@ const { codeCopy, imagePreview } = articleReaderConfig;
     viewport.addEventListener('pointerup', stopPanning);
     viewport.addEventListener('pointercancel', stopPanning);
 
+    const previewableImages = new Set(images);
+    const findImage = (event: Event) => {
+      const target = event.target;
+      return target instanceof HTMLImageElement && previewableImages.has(target) ? target : null;
+    };
+    prose.addEventListener('click', (event) => {
+      const image = findImage(event);
+      if (image) openPreview(image);
+    });
+    prose.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      const image = findImage(event);
+      if (!image) return;
+      event.preventDefault();
+      openPreview(image);
+    });
+
     images.forEach((image) => {
       if (image.dataset.imagePreviewEnhanced === 'true') return;
       image.dataset.imagePreviewEnhanced = 'true';
@@ -439,13 +307,6 @@ const { codeCopy, imagePreview } = articleReaderConfig;
         'aria-label',
         `${getDatasetValue(reader, 'imageOpenLabel')}${image.alt ? `：${image.alt}` : ''}`,
       );
-
-      image.addEventListener('click', () => openPreview(image));
-      image.addEventListener('keydown', (event) => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-        event.preventDefault();
-        openPreview(image);
-      });
     });
   });
 </script>
@@ -455,21 +316,14 @@ const { codeCopy, imagePreview } = articleReaderConfig;
     display: contents;
   }
 
-  :global(.prose pre[data-code-copy-enhanced='true']) {
-    position: relative;
-    padding-top: 3.35rem;
-  }
-
   :global(.article-code-toolbar) {
-    position: absolute;
-    top: 0.65rem;
-    right: 0.7rem;
-    left: 0.7rem;
-    z-index: 1;
     display: flex;
-    min-height: 2rem;
+    min-height: 3rem;
     align-items: center;
     gap: 0.7rem;
+    padding: 0.5rem 0.85rem;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-surface-secondary);
   }
 
   :global(.article-code-traffic-lights) {
@@ -501,7 +355,7 @@ const { codeCopy, imagePreview } = articleReaderConfig;
   :global(.article-code-language) {
     overflow: hidden;
     min-width: 0;
-    color: rgb(93 75 54 / 88%);
+    color: var(--color-text-body);
     font-size: 0.7rem;
     font-weight: 900;
     letter-spacing: 0.08em;
@@ -513,11 +367,11 @@ const { codeCopy, imagePreview } = articleReaderConfig;
   :global(.article-code-copy) {
     margin-left: auto;
     min-height: 2rem;
-    border: 1px solid rgb(255 255 255 / 20%);
+    border: 1px solid var(--color-border);
     border-radius: var(--radius-pill);
-    background: rgb(0 0 0 / 28%);
+    background: var(--color-surface-content);
     padding: 0.32rem 0.72rem;
-    color: #fff;
+    color: var(--color-text);
     font: inherit;
     font-size: 0.75rem;
     font-weight: 800;
@@ -529,7 +383,7 @@ const { codeCopy, imagePreview } = articleReaderConfig;
   }
 
   :global(.article-code-copy:hover:not(:disabled)) {
-    background: rgb(0 0 0 / 48%);
+    background: var(--color-surface-raised);
     transform: translateY(-1px);
   }
 

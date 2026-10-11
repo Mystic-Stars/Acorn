@@ -89,3 +89,11 @@ tags: [Astro, 写作]
 - `animal-island-ui` 内置 Nunito / Noto Sans SC 字体资源
 - `animal-island-ui` React 组件通过 Astro 服务端渲染，默认不发送 hydration JavaScript
 - 项目级 `animal-island-ui-style` AI Skill
+
+## Markdown 阅读体验
+
+文章在构建时完成 Markdown 解析、Shiki 明暗主题高亮和 `animal-island-ui` 表格渲染；表格不需要客户端 React 重绘。中文标点相邻的强调（例如 `**¶**版权声明`、`**中文。**后续文字`）会正确解析，目录与搜索共享相同的语法规则。支持 GFM 表格、删除线、任务列表与脚注，保留转义字符及代码原始缩进。
+
+代码工具栏在首屏 HTML 中生成，浏览器仅绑定复制与图片预览操作；代码和宽表格可独立横向滚动，正文长链接和行内代码会自动换行。本地正文图片在构建时读取尺寸，并默认延迟加载与异步解码以减少页面跳动；`public/` 图片仍按原样发布，建议上传前压缩。
+
+`src/config/content.ts` 的 `articleMarkdownConfig` 控制代码折行、表格辅助说明和脚注文案，`articleReaderConfig` 控制复制与图片预览。正文排版集中在 `src/styles/prose.css`；完整渲染流程位于 `src/plugins/markdown.mjs`，回归测试覆盖语法、DOM 交互和生产文章。

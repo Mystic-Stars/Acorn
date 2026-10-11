@@ -31,6 +31,8 @@ npm run preview
 
 配置与写作说明随主题提供在 `src/content/blog/` 的示例文章中，运行站点后可从首页阅读。测试分类与单独运行命令见 [`tests/README.md`](tests/README.md)，维护工具见 [`scripts/README.md`](scripts/README.md)。
 
+Markdown 支持中文标点强调、表格、删除线、任务列表和脚注；表格与代码工具栏均在构建时生成。`src/config/content.ts` 中的 `articleMarkdownConfig` 控制代码折行与脚注文案，`articleReaderConfig` 控制复制和图片预览。正文样式集中在 `src/styles/prose.css`；本地图片默认输出宽高并延迟加载，上传前请自行压缩。
+
 ## Pages CMS
 
 将自己的仓库接入 Pages CMS，根目录 `.pages.yml` 会提供文章、友链、分用途图片媒体库和高级配置入口。正文 Editor 可粘贴、拖入图片或通过 `/` → Image 上传到 `public/images/posts/uploads/`，自动生成 Markdown 图片引用；新文章默认草稿。复杂 Markdown 使用“文章完整源码”入口。

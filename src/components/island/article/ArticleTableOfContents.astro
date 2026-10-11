@@ -14,7 +14,11 @@ interface Props {
 
 const { headings } = Astro.props;
 const outline = headings.filter(
-  (heading) => heading.depth >= 2 && heading.depth <= articleTocConfig.maxDepth,
+  (heading) =>
+    heading.depth >= 2 &&
+    heading.depth <= articleTocConfig.maxDepth &&
+    heading.slug.trim() &&
+    heading.text.trim(),
 );
 ---
 

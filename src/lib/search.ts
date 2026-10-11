@@ -1,10 +1,8 @@
 import type { BlogPost } from './posts';
 import type { Nodes } from 'mdast';
-import remarkGfm from 'remark-gfm';
-import remarkParse from 'remark-parse';
-import { unified } from 'unified';
+import { createMarkdownParser } from './markdown.mjs';
 
-const parser = unified().use(remarkParse).use(remarkGfm);
+const parser = createMarkdownParser();
 
 /** A compact, serializable document used by the client-side site search. */
 export interface SearchDocument {

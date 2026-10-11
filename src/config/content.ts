@@ -88,6 +88,18 @@ export const articleTocConfig = {
   maxDepth: 3,
 } as const;
 
+/** Controls build-time Markdown presentation and accessible labels. */
+export const articleMarkdownConfig = {
+  tableLabel: '文章表格，可横向滚动',
+  footnotes: {
+    label: '注释',
+    backLabel: '返回正文引用',
+  },
+  code: {
+    wrap: false,
+  },
+} as const;
+
 /** Controls the client-side helpers available inside article Markdown bodies. */
 export const articleReaderConfig = {
   codeCopy: {
