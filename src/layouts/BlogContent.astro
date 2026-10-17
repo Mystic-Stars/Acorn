@@ -1,0 +1,138 @@
+---
+import { Title } from '@components/animal';
+import AuthorProfileCard from '@components/island/sidebar/AuthorProfileCard.astro';
+import IslandTimeCard from '@components/island/sidebar/IslandTimeCard.astro';
+import IslandStatusCard from '@components/island/sidebar/IslandStatusCard.astro';
+import TagExplorerCard from '@components/island/sidebar/TagExplorerCard.astro';
+import { siteConfig } from '@config/site';
+import { getPublishedPosts, collectTags } from '@lib/posts';
+import { getBlogStats } from '@lib/blog-stats';
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  prevUrl?: string | undefined;
+  nextUrl?: string | undefined;
+  type?: 'website' | 'article' | undefined;
+  pubDate?: Date | undefined;
+  tags?: string[] | undefined;
+  noindex?: boolean | undefined;
+}
+
+const { title, description, eyebrow, ...metadata } = Astro.props;
+const posts = await getPublishedPosts();
+const tags = collectTags(posts);
+const stats = getBlogStats(
+  posts,
+  siteConfig.establishedAt,
+  new Date(),
+  siteConfig.date.options.timeZone,
+);
+---
+
+<BaseLayout {title} {description} {...metadata}>
+  <section class="blog-content container" data-blog-content>
+    <div class="content-grid">
+      <section class="content-main">
+        <header class="page-heading">
+          <div class="heading-copy">
+            <Title size="small" color="app-teal">{eyebrow}</Title>
+            <h1>{title}</h1>
+            <p>{description}</p>
+          </div>
+          <div class="heading-actions"><slot name="actions" /></div>
+        </header>
+        <slot />
+      </section>
+      <aside class="sidebar" aria-label="侧边栏">
+        <AuthorProfileCard />
+        <IslandTimeCard />
+        <IslandStatusCard {stats} />
+        <TagExplorerCard {tags} />
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .blog-content {
+    padding-block: 2.5rem 4rem;
+  }
+  .content-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 21rem);
+    gap: 2rem;
+    align-items: start;
+  }
+  .content-main {
+    min-width: 0;
+  }
+  .page-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+  .heading-copy {
+    min-width: 0;
+    flex: 1 1 18rem;
+  }
+  h1 {
+    margin: 0.65rem 0 0.6rem;
+    font-size: 2.25rem;
+    letter-spacing: 0;
+    overflow-wrap: anywhere;
+  }
+  .heading-copy p {
+    max-width: 44rem;
+    margin: 0;
+    color: var(--color-text-body);
+  }
+  .heading-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+  }
+  .heading-actions:empty {
+    display: none;
+  }
+  .heading-actions :global(a) {
+    color: var(--color-text);
+  }
+  .sidebar {
+    position: sticky;
+    top: calc(var(--header-offset) + var(--header-height) + 1rem);
+    display: grid;
+    gap: 1rem;
+  }
+  .sidebar :global(.sidebar-card) {
+    padding: 1.15rem;
+  }
+  @media (max-width: 64rem) {
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+    .sidebar {
+      position: static;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+    }
+  }
+  @media (max-width: 48rem) {
+    .blog-content {
+      padding-block: 1.75rem 3rem;
+    }
+    h1 {
+      font-size: 1.9rem;
+    }
+  }
+  @media (max-width: 32rem) {
+    .sidebar {
+      grid-template-columns: 1fr;
+    }
+  }</style>

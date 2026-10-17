@@ -1,5 +1,6 @@
 ---
 import FormattedDate from '@components/blog/FormattedDate.astro';
+import ArticleContinuation from '@components/blog/ArticleContinuation.astro';
 import PostCover from '@components/blog/PostCover.astro';
 import TagList from '@components/blog/TagList.astro';
 import { Card, Divider, Title } from '@components/animal';
@@ -138,6 +139,7 @@ const blogStats = getBlogStats(
           </div>
           <ArticleReaderEnhancements />
         </Card>
+        <ArticleContinuation {post} {posts} />
         <TwikooComments path={getPostHref(post)} />
       </section>
 

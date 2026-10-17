@@ -7,6 +7,7 @@ export const navigationConfig = {
   primary: [
     { label: '首页', href: '/' },
     { label: '文章', href: '/archives/' },
+    { label: '动态', href: '/notes/' },
     { label: '友链', href: '/friends/' },
     { label: '关于', href: '/about/' },
   ] satisfies LinkItem[],
@@ -21,5 +22,8 @@ export const navigationConfig = {
     noResults: '没有找到匹配的文章，换个关键词试试。',
     resultLimit: 8,
   },
-  utility: [{ label: 'RSS', href: '/rss.xml' }] satisfies LinkItem[],
+  utility: [
+    { label: '订阅中心', href: '/subscribe/' },
+    { label: 'RSS', href: '/rss.xml' },
+  ] satisfies LinkItem[],
 } as const;

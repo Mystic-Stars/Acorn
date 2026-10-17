@@ -1,0 +1,47 @@
+---
+import { render } from 'astro:content';
+import { Tag } from '@components/animal';
+import { notesConfig } from '@config/notes';
+import { siteConfig } from '@config/site';
+import type { Note } from '@lib/notes';
+import FormattedDate from './FormattedDate.astro';
+import '@styles/prose.css';
+import '@styles/notes.css';
+
+interface Props {
+  note: Note;
+}
+const { note } = Astro.props;
+const { Content } = await render(note);
+---
+
+<div class="note-content">
+  <header class="note-content-meta">
+    <img src={siteConfig.branding.avatarSrc} width="40" height="40" alt="" loading="lazy" />
+    <div>
+      <strong>{siteConfig.author.name}</strong>
+      <FormattedDate date={note.data.pubDate} />
+    </div>
+    {
+      note.data.draft && (
+        <Tag size="small" variant="dashed" color="brown">
+          {notesConfig.draftLabel}
+        </Tag>
+      )
+    }
+  </header>
+  <div class="prose note-body"><Content /></div>
+  {
+    note.data.tags.length > 0 && (
+      <ul class="note-content-tags" aria-label="动态标签">
+        {note.data.tags.map((tag) => (
+          <li>
+            <Tag size="small" variant="outlined" color="brown">
+              #{tag}
+            </Tag>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</div>

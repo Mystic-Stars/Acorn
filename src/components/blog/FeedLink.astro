@@ -1,0 +1,132 @@
+---
+import CopyLink from '@components/site/CopyLink.astro';
+import { subscriptionsConfig } from '@config/subscriptions';
+import { LuArrowUpRight, LuRss } from 'react-icons/lu';
+interface Props {
+  href: string;
+  compact?: boolean;
+}
+const { href, compact = false } = Astro.props;
+const target = new URL(href, Astro.site);
+const url = target.href;
+/** Compact cards share one origin; the filename keeps each feed distinguishable. */
+const pathSegments = decodeURI(target.pathname).split('/').filter(Boolean);
+const fileName = pathSegments[pathSegments.length - 1] ?? '';
+const address = compact ? `…/${fileName}` : decodeURI(url);
+---
+
+<div class:list={['feed-links', { 'feed-links--compact': compact }]} data-feed-link>
+  <a class="feed-address" href={href} title={decodeURI(url)}>
+    <LuRss size={15} aria-hidden="true" />
+    <span class="feed-address-text">{address}</span>
+  </a>
+  <div class="feed-actions">
+    <a class="feed-open" href={href}>
+      {subscriptionsConfig.openLabel}
+      <LuArrowUpRight size={14} aria-hidden="true" />
+    </a>
+    <CopyLink
+      {url}
+      label={subscriptionsConfig.copyLabel}
+      success={subscriptionsConfig.copiedLabel}
+      error={subscriptionsConfig.failedLabel}
+      text={subscriptionsConfig.copyShortLabel}
+      iconOnly={compact}
+    />
+  </div>
+</div>
+<style>
+  .feed-links {
+    display: grid;
+    gap: 0.65rem;
+    min-width: 0;
+  }
+  .feed-address {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    min-height: 2.25rem;
+    border: 1.5px dashed var(--color-border);
+    border-radius: var(--radius-small);
+    background: var(--color-surface-secondary);
+    padding: 0.4rem 0.75rem;
+    color: var(--color-text-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+    transition:
+      border-color var(--motion-duration) var(--motion-easing),
+      background var(--motion-duration) var(--motion-easing),
+      color var(--motion-duration) var(--motion-easing);
+  }
+  .feed-address:hover {
+    border-color: var(--color-primary);
+    background: var(--color-surface-content);
+    color: var(--color-text);
+  }
+  .feed-address :global(svg) {
+    flex: none;
+    color: var(--color-primary-active);
+  }
+  .feed-address-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .feed-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .feed-open {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    min-height: 2rem;
+    padding: 0 0.85rem;
+    border: 2px solid var(--color-border);
+    border-radius: 1rem;
+    background: var(--color-surface-content);
+    box-shadow: var(--shadow-small);
+    color: var(--color-text);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    transition:
+      color var(--motion-duration) var(--motion-easing),
+      border-color var(--motion-duration) var(--motion-easing),
+      background var(--motion-duration) var(--motion-easing),
+      box-shadow var(--motion-duration) var(--motion-easing),
+      transform var(--motion-duration) var(--motion-easing);
+  }
+  .feed-open:hover {
+    border-color: var(--color-primary);
+    background: rgb(25 200 185 / 8%);
+    box-shadow: var(--shadow-base);
+    color: var(--color-primary-active);
+    transform: translateY(-1px);
+  }
+  .feed-open:active {
+    box-shadow: var(--shadow-small);
+    transform: translateY(0);
+  }
+  :global([data-theme='dark']) .feed-open:hover {
+    background: rgb(84 211 192 / 10%);
+  }
+  :global([data-theme='dark']) .feed-address:hover {
+    background: var(--color-surface-raised);
+  }
+  .feed-links--compact .feed-address {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.75rem;
+  }
+  .feed-links--compact .feed-open {
+    padding: 0 0.7rem;
+    font-size: 0.75rem;
+  }
+</style>

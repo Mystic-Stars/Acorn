@@ -1,0 +1,64 @@
+---
+import { notesConfig } from '@config/notes';
+import { getPublishedNotes } from '@lib/notes';
+import NoteDialog from '@components/react/notes/NoteDialog';
+import { articleReaderConfig } from '@config/content';
+import { Title } from '@components/animal';
+import NoteEntry from './NoteEntry.astro';
+const allNotes = notesConfig.home.enabled ? await getPublishedNotes() : [];
+const notes = allNotes.slice(0, notesConfig.home.limit);
+---
+
+{
+  notes.length > 0 && (
+    <section class="recent-notes" aria-label={notesConfig.home.title}>
+      <header>
+        <>
+          <h2>
+            <Title size="small" color="app-yellow">
+              {notesConfig.home.title}
+            </Title>
+          </h2>
+          <a href={notesConfig.route}>{notesConfig.home.allLabel}</a>
+        </>
+      </header>
+      <div class="recent-notes-list">
+        {notes.map((note) => (
+          <NoteEntry {note} compact />
+        ))}
+      </div>
+      <NoteDialog config={notesConfig.dialog} codeCopy={articleReaderConfig.codeCopy} client:load />
+    </section>
+  )
+}
+<style>
+  section {
+    margin-top: 2.5rem;
+  }
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  h2 {
+    margin: 0;
+    font-size: 1rem;
+  }
+  header a {
+    color: var(--color-text);
+    font-size: 0.9rem;
+  }
+  .recent-notes-list {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  @media (max-width: 48rem) {
+    .recent-notes-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

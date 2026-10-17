@@ -17,6 +17,7 @@ npm run dev
 - `src/config/`：站点资料、导航、页面文案、评论与主题设置
 - `src/content/blog/`：Markdown 文章
 - `src/content/friends/`：友链资料
+- `src/content/notes/`：短动态
 - `public/`：头像、按文章分组的图片和其他静态资源
 
 ## 检查和构建
@@ -32,6 +33,14 @@ npm run preview
 配置与写作说明随主题提供在 `src/content/blog/` 的示例文章中，运行站点后可从首页阅读。测试分类与单独运行命令见 [`tests/README.md`](tests/README.md)，维护工具见 [`scripts/README.md`](scripts/README.md)。
 
 Markdown 支持中文标点强调、表格、删除线、任务列表和脚注；表格与代码工具栏均在构建时生成。`src/config/content.ts` 中的 `articleMarkdownConfig` 控制代码折行与脚注文案，`articleReaderConfig` 控制复制和图片预览。正文样式集中在 `src/styles/prose.css`；本地图片默认输出宽高并延迟加载，上传前请自行压缩。
+
+## 文章串联、动态与订阅
+
+文章末尾自动提供上一篇/下一篇和相关文章；`relatedPosts` 可指定文章 ID（小写文件名，不含 `.md`，最多 12 项）。自动推荐按共同标签和分类补齐，不包含当前文章、重复文章或草稿。设置在 `src/config/reading.ts`。
+
+短动态写在 `src/content/notes/`，只要求 `pubDate`；`title` 可省略（1–80 字），`tags` 最多 6 项、每项 1–24 字，`draft` 控制发布。源码默认公开，CMS 新建默认草稿；开发模式默认显示带标记的草稿（`includeDraftsInDevelopment` 可关闭），生产与 RSS 排除草稿，未来日期不延迟发布。正文用 Markdown，图片复用 `posts` 媒体库。`/notes/` 显示摘要和配图，点击“查看详情”原地打开 Animal Island 弹窗，关闭后回到原入口；支持代码/链接复制，图片可打开原图。默认每页 10 条，首页默认显示最近 3 条摘要并支持弹窗；`src/config/notes.ts` 管理设置。文件名决定稳定地址 `/notes/<ID>/`，直接访问或禁用 JavaScript 时仍可读完整页面。文件名不能使用 `page`、`page/...` 或 `rss`。动态不会混入文章归档、搜索和文章统计。
+
+`/subscribe/` 提供文章、动态和分类的 RSS 与复制入口；配置在 `src/config/subscriptions.ts`。文章 Feed 保持 `/rss.xml`，动态为 `/notes/rss.xml`，分类为 `/feeds/categories/<slug>.xml`。所有 Feed 排除草稿，绝对地址使用 `SITE_URL`；不提供邮件订阅。
 
 ## Pages CMS
 

@@ -149,11 +149,75 @@ content:
       - name: author
         label: 作者
         type: string
+      - name: relatedPosts
+        label: 指定相关文章
+        type: string
+        list:
+          max: 12
+        options:
+          minlength: 1
+        description: 填写文章文件名（不含 .md，使用小写 ID）；依次优先推荐，未设置时按标签和分类推荐。
       - name: body
         label: 正文
         type: rich-text
         required: true
         description: 粘贴、拖入图片或通过 / → Image 上传到文章媒体库；默认存入 uploads，也可选择文章同名目录。复杂 Markdown 使用完整源码入口。
+        options:
+          format: markdown
+          switcher: true
+          media: posts
+          path: public/images/posts/uploads
+          extensions: [jpg, jpeg, png, webp, gif, avif, svg]
+
+  - name: notes
+    label: 短动态
+    type: collection
+    path: src/content/notes
+    description: 标题可留空；默认草稿，关闭后随构建发布。文件名决定永久地址。
+    filename:
+      template: '{year}{month}{day}-{hour}{minute}{second}-{primary}.md'
+      field: create
+    format: yaml-frontmatter
+    subfolders: false
+    operations:
+      rename: false
+    view:
+      primary: title
+      fields: [title, pubDate, draft]
+      search: [title, tags, body]
+      sort: [pubDate]
+      default:
+        sort: pubDate
+        order: desc
+    fields:
+      - name: title
+        label: 标题（可选）
+        type: string
+        options:
+          maxlength: 80
+      - name: pubDate
+        label: 发布时间
+        type: date
+        required: true
+        options:
+          time: true
+          format: "yyyy-MM-dd'T'HH:mm:ssXXX"
+      - name: tags
+        label: 标签
+        type: string
+        list:
+          max: 6
+        options:
+          minlength: 1
+          maxlength: 24
+      - name: draft
+        label: 草稿
+        type: boolean
+        default: true
+      - name: body
+        label: 正文
+        type: rich-text
+        required: true
         options:
           format: markdown
           switcher: true
@@ -267,6 +331,19 @@ content:
           create: false
           rename: false
           delete: false
+      - name: notes-source
+        label: 动态完整源码
+        type: collection
+        path: src/content/notes
+        filename:
+          template: '{primary}.md'
+          field: false
+        format: code
+        subfolders: false
+        operations:
+          create: false
+          rename: false
+          delete: false
   - name: site-settings
     label: 站点配置（高级）
     type: group
@@ -324,6 +401,27 @@ content:
         label: 主题配置
         type: file
         path: src/config/theme.ts
+        format: code
+        operations:
+          delete: false
+      - name: reading
+        label: 文章串联配置
+        type: file
+        path: src/config/reading.ts
+        format: code
+        operations:
+          delete: false
+      - name: notes-settings
+        label: 动态页面配置
+        type: file
+        path: src/config/notes.ts
+        format: code
+        operations:
+          delete: false
+      - name: subscriptions
+        label: 订阅中心配置
+        type: file
+        path: src/config/subscriptions.ts
         format: code
         operations:
           delete: false

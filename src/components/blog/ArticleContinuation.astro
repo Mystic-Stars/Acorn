@@ -1,0 +1,152 @@
+---
+import { readingConfig } from '@config/reading';
+import { subscriptionsConfig } from '@config/subscriptions';
+import { getPostNeighbors, getRelatedPosts } from '@lib/reading';
+import { getPostHref, type BlogPost } from '@lib/posts';
+import CopyLink from '@components/site/CopyLink.astro';
+import PostGrid from './PostGrid.astro';
+import { Title } from '@components/animal';
+import { LuArrowLeft, LuArrowRight, LuRss } from 'react-icons/lu';
+
+interface Props {
+  post: BlogPost;
+  posts: BlogPost[];
+}
+const { post, posts } = Astro.props;
+const { previous, next } = getPostNeighbors(post, posts);
+const related = getRelatedPosts(post, posts, readingConfig.relatedLimit);
+const url = new URL(getPostHref(post), Astro.site).href;
+---
+
+{
+  readingConfig.enabled && !post.data.draft && (
+    <section
+      class="article-continuation"
+      aria-label={readingConfig.heading}
+      data-article-continuation
+    >
+      <div class="article-actions">
+        <CopyLink
+          url={url}
+          label={readingConfig.shareLabel}
+          success={readingConfig.copiedLabel}
+          error={readingConfig.failedLabel}
+        />
+        <a href={subscriptionsConfig.route} class="subscribe-link">
+          <LuRss size={17} />
+          {readingConfig.subscribeLabel}
+        </a>
+      </div>
+      {(previous || next) && (
+        <nav class="post-neighbors" aria-label={readingConfig.heading}>
+          {previous ? (
+            <a href={getPostHref(previous)} data-post-previous>
+              <span>
+                <LuArrowLeft size={17} />
+                {readingConfig.previousLabel}
+              </span>
+              <strong>{previous.data.title}</strong>
+            </a>
+          ) : (
+            <span />
+          )}
+          {next && (
+            <a href={getPostHref(next)} data-post-next>
+              <span>
+                {readingConfig.nextLabel}
+                <LuArrowRight size={17} />
+              </span>
+              <strong>{next.data.title}</strong>
+            </a>
+          )}
+        </nav>
+      )}
+      {related.length > 0 && (
+        <div class="related-posts" data-related-posts>
+          <h2>
+            <Title size="small" color="app-yellow">
+              {readingConfig.relatedHeading}
+            </Title>
+          </h2>
+          <PostGrid posts={related} emptyMessage="" layout="grid" />
+        </div>
+      )}
+    </section>
+  )
+}
+
+<style>
+  section {
+    padding-block: 1.5rem;
+  }
+  .article-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .subscribe-link {
+    color: var(--color-text);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.9rem;
+  }
+  .post-neighbors {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: 1.5rem;
+    border-block: 2px dashed var(--color-border);
+  }
+  .post-neighbors > a {
+    padding: 1.25rem 1rem;
+    text-decoration: none;
+    border-radius: var(--radius-small);
+    transition: background var(--motion-duration) var(--motion-easing);
+  }
+  .post-neighbors > a:hover {
+    background: var(--color-surface-secondary);
+  }
+  .post-neighbors a > span {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    color: var(--color-text-body);
+  }
+  .post-neighbors strong {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--color-text);
+    font-size: 1rem;
+    overflow-wrap: anywhere;
+  }
+  [data-post-next] {
+    text-align: right;
+  }
+  [data-post-next] > span {
+    justify-content: flex-end;
+  }
+  h2 {
+    margin: 1.75rem 0 1.25rem;
+    font-size: 1rem;
+  }
+  .related-posts :global(.posts.grid) {
+    grid-auto-rows: auto;
+  }
+  @media (max-width: 32rem) {
+    .post-neighbors {
+      grid-template-columns: 1fr;
+    }
+    .post-neighbors > span {
+      display: none;
+    }
+    [data-post-next] {
+      text-align: left;
+    }
+    [data-post-next] > span {
+      justify-content: flex-start;
+    }
+  }
+</style>

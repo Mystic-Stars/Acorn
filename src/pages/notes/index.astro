@@ -1,0 +1,7 @@
+---
+import NotesPage from '@components/blog/NotesPage.astro';
+import { getPublishedNotes } from '@lib/notes';
+const notes = await getPublishedNotes();
+---
+
+<NotesPage {notes} />

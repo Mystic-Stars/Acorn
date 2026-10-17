@@ -1,0 +1,325 @@
+---
+import BlogContent from '@/layouts/BlogContent.astro';
+import FeedLink from '@components/blog/FeedLink.astro';
+import { Card, Icon, Tag, Title } from '@components/animal';
+import { subscriptionsConfig } from '@config/subscriptions';
+import { collectCategories, getPublishedPosts } from '@lib/posts';
+import { LuRss } from 'react-icons/lu';
+
+const posts = (await getPublishedPosts()).filter((post) => !post.data.draft);
+const categories = [...collectCategories(posts).entries()];
+const feeds = [
+  { ...subscriptionsConfig.posts, icon: 'icon-critterpedia' as const, accent: 'teal' as const },
+  { ...subscriptionsConfig.notes, icon: 'icon-chat' as const, accent: 'yellow' as const },
+];
+const categoryAccents = ['teal', 'yellow', 'orange', 'green'] as const;
+const accentFor = (index: number) => categoryAccents[index % categoryAccents.length] ?? 'teal';
+---
+
+<BlogContent
+  title={subscriptionsConfig.title}
+  description={subscriptionsConfig.description}
+  eyebrow={subscriptionsConfig.eyebrow}
+>
+  <Fragment slot="actions">
+    <span class="feeds-count">
+      <LuRss size={14} aria-hidden="true" />
+      <span>{feeds.length + categories.length} {subscriptionsConfig.sourcesUnit}</span>
+    </span>
+  </Fragment>
+  <div class="feed-grid">
+    {
+      feeds.map((feed) => (
+        <Card className="feed-card" pattern="default">
+          <div class="feed-card-head">
+            <span class:list={['feed-icon', `feed-icon--${feed.accent}`]} aria-hidden="true">
+              <Icon name={feed.icon} size={30} />
+            </span>
+            <div class="feed-card-heading">
+              <h2>{feed.title}</h2>
+              <p>{feed.description}</p>
+            </div>
+          </div>
+          <div class="feed-card-links">
+            <FeedLink href={feed.href} />
+          </div>
+        </Card>
+      ))
+    }
+  </div>
+  {
+    categories.length > 0 && (
+      <section class="feed-section" aria-labelledby="category-feeds-title">
+        <div class="section-heading">
+          <Title size="small" color="app-yellow">
+            {subscriptionsConfig.categoriesEyebrow}
+          </Title>
+          <div class="section-heading-row">
+            <h2 id="category-feeds-title">{subscriptionsConfig.categoriesHeading}</h2>
+            <span class="section-count">
+              {categories.length} {subscriptionsConfig.categoriesUnit}
+            </span>
+          </div>
+        </div>
+        <ul class="category-grid">
+          {categories.map(([slug, category], index) => (
+            <li>
+              <Card className="category-card" pattern="default">
+                <div class="category-card-head">
+                  <span
+                    class:list={['category-mark', `category-mark--${accentFor(index)}`]}
+                    aria-hidden="true"
+                  >
+                    {category.label.slice(0, 1)}
+                  </span>
+                  <h3>{category.label}</h3>
+                  <span class="category-count">
+                    <Tag size="small" variant="outlined" color="brown">
+                      {category.posts.length} {subscriptionsConfig.postsUnit}
+                    </Tag>
+                  </span>
+                </div>
+                <FeedLink href={`/feeds/categories/${slug}.xml`} compact />
+              </Card>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+</BlogContent>
+<style>
+  .feeds-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-surface-secondary);
+    color: var(--color-text-body);
+    font-weight: 700;
+  }
+  .feeds-count :global(svg) {
+    flex: none;
+    color: var(--color-primary-active);
+  }
+  .feed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: 1.25rem;
+  }
+  .feed-grid :global(.feed-card) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+    padding: 1.4rem;
+    cursor: default;
+  }
+  .feed-card-head {
+    display: flex;
+    align-items: center;
+    gap: 0.95rem;
+    min-width: 0;
+  }
+  .feed-icon {
+    display: inline-flex;
+    width: 3.35rem;
+    height: 3.35rem;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid transparent;
+    border-radius: 38%;
+    transition: transform var(--motion-duration) var(--motion-easing);
+  }
+  .feed-grid :global(.feed-card:hover) .feed-icon {
+    transform: rotate(-3deg);
+  }
+  .feed-icon--teal {
+    border-color: rgb(25 200 185 / 32%);
+    background: rgb(25 200 185 / 14%);
+  }
+  .feed-icon--yellow {
+    border-color: rgb(219 171 43 / 38%);
+    background: rgb(247 205 103 / 32%);
+  }
+  :global([data-theme='dark']) .feed-icon--teal {
+    border-color: rgb(84 211 192 / 32%);
+    background: rgb(84 211 192 / 15%);
+  }
+  :global([data-theme='dark']) .feed-icon--yellow {
+    border-color: rgb(231 189 99 / 34%);
+    background: rgb(231 189 99 / 16%);
+  }
+  .feed-card-heading {
+    min-width: 0;
+  }
+  .feed-card-heading h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    letter-spacing: 0;
+  }
+  .feed-card-heading p {
+    margin: 0.3rem 0 0;
+    color: var(--color-text-body);
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+  .feed-card-links {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px dashed var(--color-border);
+  }
+  .feed-section {
+    margin-top: 2.35rem;
+  }
+  .section-heading {
+    margin-bottom: 1.15rem;
+  }
+  .section-heading-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.6rem 1rem;
+    margin-top: 0.65rem;
+  }
+  .section-heading h2 {
+    margin: 0;
+    font-size: 1.45rem;
+    letter-spacing: 0;
+  }
+  .section-count {
+    padding: 0.25rem 0.7rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-surface-secondary);
+    color: var(--color-text-body);
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .category-grid li {
+    min-width: 0;
+  }
+  .category-grid :global(.category-card) {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    gap: 0.9rem;
+    padding: 1.1rem 1.15rem;
+    cursor: default;
+  }
+  .category-card-head {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-width: 0;
+  }
+  .category-mark {
+    display: grid;
+    width: 2.3rem;
+    height: 2.3rem;
+    flex: none;
+    place-items: center;
+    border: 1.5px solid transparent;
+    border-radius: 0.9rem;
+    font-size: 0.95rem;
+    font-weight: 900;
+    line-height: 1;
+  }
+  .category-mark--teal {
+    border-color: rgb(25 200 185 / 32%);
+    background: rgb(25 200 185 / 14%);
+    color: #0c7a71;
+  }
+  .category-mark--yellow {
+    border-color: rgb(219 171 43 / 38%);
+    background: rgb(247 205 103 / 32%);
+    color: #8a650d;
+  }
+  .category-mark--orange {
+    border-color: rgb(229 146 102 / 40%);
+    background: rgb(229 146 102 / 18%);
+    color: #9a4b22;
+  }
+  .category-mark--green {
+    border-color: rgb(138 198 138 / 44%);
+    background: rgb(138 198 138 / 20%);
+    color: #3f7438;
+  }
+  :global([data-theme='dark']) .category-mark--teal {
+    border-color: rgb(84 211 192 / 32%);
+    background: rgb(84 211 192 / 15%);
+    color: #7ae1d0;
+  }
+  :global([data-theme='dark']) .category-mark--yellow {
+    border-color: rgb(231 189 99 / 34%);
+    background: rgb(231 189 99 / 16%);
+    color: #e7bd63;
+  }
+  :global([data-theme='dark']) .category-mark--orange {
+    border-color: rgb(229 146 102 / 34%);
+    background: rgb(229 146 102 / 16%);
+    color: #efa37c;
+  }
+  :global([data-theme='dark']) .category-mark--green {
+    border-color: rgb(138 198 138 / 32%);
+    background: rgb(138 198 138 / 14%);
+    color: #a9d987;
+  }
+  .category-card-head h3 {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    font-size: 1.05rem;
+    letter-spacing: 0;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+  .category-count {
+    flex: none;
+  }
+  /* Tablet keeps the main column full-width; three compact cards avoid a lone orphan. */
+  @media (min-width: 48rem) and (max-width: 64rem) {
+    .category-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 40rem) {
+    .feed-grid :global(.feed-card) {
+      padding: 1.15rem;
+    }
+    .feed-card-head {
+      gap: 0.8rem;
+    }
+    .feed-card-heading h2 {
+      font-size: 1.2rem;
+    }
+    .section-heading h2 {
+      font-size: 1.3rem;
+    }
+    .category-card-head {
+      gap: 0.55rem;
+    }
+    .category-mark {
+      width: 2.15rem;
+      height: 2.15rem;
+      font-size: 0.9rem;
+    }
+    .category-card-head h3 {
+      font-size: 1rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .feed-grid :global(.feed-card:hover) .feed-icon {
+      transform: none;
+    }
+  }
+</style>

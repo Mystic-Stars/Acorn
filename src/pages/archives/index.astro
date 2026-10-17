@@ -623,8 +623,15 @@ const years = [...new Set(posts.map((post) => post.data.pubDate.getFullYear()))]
   }
 
   .sidebar {
+    position: sticky;
+    top: calc(var(--header-offset) + var(--header-height) + 1rem);
+    align-self: start;
     display: grid;
     gap: 1rem;
+  }
+
+  .sidebar :global(.sidebar-card) {
+    padding: 1.15rem;
   }
 
   .empty-state,
@@ -637,21 +644,24 @@ const years = [...new Set(posts.map((post) => post.data.pubDate.getFullYear()))]
     text-align: center;
   }
 
-  @media (max-width: 58rem) {
+  @media (max-width: 64rem) {
     .archive-layout {
       grid-template-columns: 1fr;
     }
 
     .sidebar {
+      position: static;
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
-  @media (max-width: 42rem) {
+  @media (max-width: 48rem) {
     .sidebar {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+  }
 
+  @media (max-width: 42rem) {
     .archive-heading {
       align-items: start;
     }
@@ -666,6 +676,12 @@ const years = [...new Set(posts.map((post) => post.data.pubDate.getFullYear()))]
     .year-pills {
       width: 100%;
       padding-inline: 0;
+    }
+  }
+
+  @media (max-width: 32rem) {
+    .sidebar {
+      grid-template-columns: 1fr;
     }
   }
 </style>

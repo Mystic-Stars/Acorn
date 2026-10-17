@@ -68,15 +68,18 @@ function bounds(property, type) {
   return result;
 }
 
-test('CMS exposes the frontmatter fields declared by both Astro collections', () => {
-  assert.deepEqual(
-    blog.fields
-      .filter((item) => item.name !== 'body')
-      .map((item) => item.name)
-      .sort(),
-    sourceFields('blog').sort(),
-  );
-  assert.deepEqual(friends.fields.map((item) => item.name).sort(), sourceFields('friends').sort());
+test('CMS exposes the frontmatter fields declared by every Astro collection', () => {
+  for (const name of ['blog', 'friends', 'notes']) {
+    const entry = entries.find((item) => item.name === name);
+    assert.deepEqual(
+      entry.fields
+        .filter((item) => item.name !== 'body')
+        .map((item) => item.name)
+        .sort(),
+      sourceFields(name).sort(),
+      name,
+    );
+  }
 
   const blogDeclaration = findNode(
     source,
@@ -108,6 +111,7 @@ test('CMS text limits and enum choices match the actual content schema', () => {
     [blogProperties, blog.fields],
     [friendProperties, friends.fields],
     [coverProperties, field(blog, 'cover').fields],
+    [schemaFields('notes'), entries.find((entry) => entry.name === 'notes').fields],
   ]) {
     for (const property of properties) {
       const name = property.name.getText(source);
@@ -130,6 +134,15 @@ test('CMS text limits and enum choices match the actual content schema', () => {
       }
     }
   }
+});
+
+test('notes default to drafts and reuse the local image library', () => {
+  const notes = entries.find((entry) => entry.name === 'notes');
+  assert.equal(field(notes, 'draft').default, true);
+  assert.equal(notes.operations.rename, false);
+  assert.equal(field(notes, 'title').required, undefined);
+  assert.equal(field(notes, 'body').options.media, 'posts');
+  assert.equal(field(notes, 'body').options.path, 'public/images/posts/uploads');
 });
 
 test('body uploads and cover uploads share a valid public media mapping', () => {

@@ -1,15 +1,19 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { archiveConfig } from '@config/archives';
+import { validateReadingGraph } from './reading';
 
 export type BlogPost = CollectionEntry<'blog'>;
 
 export async function getPublishedPosts(): Promise<BlogPost[]> {
   const posts = await getCollection('blog');
+  validateReadingGraph(posts);
   const includeDrafts = import.meta.env.DEV && archiveConfig.includeDraftsInDevelopment;
 
   return posts
     .filter((post) => includeDrafts || !post.data.draft)
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+    .sort(
+      (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf() || a.id.localeCompare(b.id),
+    );
 }
 
 export function getPostHref(post: BlogPost): string {

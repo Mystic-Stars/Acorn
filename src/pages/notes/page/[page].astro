@@ -1,0 +1,17 @@
+---
+import NotesPage from '@components/blog/NotesPage.astro';
+import { notesConfig } from '@config/notes';
+import { getPublishedNotes } from '@lib/notes';
+import { getPagination } from '@lib/pagination';
+
+export async function getStaticPaths() {
+  const notes = await getPublishedNotes();
+  const { totalPages } = getPagination(notes.length, notesConfig.pageSize);
+  return Array.from({ length: totalPages - 1 }, (_, index) => ({
+    params: { page: String(index + 2) },
+  }));
+}
+const notes = await getPublishedNotes();
+---
+
+<NotesPage {notes} currentPage={Number(Astro.params.page)} />

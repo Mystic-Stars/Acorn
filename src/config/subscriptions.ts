@@ -1,0 +1,18 @@
+export const subscriptionsConfig = {
+  route: '/subscribe/',
+  title: '订阅中心',
+  eyebrow: 'ISLAND LETTERS',
+  description: '把喜欢的记录，留在自己的阅读节奏里。',
+  posts: { title: '博客文章', description: '完整的思考、教程与创作记录。', href: '/rss.xml' },
+  notes: { title: '短动态', description: '小发现、开发进展与生活片段。', href: '/notes/rss.xml' },
+  sourcesUnit: '个订阅源',
+  categoriesEyebrow: 'CATEGORY FEEDS',
+  categoriesHeading: '按分类订阅',
+  categoriesUnit: '个分类',
+  postsUnit: '篇',
+  openLabel: '打开 RSS',
+  copyLabel: '复制订阅地址',
+  copyShortLabel: '复制',
+  copiedLabel: '订阅地址已复制',
+  failedLabel: '复制失败，请复制下方地址',
+} as const;

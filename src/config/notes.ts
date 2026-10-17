@@ -1,0 +1,23 @@
+export const notesConfig = {
+  route: '/notes/',
+  title: '短动态',
+  eyebrow: 'ISLAND MOMENTS',
+  description: '随手记下的小发现、日常和正在发生的事。',
+  pageSize: 10,
+  includeDraftsInDevelopment: true,
+  emptyTitle: '暂时还没有动态',
+  emptyDescription: '下一次灵感到来时，就在这里留下记录。',
+  untitledLabel: '一则动态',
+  permalinkLabel: '动态永久链接',
+  readMoreLabel: '查看详情',
+  draftLabel: '草稿',
+  dialog: {
+    closeLabel: '关闭动态详情',
+    copyLabel: '复制动态链接',
+    copiedLabel: '动态链接已复制',
+    copyFailedLabel: '复制失败，可手动复制下方链接',
+    imageLabel: '查看原图',
+  },
+  home: { enabled: true, limit: 3, title: '最近动态', allLabel: '全部动态' },
+  subscribeLabel: '订阅动态',
+} as const;

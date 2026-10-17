@@ -40,6 +40,7 @@ const blog = defineCollection({
       category: optionalContentField(z.string()),
       tags: z.array(z.string().min(1)).default([]),
       author: optionalContentField(z.string()),
+      relatedPosts: z.array(z.string().min(1)).max(12).default([]),
     }),
 });
 
@@ -60,4 +61,14 @@ const friends = defineCollection({
   }),
 });
 
-export const collections = { blog, friends };
+const notes = defineCollection({
+  loader: glob({ base: './src/content/notes', pattern: '**/*.md' }),
+  schema: z.object({
+    title: optionalContentField(z.string().min(1).max(80)),
+    pubDate: z.coerce.date(),
+    tags: z.array(z.string().min(1).max(24)).max(6).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { blog, friends, notes };

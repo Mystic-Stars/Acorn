@@ -15,11 +15,13 @@ Apply the upstream Animal Island design language without inventing component API
 ## Choose the implementation path
 
 1. For Astro blogs, read `references/ASTRO_INTEGRATION.md` first.
-2. Prefer Astro-native markup and CSS for static navigation, article layouts, cards, tags, callouts, and decoration.
-3. Use `@astrojs/react` and `animal-island-ui` only when an interactive React island provides meaningful value.
-4. When using library components, consult `references/AI_USAGE.md` before writing props, imports, or controlled-state logic.
+2. Search `references/AI_USAGE.md` for a matching semantic component before implementing UI. Use documented package components through the existing SSR wrappers for presentation; SSR does not require hydration.
+3. Prefer Astro-native markup for page structure, content, links, and static pagination. Use React islands only when meaningful interaction requires them.
+4. Check the installed package declarations before using APIs from newer upstream documentation. Never assume that refreshing this skill also upgrades the package.
 5. When recreating or extending visuals, consult the relevant section of `references/UPSTREAM_STYLE_GUIDE.md` and enforce `references/UPSTREAM_CURSORS_RULES.md` section 7.3.
-6. Use `references/DESIGN_PROMPT.md` only when preparing prompts for external visual-generation tools.
+6. Use `references/DESIGN_PROMPT.md` for Astro-native fallbacks only when the package has no suitable semantic component, and for external visual-generation prompts.
+
+Read `references/UPSTREAM_REFRESH.md` for the latest upstream reference locations and the compatibility boundary with this repository.
 
 ## Core visual contract
 
@@ -46,6 +48,9 @@ The bundled upstream references are large. Search narrowly before reading:
 - Import `animal-island-ui/style` once from a shared entry when the npm package is used.
 - Apply the narrowest hydration directive: no directive for static output, then prefer `client:visible` or `client:idle`; use `client:load` only for immediate interaction.
 - Keep Content Collections, layouts, UI components, and design tokens separated for long-term maintenance.
+- Keep page sections unframed; reserve cards for repeated entries and genuinely framed tools. Do not nest cards or replace ribbon headings with styled rectangles.
+- Use the repository's semantic tokens in custom layouts, including dark mode. Limit component overrides to layout; preserve component colors, radii, and shadows.
+- Verify desktop/mobile layouts, long Chinese titles, empty collections, keyboard focus, and reduced motion using actual rendered pages.
 
 ## Provenance
 

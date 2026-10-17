@@ -37,7 +37,7 @@ src/
   components/react/   按功能分组的 React 交互组件
   components/animal/  组件库的共享 SSR 封装
   config/             可编辑站点配置
-  content/            博客文章与友链资料
+  content/            文章、友链与短动态资料
   layouts/            页面及文章布局
   lib/                查询与可复用逻辑
   pages/              文件系统路由
@@ -51,6 +51,16 @@ template/overrides/   公开主题默认配置和示例内容
 站点资料、导航、页面文案和服务设置集中在 `src/config/`；文章与友链的字段校验由 `src/content.config.ts` 管理。文章存放在 `src/content/blog/`，文件名决定 `/archives/<文件名>/` 的永久地址。测试分类见 [`tests/README.md`](tests/README.md)，维护工具见 [`scripts/README.md`](scripts/README.md)。
 
 `docs/` 保留为本地维护资料，已由 Git 忽略，也不进入公开主题导出。
+
+## 文章串联、动态与订阅
+
+文章末尾提供上一篇/下一篇、相关文章和链接复制；设置位于 `src/config/reading.ts`。`relatedPosts` 可填写文章 ID 列表（文件名不含 `.md`，使用小写），按填写顺序优先推荐；其余名额按共同标签和分类补齐，最多展示 `relatedLimit` 篇。草稿、当前文章与重复条目不会被推荐。上一篇是时间更早的文章，下一篇是时间更新的文章。
+
+`/notes/` 是独立分页的短动态，列表显示摘要和首张 Markdown 配图，点击“查看详情”在 Animal Island 弹窗中阅读完整 Markdown，不离开当前列表。弹窗支持 Esc/遮罩关闭、焦点恢复、代码复制与链接复制；图片打开原图，不叠加第二层弹窗。完整内容在构建阶段生成，客户端仅由一个小 React island 控制详情。每则内容存放在 `src/content/notes/`，不计入文章归档、全文搜索或文章统计。字段为必填的 `pubDate`、可选的 `title`（1–80 字）、`tags`（最多 6 项、每项 1–24 字）和 `draft`（源码默认 `false`，CMS 新建默认 `true`）。开发模式默认显示带标记的草稿，`notesConfig.includeDraftsInDevelopment` 可关闭；生产站与所有 RSS 始终排除草稿。标题留空时详情和 Feed 从正文提取标题。文件名决定稳定分享地址 `/notes/<ID>/`，直接访问或禁用 JavaScript 时使用完整独立页面。不要使用 `page`、`page/...` 或 `rss`；未来日期不会延迟发布。列表每页默认 10 条，首页默认展示最近 3 条摘要并支持同样的详情弹窗，配置位于 `src/config/notes.ts`。
+
+`/subscribe/` 提供文章 `/rss.xml`、动态 `/notes/rss.xml`、分类 `/feeds/categories/<分类slug>.xml` 的 RSS 入口与地址复制。原有文章 Feed 地址不变，所有 Feed 都排除草稿；分类 Feed 按发布时间倒序。订阅文案位于 `src/config/subscriptions.ts`，绝对地址来自 `SITE_URL`。这不是邮件订阅服务，不收集邮箱。
+
+Pages CMS 同步提供短动态、动态完整源码和三份新配置入口；动态复用文章图片媒体库。主题导出排除个人动态，公开示例来自 `template/overrides/`。
 
 提交前依次运行 `npm test`、`npm run check`、`npm run build` 和 `npm run test:build`。CI 会执行同样的回归检查；主题导出额外验证危险路径、环境文件隔离和生成模板。
 

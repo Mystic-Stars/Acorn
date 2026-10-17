@@ -1,0 +1,61 @@
+---
+import CopyButton from '@components/react/reading/CopyButton';
+
+interface Props {
+  url: string;
+  label: string;
+  success: string;
+  error: string;
+  text?: string | undefined;
+  iconOnly?: boolean;
+}
+
+const { url, label, success, error, text, iconOnly = false } = Astro.props;
+---
+
+<div class="copy-link" data-copy-container>
+  <CopyButton {url} {label} {success} {error} {text} {iconOnly} />
+  <span class="copy-status" role="status" data-copy-status></span>
+  <a href={url} class="copy-fallback" data-copy-fallback hidden>{url}</a>
+</div>
+
+<script>
+  import { bindCopyLinks } from '@lib/copy-link';
+  bindCopyLinks();
+</script>
+
+<style>
+  .copy-link :global([hidden]),
+  .copy-link [hidden] {
+    display: none !important;
+  }
+  .copy-link {
+    --animal-primary-color: var(--color-primary);
+    --animal-primary-color-hover: var(--color-primary-hover);
+    --animal-primary-color-active: var(--color-primary-active);
+    --animal-bg-color-secondary: var(--color-surface-secondary);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+  /* The package ships a light-only palette; keep its icon legible on dark cards. */
+  :global(:root[data-theme='dark']) .copy-link {
+    --animal-bg-color: var(--color-surface-secondary);
+    --animal-border-color: var(--color-border);
+    --animal-text-color: var(--color-text);
+  }
+  .copy-status {
+    color: var(--color-text-body);
+    font-size: 0.875rem;
+  }
+  .copy-status:empty {
+    display: none;
+  }
+  .copy-fallback {
+    flex-basis: 100%;
+    overflow-wrap: anywhere;
+    font-size: 0.875rem;
+  }
+</style>

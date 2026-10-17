@@ -26,6 +26,7 @@ const excluded = new Set([
   'docs',
   'src/content/blog',
   'src/content/friends',
+  'src/content/notes',
   'src/config/analytics.ts',
   'src/config/comments.ts',
   'src/config/content.ts',

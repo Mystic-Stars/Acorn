@@ -1,0 +1,77 @@
+---
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  route: string;
+}
+const { currentPage, totalPages, route } = Astro.props;
+const href = (page: number) => (page === 1 ? route : `${route}page/${page}/`);
+---
+
+{
+  totalPages > 1 && (
+    <nav class="collection-pagination" aria-label="动态分页" data-notes-pagination>
+      {currentPage > 1 && (
+        <a href={href(currentPage - 1)} rel="prev">
+          上一页
+        </a>
+      )}
+      <ol>
+        {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+          <li>
+            {page === currentPage ? (
+              <span aria-current="page">{page}</span>
+            ) : (
+              <a href={href(page)}>{page}</a>
+            )}
+          </li>
+        ))}
+      </ol>
+      {currentPage < totalPages && (
+        <a href={href(currentPage + 1)} rel="next">
+          下一页
+        </a>
+      )}
+    </nav>
+  )
+}
+
+<style>
+  nav,
+  ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+  }
+  nav {
+    margin-top: 2rem;
+  }
+  ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  a,
+  span {
+    display: grid;
+    place-items: center;
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 0.85rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface-content);
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 700;
+    transition: background var(--motion-duration) var(--motion-easing);
+  }
+  a:hover,
+  [aria-current] {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+    border-color: var(--color-primary);
+  }
+</style>

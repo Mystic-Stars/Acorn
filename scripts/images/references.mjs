@@ -40,7 +40,7 @@ export function imageReferences(source, kind) {
     addField(['cover', 'url'], 'cover');
     addField(['cover', 'upload'], 'cover');
     addField(['cover', 'image'], 'asset');
-  } else {
+  } else if (kind === 'friends') {
     addField(['avatar'], 'avatar');
   }
 
@@ -169,8 +169,13 @@ export async function contentImages(root) {
       }
     }
   }
-  for (const kind of ['blog', 'friends']) {
-    await scan(resolve(root, 'src/content', kind), kind);
+  for (const kind of ['blog', 'friends', 'notes']) {
+    const directory = resolve(root, 'src/content', kind);
+    try {
+      await scan(directory, kind);
+    } catch (error) {
+      if (error.code !== 'ENOENT') throw error;
+    }
   }
   return files;
 }

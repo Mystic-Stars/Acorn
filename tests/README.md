@@ -34,3 +34,7 @@ npm run test:build        # 检查生产输出
 源码仓库包含主题导出安全测试。公开主题会排除这项源码工具测试；临时工作区助手保留给图片集成测试使用，其余应用和构建测试保持相同目录与命令。
 
 `unit/markdown.test.mjs` 检查语言推断与缩进保护；`integration/markdown.test.mjs` 直接使用生产 Markdown 插件链，检查中文强调、转义、表格对齐、原生 HTML、脚注、重复标题与静态代码工具栏。`integration/article-reader.test.mjs` 验证代码复制原文、并发点击、权限拒绝与失败回退。`build/markdown.test.mjs` 遍历全部生产文章，检查目录对应关系、静态表格与工具栏、图片尺寸以及表格不触发 React hydration。
+
+`unit/reading.test.mjs` 覆盖时间相邻文章、推荐优先级、草稿隔离和引用图校验；`unit/subscriptions.test.mjs` 覆盖 Feed 过滤与分页边界。`integration/copy-link.test.mjs` 验证复制成功、失败回退和重复绑定；`build/reading-feeds.test.mjs` 检查共享博客布局、动态分页与草稿排除、推荐链接和所有订阅 XML。新增集合的媒体引用也由图片审计覆盖。
+
+`unit/note-list.test.mjs` 检查开发/生产草稿策略、稳定排序、保留路由和 Markdown 配图提取。`integration/note-dialog.test.mjs` 覆盖普通/修饰键点击、模板隔离、正文锚点、代码复制、图片原图链接与清理；构建检查确认详情触发器、完整静态模板、单条地址回退和生产草稿隔离。

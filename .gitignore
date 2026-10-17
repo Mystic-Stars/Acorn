@@ -3,6 +3,7 @@ dist/
 .astro/
 .vercel/
 .netlify/
+.runtime/
 .env
 .env.*
 !.env.example

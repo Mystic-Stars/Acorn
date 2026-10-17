@@ -1,0 +1,42 @@
+---
+import { notesConfig } from '@config/notes';
+import { getPublishedNotes, getNoteSummary, getNoteTitle, type Note } from '@lib/notes';
+import BlogContent from '@/layouts/BlogContent.astro';
+import NoteContent from '@components/blog/NoteContent.astro';
+import ArticleReaderEnhancements from '@components/island/article/ArticleReaderEnhancements.astro';
+
+export async function getStaticPaths() {
+  const notes = await getPublishedNotes();
+  return notes.map((note) => ({
+    params: { slug: note.id },
+    props: { note },
+  }));
+}
+interface Props {
+  note: Note;
+}
+const { note } = Astro.props;
+---
+
+<BlogContent
+  title={getNoteTitle(note)}
+  description={getNoteSummary(note) || notesConfig.description}
+  eyebrow={notesConfig.eyebrow}
+  type="article"
+  pubDate={note.data.pubDate}
+  tags={note.data.tags}
+  noindex={note.data.draft}
+>
+  <a slot="actions" href={notesConfig.route}>{notesConfig.title}</a>
+  <div class="note-document">
+    <NoteContent {note} />
+    <ArticleReaderEnhancements />
+  </div>
+</BlogContent>
+
+<style>
+  .note-document {
+    padding-block: 1.5rem;
+    border-block: 1px dashed var(--color-border);
+  }
+</style>

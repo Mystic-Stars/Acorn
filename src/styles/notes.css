@@ -1,0 +1,160 @@
+.note-content {
+  min-width: 0;
+  width: 100%;
+}
+.note-content-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.note-content-meta > img {
+  flex: 0 0 2.5rem;
+  border-radius: var(--radius-pill);
+}
+.note-content-meta > div {
+  display: grid;
+  flex: 1;
+  gap: 0.1rem;
+  min-width: 0;
+}
+.note-content-meta strong {
+  color: var(--color-text);
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+.note-content-meta time {
+  color: var(--color-text-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+.note-content .note-body {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  font-size: 1rem;
+  line-height: 1.9;
+}
+.note-content-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 1.5rem 0 0;
+  padding: 1rem 0 0;
+  border-top: 1px dashed var(--color-border);
+  list-style: none;
+}
+.note-dialog {
+  --animal-text-color: var(--color-text);
+  --animal-bg-color-secondary: var(--color-surface-secondary);
+}
+.note-dialog[class*='animal-modal-'] {
+  max-height: min(52rem, calc(100dvh - 2rem));
+}
+.note-dialog [class*='animal-modalClipped'] {
+  max-height: inherit;
+  min-height: 0;
+  padding: 2.25rem 2.5rem 1.75rem;
+  background: var(--color-surface-content);
+  color: var(--color-text-body);
+}
+.note-dialog [class*='animal-header-'] {
+  flex: 0 0 auto;
+  padding-bottom: 1.25rem;
+}
+.note-dialog [class*='animal-title-'] {
+  width: 100%;
+  color: var(--color-text);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+.note-dialog [class*='animal-body-'] {
+  display: block;
+  min-height: 0;
+  padding: 0 0.5rem 0.25rem 0;
+  overscroll-behavior: contain;
+  color: var(--color-text-body);
+  font-size: 1rem;
+  font-weight: 500;
+  scrollbar-width: thin;
+}
+.note-dialog-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.note-dialog-heading > span {
+  min-width: 0;
+  padding-top: 0.35rem;
+  overflow-wrap: anywhere;
+  line-height: 1.45;
+}
+.note-dialog-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex: 0 0 auto;
+}
+.note-dialog-tools button {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+}
+.note-dialog-document {
+  min-width: 0;
+}
+.note-dialog-status {
+  margin: 0 0 1rem;
+  font-size: 0.875rem;
+  color: var(--color-text);
+}
+.note-dialog-fallback {
+  display: block;
+  margin-bottom: 1rem;
+  overflow-wrap: anywhere;
+  font-size: 0.875rem;
+}
+.note-content .article-code-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0.9rem;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.8125rem;
+}
+.note-content [data-code-copy] {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  color: var(--color-text);
+  padding: 0.35rem 0.65rem;
+  font: inherit;
+  cursor: pointer;
+}
+.note-content [data-code-copy][hidden] {
+  display: none;
+}
+.note-content .article-code-language {
+  color: var(--color-text-body);
+}
+@media (max-width: 40rem) {
+  .note-dialog [class*='animal-modalClipped'] {
+    padding: 2rem 1.5rem 1.75rem;
+  }
+  .note-dialog [class*='animal-title-'] {
+    font-size: 1.125rem;
+  }
+  .note-dialog-heading {
+    gap: 0.5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .note-dialog,
+  [class*='animal-mask-']:has(.note-dialog) {
+    animation: none;
+  }
+}

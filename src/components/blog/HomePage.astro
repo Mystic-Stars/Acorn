@@ -1,5 +1,6 @@
 ---
 import PostGrid from './PostGrid.astro';
+import RecentNotes from './RecentNotes.astro';
 import AuthorProfileCard from '@components/island/sidebar/AuthorProfileCard.astro';
 import IslandStatusCard from '@components/island/sidebar/IslandStatusCard.astro';
 import IslandTimeCard from '@components/island/sidebar/IslandTimeCard.astro';
@@ -208,6 +209,7 @@ const nextUrl = currentPage < totalPages ? `/page/${currentPage + 1}/` : undefin
             </nav>
           )
         }
+        {currentPage === 1 && <RecentNotes />}
       </section>
 
       <aside class="sidebar" aria-label="侧边栏">

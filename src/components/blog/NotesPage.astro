@@ -1,0 +1,86 @@
+---
+import BlogContent from '@/layouts/BlogContent.astro';
+import NoteEntry from './NoteEntry.astro';
+import Pagination from './Pagination.astro';
+import { notesConfig } from '@config/notes';
+import { subscriptionsConfig } from '@config/subscriptions';
+import { getPagination } from '@lib/pagination';
+import type { Note } from '@lib/notes';
+import NoteDialog from '@components/react/notes/NoteDialog';
+import { articleReaderConfig } from '@config/content';
+
+interface Props {
+  notes: Note[];
+  currentPage?: number;
+}
+const { notes, currentPage = 1 } = Astro.props;
+const { totalPages, start, end } = getPagination(notes.length, notesConfig.pageSize, currentPage);
+const pageNotes = notes.slice(start, end);
+const prevUrl =
+  currentPage > 1
+    ? currentPage === 2
+      ? notesConfig.route
+      : `${notesConfig.route}page/${currentPage - 1}/`
+    : undefined;
+const nextUrl =
+  currentPage < totalPages ? `${notesConfig.route}page/${currentPage + 1}/` : undefined;
+---
+
+<BlogContent
+  title={currentPage === 1 ? notesConfig.title : `${notesConfig.title} · 第 ${currentPage} 页`}
+  description={notesConfig.description}
+  eyebrow={notesConfig.eyebrow}
+  {prevUrl}
+  {nextUrl}
+>
+  <Fragment slot="actions">
+    <span class="notes-count">{notes.length} 则记录</span>
+    <a href={subscriptionsConfig.route}>{notesConfig.subscribeLabel}</a>
+  </Fragment>
+  <div class="notes-stream">
+    {
+      pageNotes.length > 0 ? (
+        pageNotes.map((note) => <NoteEntry {note} />)
+      ) : (
+        <div class="notes-empty">
+          <>
+            <h2>{notesConfig.emptyTitle}</h2>
+            <p>{notesConfig.emptyDescription}</p>
+          </>
+        </div>
+      )
+    }
+  </div>
+  <Pagination {currentPage} {totalPages} route={notesConfig.route} />
+  {
+    pageNotes.length > 0 && (
+      <NoteDialog config={notesConfig.dialog} codeCopy={articleReaderConfig.codeCopy} client:load />
+    )
+  }
+</BlogContent>
+
+<style>
+  .notes-count {
+    padding: 0.3rem 0.65rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-surface-secondary);
+    color: var(--color-text-body);
+    font-weight: 700;
+  }
+  .notes-stream {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .notes-empty {
+    padding-block: 4rem;
+    border-block: 1px dashed var(--color-border);
+    text-align: center;
+  }
+  .notes-empty h2 {
+    font-size: 1.35rem;
+    letter-spacing: 0;
+  }
+  .notes-empty p {
+    margin: 0;
+  }
+</style>
